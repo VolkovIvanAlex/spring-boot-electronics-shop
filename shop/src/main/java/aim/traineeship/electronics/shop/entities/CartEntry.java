@@ -16,15 +16,6 @@ public class CartEntry extends Entity
 		this.totalPrice = totalPrice;
 	}
 
-	public Integer getId()
-	{
-		return super.getId();
-	}
-	public void setId(final Integer id)
-	{
-		super.setId(id);
-	}
-
 	public Product getProduct()
 	{
 		return product;

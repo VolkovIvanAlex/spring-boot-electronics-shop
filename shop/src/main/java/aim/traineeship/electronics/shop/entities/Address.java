@@ -18,15 +18,6 @@ public class Address extends Entity
 		this.country = country;
 	}
 
-	public Integer getId()
-	{
-		return super.getId();
-	}
-	public void setId(final Integer id)
-	{
-		super.setId(id);
-	}
-
 	public String getStreet()
 	{
 		return street;

@@ -11,15 +11,6 @@ public class Category extends Entity
 		this.name = name;
 	}
 
-	public Integer getId()
-	{
-		return super.getId();
-	}
-	public void setId(final Integer id)
-	{
-		super.setId(id);
-	}
-
 	public String getCode()
 	{
 		return code;

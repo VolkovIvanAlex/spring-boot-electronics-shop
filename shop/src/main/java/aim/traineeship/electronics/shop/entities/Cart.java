@@ -22,15 +22,6 @@ public class Cart extends Entity
 		this.address = address;
 	}
 
-	public Integer getId()
-	{
-		return super.getId();
-	}
-	public void setId(final Integer id)
-	{
-		super.setId(id);
-	}
-
 	public String getCode()
 	{
 		return code;
