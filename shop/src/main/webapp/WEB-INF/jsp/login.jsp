@@ -1,24 +1,28 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>Login page</title>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
 </head>
 <body>
-<h1>Welcome to login page !</h1>
-<form name='f' action="login.jsp" method='POST'>
-    <table>
-        <tr>
-            <td>User:</td>
-            <td><input type='text' name='username' value=''></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type='password' name='password' /></td>
-        </tr>
-        <tr>
-            <td><input name="submit" type="submit" value="submit" /></td>
-        </tr>
-    </table>
-</form>
+<form:form
+        action="/authenticate"
+        method="post">
+    <c:if test="${param.error != null}">
+        <p>Invalid login or password. Please try again.</p>
+    </c:if>
+    <label>Enter User Name</label>
+    <input type="text" name="username">
+    <br>
+    <br>
+    <label>Enter Password</label>
+    <input type="password" name="password">
+    <br>
+    <br>
+    <input type="submit" value="Login">
+</form:form>
 </body>
 </html>

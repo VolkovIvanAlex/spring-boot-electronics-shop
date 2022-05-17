@@ -11,6 +11,10 @@ VALUES ("5", "Scooters");
 INSERT INTO Category (code, name)
 VALUES ("6", "Peripheric Devices");
 
+INSERT INTO Customer (login, password, firstName, lastName, gender, birthDay, phone)
+VALUES ("volk", "$2a$04$WlEbFJrEbTEMOZJ6vLvPIuHxtiR3SjOzYkwFLIMTxdWbfWJY.sVne", "Ivan", "Volkov", "m",
+        (DATE '2002-12-08'), "+38(050)2571549");
+
 INSERT INTO Product (code, name, price, description, category_code)
 VALUES ("1", "MacBook Air", 1200, "some description for MacBook Air", "1");
 INSERT INTO Product (code, name, price, description, category_code)

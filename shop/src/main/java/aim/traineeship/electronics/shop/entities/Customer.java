@@ -1,4 +1,5 @@
 package aim.traineeship.electronics.shop.entities;
+
 import java.util.Date;
 
 public class Customer extends Entity
@@ -24,6 +25,10 @@ public class Customer extends Entity
 		this.birthDay = birthDay;
 		this.phone = phone;
 		this.address = address;
+	}
+
+	public Customer()
+	{
 	}
 
 	public String getLogin()
