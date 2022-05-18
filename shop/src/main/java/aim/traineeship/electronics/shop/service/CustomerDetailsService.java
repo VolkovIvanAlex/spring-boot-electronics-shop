@@ -15,12 +15,12 @@ import aim.traineeship.electronics.shop.security.CustomerDetails;
 public class CustomerDetailsService implements UserDetailsService
 {
 	@Autowired
-	CustomerDAO customerDAO;
+	private CustomerDAO customerDAO;
 
 	@Override
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException
 	{
-		final Customer customer = customerDAO.findByUserName(username);
+		final Customer customer = customerDAO.findByLogin(username);
 		return new CustomerDetails(customer);
 	}
 }

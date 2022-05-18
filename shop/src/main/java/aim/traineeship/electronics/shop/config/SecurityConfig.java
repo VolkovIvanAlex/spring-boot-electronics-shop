@@ -29,16 +29,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	{
 		httpSecurity
 				.authorizeRequests()
-				.antMatchers("/home").permitAll()
 				.and()
 				.formLogin()
-				.loginPage("/login_page")
+				.loginPage("/login")
 				.loginProcessingUrl("/authenticate")
-				.defaultSuccessUrl("/home")
+				.defaultSuccessUrl("/")
 				.permitAll()
+				.and()
+				.logout()
+				.logoutUrl("/logout")
 		;
 	}
-	
+
 	public PasswordEncoder passwordEncoder()
 	{
 		return new BCryptPasswordEncoder();
