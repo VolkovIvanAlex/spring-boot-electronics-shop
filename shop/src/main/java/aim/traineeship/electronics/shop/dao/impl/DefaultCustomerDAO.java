@@ -1,4 +1,4 @@
-package aim.traineeship.electronics.shop.dao;
+package aim.traineeship.electronics.shop.dao.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import aim.traineeship.electronics.shop.dao.CustomerDAO;
 import aim.traineeship.electronics.shop.dao.mapper.DefaultCustomerRawMapper;
 import aim.traineeship.electronics.shop.entities.Customer;
 
@@ -15,8 +16,8 @@ import aim.traineeship.electronics.shop.entities.Customer;
 @Repository
 public class DefaultCustomerDAO implements CustomerDAO
 {
-	private final String FIELD_NAME = "login";
-	private final String SQL = "SELECT id,login,password,firstName,lastName,gender,birthDay,phone "
+	private final String KEY_FIELD_NAME = "login";
+	private final String SQL_QUERY = "SELECT id,login,password,firstName,lastName,gender,birthDay,phone "
 			+ "FROM Customer WHERE login = :login ";
 
 	@Autowired
@@ -27,7 +28,7 @@ public class DefaultCustomerDAO implements CustomerDAO
 	{
 		final RowMapper<Customer> mapper = new DefaultCustomerRawMapper();
 		final Map<String, Object> param = new HashMap<>();
-		param.put(FIELD_NAME, login);
-		return this.namedParameterJdbcTemplate.queryForObject(SQL, param, mapper);
+		param.put(KEY_FIELD_NAME, login);
+		return this.namedParameterJdbcTemplate.queryForObject(SQL_QUERY, param, mapper);
 	}
 }

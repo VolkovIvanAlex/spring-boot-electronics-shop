@@ -10,7 +10,7 @@ import aim.traineeship.electronics.shop.entities.Customer;
 
 public class CustomerDetails implements UserDetails
 {
-	private static final long serialVersionUID = 3L;
+	private static final long serialVersionUID = 5L;
 	private final Customer customer;
 
 	public CustomerDetails(final Customer customer)
@@ -58,5 +58,10 @@ public class CustomerDetails implements UserDetails
 	public boolean isEnabled()
 	{
 		return true;
+	}
+
+	public Customer getcustomer()
+	{
+		return customer;
 	}
 }
