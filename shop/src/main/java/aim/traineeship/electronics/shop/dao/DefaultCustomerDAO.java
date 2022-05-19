@@ -18,6 +18,7 @@ public class DefaultCustomerDAO implements CustomerDAO
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+	private final String fieldName = "login";
 	private final String sql = "SELECT id,login,password,firstName,lastName,gender,birthDay,phone "
 			+ "FROM Customer WHERE login = :login ";
 
@@ -26,7 +27,7 @@ public class DefaultCustomerDAO implements CustomerDAO
 	{
 		final RowMapper<Customer> mapper = new DefaultCustomerRawMapper();
 		final Map<String, Object> param = new HashMap<>();
-		param.put("login", login);
+		param.put(fieldName, login);
 		return this.namedParameterJdbcTemplate.queryForObject(sql, param, mapper);
 	}
 }

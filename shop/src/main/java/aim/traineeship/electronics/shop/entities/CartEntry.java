@@ -7,13 +7,8 @@ public class CartEntry extends Entity
 	private Integer entryNumber;
 	private Double totalPrice;
 
-	public CartEntry(final Product product, final Integer quantity, final Integer entryNumber,
-			final Double totalPrice)
+	public CartEntry()
 	{
-		this.product = product;
-		this.quantity = quantity;
-		this.entryNumber = entryNumber;
-		this.totalPrice = totalPrice;
 	}
 
 	public Product getProduct()

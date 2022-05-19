@@ -13,20 +13,6 @@ public class Customer extends Entity
 	private String phone;
 	private Address address;
 
-	public Customer(final String login, final String password, final String firstName,
-			final String lastName, final String gender,
-			final Date birthDay, final String phone, final Address address)
-	{
-		this.login = login;
-		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.gender = gender;
-		this.birthDay = birthDay;
-		this.phone = phone;
-		this.address = address;
-	}
-
 	public Customer()
 	{
 	}

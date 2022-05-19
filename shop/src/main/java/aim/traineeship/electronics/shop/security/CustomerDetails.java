@@ -1,17 +1,16 @@
 package aim.traineeship.electronics.shop.security;
+
 import java.util.Collection;
-import java.util.Date;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import aim.traineeship.electronics.shop.entities.Address;
 import aim.traineeship.electronics.shop.entities.Customer;
 
 
 public class CustomerDetails implements UserDetails
 {
-	static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	private final Customer customer;
 
 	public CustomerDetails(final Customer customer)
@@ -61,33 +60,8 @@ public class CustomerDetails implements UserDetails
 		return true;
 	}
 
-	public String getFirstName()
+	public String getfirstName()
 	{
 		return customer.getFirstName();
-	}
-
-	public String getLastName()
-	{
-		return customer.getLastName();
-	}
-
-	public String getGender()
-	{
-		return customer.getGender();
-	}
-
-	public Date getBirthDay()
-	{
-		return customer.getBirthDay();
-	}
-
-	public String getPhone()
-	{
-		return customer.getPhone();
-	}
-
-	public Address getAddress()
-	{
-		return customer.getAddress();
 	}
 }
