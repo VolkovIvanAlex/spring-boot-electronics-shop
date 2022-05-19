@@ -60,7 +60,7 @@ public class CustomerDetails implements UserDetails
 		return true;
 	}
 
-	public Customer getcustomer()
+	public Customer getCustomer()
 	{
 		return customer;
 	}
