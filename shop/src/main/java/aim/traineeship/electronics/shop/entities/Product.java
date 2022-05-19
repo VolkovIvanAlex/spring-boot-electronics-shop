@@ -8,14 +8,8 @@ public class Product extends Entity
 	private String description;
 	private Category category;
 
-	public Product(final String code, final String name, final Double price, final String description,
-			final Category category)
+	public Product()
 	{
-		this.code = code;
-		this.name = name;
-		this.price = price;
-		this.description = description;
-		this.category = category;
 	}
 
 	public String getCode()

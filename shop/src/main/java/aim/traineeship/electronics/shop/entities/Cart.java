@@ -11,15 +11,8 @@ public class Cart extends Entity
 	private Customer customer;
 	private Address address;
 
-	public Cart(final String code, final Double totalPrice, final Date placedDate,
-			final List<CartEntry> cartEntries, final Customer customer, final Address address)
+	public Cart()
 	{
-		this.code = code;
-		this.totalPrice = totalPrice;
-		this.placedDate = placedDate;
-		this.cartEntries = cartEntries;
-		this.customer = customer;
-		this.address = address;
 	}
 
 	public String getCode()

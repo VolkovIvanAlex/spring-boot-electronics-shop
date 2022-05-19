@@ -8,14 +8,8 @@ public class Address extends Entity
 	private String region;
 	private String country;
 
-	public Address(final String street, final String zipCode, final String town, final String region,
-			final String country)
+	public Address()
 	{
-		this.street = street;
-		this.zipCode = zipCode;
-		this.town = town;
-		this.region = region;
-		this.country = country;
 	}
 
 	public String getStreet()

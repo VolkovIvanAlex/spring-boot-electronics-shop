@@ -5,10 +5,8 @@ public class Category extends Entity
 	private String code;
 	private String name;
 
-	public Category(final String code, final String name)
+	public Category()
 	{
-		this.code = code;
-		this.name = name;
 	}
 
 	public String getCode()
