@@ -15,19 +15,19 @@ import aim.traineeship.electronics.shop.entities.Customer;
 @Repository
 public class DefaultCustomerDAO implements CustomerDAO
 {
+	private final String FIELD_NAME = "login";
+	private final String SQL = "SELECT id,login,password,firstName,lastName,gender,birthDay,phone "
+			+ "FROM Customer WHERE login = :login ";
+
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-	private final String fieldName = "login";
-	private final String sql = "SELECT id,login,password,firstName,lastName,gender,birthDay,phone "
-			+ "FROM Customer WHERE login = :login ";
 
 	@Override
 	public Customer findByLogin(final String login)
 	{
 		final RowMapper<Customer> mapper = new DefaultCustomerRawMapper();
 		final Map<String, Object> param = new HashMap<>();
-		param.put(fieldName, login);
-		return this.namedParameterJdbcTemplate.queryForObject(sql, param, mapper);
+		param.put(FIELD_NAME, login);
+		return this.namedParameterJdbcTemplate.queryForObject(SQL, param, mapper);
 	}
 }

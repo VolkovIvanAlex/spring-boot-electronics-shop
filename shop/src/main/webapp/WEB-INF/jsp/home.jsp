@@ -11,7 +11,7 @@
 
 <sec:authorize access="isAuthenticated()">
     <h1>Hi ,
-        <sec:authentication property="principal.firstName"/>
+        <sec:authentication property="principal.customer.firstName"/>
     </h1>
     <a href="/logout"> Log out </a>
 </sec:authorize>
