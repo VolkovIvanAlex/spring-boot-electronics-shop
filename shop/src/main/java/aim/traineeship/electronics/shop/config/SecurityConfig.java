@@ -25,23 +25,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	}
 
 	@Override
-	public void configure(final HttpSecurity httpSecurity) throws Exception
+	protected void configure(final HttpSecurity httpSecurity) throws Exception
 	{
 		httpSecurity
 				.authorizeRequests()
 				.and()
 				.formLogin()
 				.loginPage("/login")
-				.loginProcessingUrl("/authenticate")
 				.defaultSuccessUrl("/")
 				.permitAll()
 				.and()
 				.logout()
-				.logoutUrl("/logout")
+				.logoutSuccessUrl("/")
+				.and()
+				.csrf().disable()
 		;
 	}
 
-	public PasswordEncoder passwordEncoder()
+	private PasswordEncoder passwordEncoder()
 	{
 		return new BCryptPasswordEncoder();
 	}

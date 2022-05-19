@@ -1,5 +1,4 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +10,9 @@
 <h1>Welcome to our shop !</h1>
 
 <sec:authorize access="isAuthenticated()">
-    <sec:authentication property="name"/>
+    <h1>Hi ,
+        <sec:authentication property="principal.FirstName"/>
+    </h1>
     <a href="/logout"> Log out </a>
 </sec:authorize>
 <sec:authorize access="!isAuthenticated()">

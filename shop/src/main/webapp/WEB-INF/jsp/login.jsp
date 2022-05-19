@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -9,7 +8,7 @@
 </head>
 <body>
 <form:form
-        action="/authenticate"
+        action="/login"
         method="post">
     <c:if test="${param.error != null}">
         <p>Invalid login or password. Please try again.</p>

@@ -3,8 +3,6 @@ package aim.traineeship.electronics.shop.dao;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -17,15 +15,10 @@ import aim.traineeship.electronics.shop.entities.Customer;
 @Repository
 public class DefaultCustomerDAO implements CustomerDAO
 {
+	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	@Autowired
-	void setJdbcTemplate(final DataSource dataSource)
-	{
-		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-	}
-
-	final String sql = "SELECT id,login,password,firstName,lastName,gender,birthDay,phone "
+	private final String sql = "SELECT id,login,password,firstName,lastName,gender,birthDay,phone "
 			+ "FROM Customer WHERE login = :login ";
 
 	@Override
