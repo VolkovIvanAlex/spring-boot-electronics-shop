@@ -23,5 +23,6 @@
     <br>
     <input type="submit" value="Login">
 </form:form>
+<label>Want to create account ? -> </label><a href="/registry"> Create Account</a>
 </body>
 </html>

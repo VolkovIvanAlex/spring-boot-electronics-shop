@@ -29,7 +29,7 @@ public class DefaultCustomerRawMapper implements RowMapper
 		customer.setFirstName(rs.getString(FIRST_NAME));
 		customer.setLastName(rs.getString(LAST_NAME));
 		customer.setGender(rs.getString(GENDER));
-		customer.setBirthDay(rs.getDate(BIRTHDAY));
+		customer.setBirthDay(rs.getString(BIRTHDAY));
 		customer.setPhone(rs.getString(PHONE));
 		return customer;
 	}

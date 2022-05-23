@@ -1,6 +1,6 @@
-package aim.traineeship.electronics.shop.entities;
+package aim.traineeship.electronics.shop.dto;
 
-public class Customer extends Entity
+public class DefaultCustomerDTO
 {
 	private String login;
 	private String password;
@@ -9,9 +9,8 @@ public class Customer extends Entity
 	private String gender;
 	private String birthDay;
 	private String phone;
-	private Address address;
 
-	public Customer()
+	public DefaultCustomerDTO()
 	{
 	}
 
@@ -83,15 +82,5 @@ public class Customer extends Entity
 	public void setPhone(final String phone)
 	{
 		this.phone = phone;
-	}
-
-	public Address getAddress()
-	{
-		return address;
-	}
-
-	public void setAddress(final Address address)
-	{
-		this.address = address;
 	}
 }
