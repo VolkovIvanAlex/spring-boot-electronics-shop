@@ -1,5 +1,9 @@
 package aim.traineeship.electronics.shop.dto;
 
+import org.springframework.stereotype.Component;
+
+
+@Component
 public class DefaultCustomerDTO
 {
 	private String login;
