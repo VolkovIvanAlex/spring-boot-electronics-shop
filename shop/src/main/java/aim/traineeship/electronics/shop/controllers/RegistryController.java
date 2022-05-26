@@ -27,13 +27,13 @@ import aim.traineeship.electronics.shop.validation.CustomerValidator;
 public class RegistryController
 {
 	@Autowired
-	CustomerRegistrationService service;
+	private CustomerRegistrationService service;
 
 	@Autowired
-	CustomerValidator customerValidator;
+	private CustomerValidator customerValidator;
 
 	@Autowired
-	DefaultCustomerDTO customerDTO;
+	private DefaultCustomerDTO customerDTO;
 
 	@GetMapping("/registry")
 	public String registry(final Model model)
