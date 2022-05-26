@@ -17,10 +17,16 @@ public class CustomerDetailsService implements UserDetailsService
 	@Autowired
 	private CustomerDAO customerDAO;
 
+	private static final String USER_NOT_FOUND_MSG = "user not found ...";
+
 	@Override
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException
 	{
 		final Customer customer = customerDAO.findByLogin(username);
+		if (customer == null)
+		{
+			throw new UsernameNotFoundException(USER_NOT_FOUND_MSG);
+		}
 		return new CustomerDetails(customer);
 	}
 }

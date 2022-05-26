@@ -8,7 +8,6 @@
 <header>
 </header>
 <h1>Welcome to our shop !</h1>
-
 <sec:authorize access="isAuthenticated()">
     <h1>Hi ,
         <sec:authentication property="principal.customer.firstName"/>

@@ -1,19 +1,21 @@
 package aim.traineeship.electronics.shop.converter;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import aim.traineeship.electronics.shop.dto.DefaultCustomerDTO;
 import aim.traineeship.electronics.shop.entities.Customer;
 
+
 @Component
-public class CustomerConverter
+public class CustomerConverter implements Converter<DefaultCustomerDTO, Customer>
 {
-	public Customer convertToCustomer(final DefaultCustomerDTO customerDTO){
+	@Override
+	public Customer convert(final DefaultCustomerDTO customerDTO)
+	{
 		final Customer customer = new Customer();
 		customer.setLogin(customerDTO.getLogin());
-		customer.setPassword(passwordEncoder().encode(customerDTO.getPassword()));
+		customer.setPassword(customerDTO.getPassword());
 		customer.setFirstName(customerDTO.getFirstName());
 		customer.setLastName(customerDTO.getLastName());
 		customer.setGender(customerDTO.getGender());
@@ -21,10 +23,4 @@ public class CustomerConverter
 		customer.setPhone(customerDTO.getPhone());
 		return customer;
 	}
-
-	private PasswordEncoder passwordEncoder()
-	{
-		return new BCryptPasswordEncoder();
-	}
-
 }

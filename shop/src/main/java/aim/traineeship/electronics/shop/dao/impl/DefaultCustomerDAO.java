@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import aim.traineeship.electronics.shop.dao.CustomerDAO;
@@ -49,12 +51,17 @@ public class DefaultCustomerDAO implements CustomerDAO
 	{
 		final Map<String, Object> params = new HashMap();
 		params.put(LOGIN, customer.getLogin());
-		params.put(PASSWORD, customer.getPassword());
+		params.put(PASSWORD, passwordEncoder().encode(customer.getPassword()));
 		params.put(FIRST_NAME, customer.getFirstName());
 		params.put(LAST_NAME, customer.getLastName());
 		params.put(GENDER, customer.getGender());
 		params.put(BIRTHDAY, customer.getBirthDay());
 		params.put(PHONE, customer.getPhone());
 		namedParameterJdbcTemplate.update(INSERT_CUSTOMER, params);
+	}
+
+	private PasswordEncoder passwordEncoder()
+	{
+		return new BCryptPasswordEncoder();
 	}
 }
