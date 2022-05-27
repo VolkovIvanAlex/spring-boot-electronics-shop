@@ -1,13 +1,16 @@
 package aim.traineeship.electronics.shop.entities;
 
+import java.util.Date;
+
+
 public class Customer extends Entity
 {
 	private String login;
 	private String password;
 	private String firstName;
 	private String lastName;
-	private String gender;
-	private String birthDay;
+	private Gender gender;
+	private Date birthDay;
 	private String phone;
 	private Address address;
 
@@ -55,22 +58,22 @@ public class Customer extends Entity
 		this.lastName = lastName;
 	}
 
-	public String getGender()
+	public Gender getGender()
 	{
 		return gender;
 	}
 
-	public void setGender(final String gender)
+	public void setGender(final Gender gender)
 	{
 		this.gender = gender;
 	}
 
-	public String getBirthDay()
+	public Date getBirthDay()
 	{
 		return birthDay;
 	}
 
-	public void setBirthDay(final String birthDay)
+	public void setBirthDay(final Date birthDay)
 	{
 		this.birthDay = birthDay;
 	}

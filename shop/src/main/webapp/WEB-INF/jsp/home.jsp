@@ -17,6 +17,6 @@
 <sec:authorize access="!isAuthenticated()">
     <a href="/login">Log in</a>
 </sec:authorize>
-
+<a href="/categories">Categories</a>
 </body>
 </html>

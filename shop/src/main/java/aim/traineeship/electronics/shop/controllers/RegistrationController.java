@@ -4,59 +4,47 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import aim.traineeship.electronics.shop.dto.DefaultCustomerDTO;
-import aim.traineeship.electronics.shop.service.CustomerRegistrationService;
+import aim.traineeship.electronics.shop.dto.SimpleCustomerDTO;
+import aim.traineeship.electronics.shop.service.CustomerService;
 
 
 @Controller
-public class RegistryController
+public class RegistrationController
 {
 	@Autowired
-	private CustomerRegistrationService service;
+	private CustomerService customerService;
 
-	@Qualifier("defaultCustomerValidator")
-	@Autowired
-	private Validator customerValidator;
-
-	@Autowired
-	private DefaultCustomerDTO customerDTO;
-
-	@GetMapping("/registry")
-	public String registry(final Model model)
+	@GetMapping("/registration")
+	public String registration(final Model model)
 	{
-		model.addAttribute("customerDTO", customerDTO);
-
-		return "registry";
+		model.addAttribute("customerDTO", new SimpleCustomerDTO());
+		return "registration";
 	}
 
-	@PostMapping("/registry")
-	public String registryCheck(@ModelAttribute("customerDTO") final DefaultCustomerDTO customerDTO,
+	@PostMapping("/registration")
+	public String registrationCheck(@ModelAttribute("customerDTO") final SimpleCustomerDTO customerDTO,
 			final HttpServletRequest request, final BindingResult result)
 	{
 		try
 		{
-			customerValidator.validate(customerDTO, result);
-			if (result.hasErrors())
+			if (!customerService.checkValidation(customerDTO, result))
 			{
-				return "registry";
+				return "registration";
 			}
-			service.registerNewAccount(customerDTO);
+			customerService.registerNewAccount(customerDTO);
 			request.login(customerDTO.getLogin(), customerDTO.getPassword());
 			return "redirect:/";
 		}
 		catch (final ServletException servletException)
 		{
-			servletException.printStackTrace();
-			return "registry";
+			return "registration";
 		}
 	}
 }

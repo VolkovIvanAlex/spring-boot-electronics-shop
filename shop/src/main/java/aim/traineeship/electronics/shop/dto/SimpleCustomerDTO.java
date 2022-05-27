@@ -1,6 +1,10 @@
 package aim.traineeship.electronics.shop.dto;
 
-public class DefaultCustomerDTO
+import org.springframework.stereotype.Component;
+
+
+@Component
+public class SimpleCustomerDTO
 {
 	private String login;
 	private String password;
@@ -9,10 +13,6 @@ public class DefaultCustomerDTO
 	private String gender;
 	private String birthDay;
 	private String phone;
-
-	public DefaultCustomerDTO()
-	{
-	}
 
 	public String getLogin()
 	{

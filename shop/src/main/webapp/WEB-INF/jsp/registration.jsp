@@ -3,14 +3,14 @@
 
 <html>
 <head>
-    <title>Registry page</title>
+    <title>Registration page</title>
 </head>
 <body>
 <div style="width:800px; margin:0 auto; text-align: center; background: orange ;border-radius: 5px; padding: 10px; margin-top: 150px">
     <form:form
             modelAttribute="customerDTO"
             cssStyle="align-self: center"
-            action="/registry"
+            action="/registration"
             method="post">
         <label>Enter login</label>
         <form:input path="login" type="email" required="true" placeholder="example@gmail.com"/>

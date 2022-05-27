@@ -25,6 +25,6 @@
     <input type="submit" value="Login">
 </form:form>
 <a href="/"> Go Back. </a>
-<label> Want to create account ? -> </label><a href="/registry"> Create Account</a>
+<label> Want to create account ? -> </label> <a href="/registration"> Create Account</a>
 </body>
 </html>

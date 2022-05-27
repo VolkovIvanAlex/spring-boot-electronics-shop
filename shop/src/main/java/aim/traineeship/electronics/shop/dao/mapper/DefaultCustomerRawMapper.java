@@ -2,13 +2,15 @@ package aim.traineeship.electronics.shop.dao.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 
 import org.springframework.jdbc.core.RowMapper;
 
 import aim.traineeship.electronics.shop.entities.Customer;
+import aim.traineeship.electronics.shop.entities.Gender;
 
 
-public class DefaultCustomerRawMapper implements RowMapper
+public class DefaultCustomerRawMapper implements RowMapper<Customer>
 {
 	private static final String ID = "id";
 	private static final String LOGIN = "login";
@@ -28,8 +30,8 @@ public class DefaultCustomerRawMapper implements RowMapper
 		customer.setPassword(rs.getString(PASSWORD));
 		customer.setFirstName(rs.getString(FIRST_NAME));
 		customer.setLastName(rs.getString(LAST_NAME));
-		customer.setGender(rs.getString(GENDER));
-		customer.setBirthDay(rs.getString(BIRTHDAY));
+		customer.setGender(Gender.valueOf(rs.getString(GENDER).toUpperCase(Locale.ROOT)));
+		customer.setBirthDay(rs.getDate(BIRTHDAY));
 		customer.setPhone(rs.getString(PHONE));
 		return customer;
 	}

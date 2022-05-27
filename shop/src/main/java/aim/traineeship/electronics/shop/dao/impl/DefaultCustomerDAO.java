@@ -19,6 +19,9 @@ import aim.traineeship.electronics.shop.entities.Customer;
 @Repository
 public class DefaultCustomerDAO implements CustomerDAO
 {
+	/*@Autowired
+	private PasswordEncoder passwordEncoder;*/
+
 	private static final String LOGIN = "login";
 	private static final String PASSWORD = "password";
 	private static final String FIRST_NAME = "firstName";
@@ -43,18 +46,18 @@ public class DefaultCustomerDAO implements CustomerDAO
 		final Map<String, Object> param = new HashMap<>();
 		param.put(LOGIN, login);
 		final List<Customer> customerList = this.namedParameterJdbcTemplate.query(FIND_BY_LOGIN, param, mapper);
-		return customerList.size() > 0 ? customerList.get(0) : null;
+		return customerList.stream().findFirst().orElse(null);
 	}
 
 	@Override
 	public void saveCustomer(final Customer customer)
 	{
-		final Map<String, Object> params = new HashMap();
+		final Map<String, Object> params = new HashMap<>();
 		params.put(LOGIN, customer.getLogin());
 		params.put(PASSWORD, passwordEncoder().encode(customer.getPassword()));
 		params.put(FIRST_NAME, customer.getFirstName());
 		params.put(LAST_NAME, customer.getLastName());
-		params.put(GENDER, customer.getGender());
+		params.put(GENDER, customer.getGender().getTitle());
 		params.put(BIRTHDAY, customer.getBirthDay());
 		params.put(PHONE, customer.getPhone());
 		namedParameterJdbcTemplate.update(INSERT_CUSTOMER, params);
