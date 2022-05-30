@@ -3,6 +3,7 @@ package aim.traineeship.electronics.shop.dao.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -39,13 +40,13 @@ public class DefaultCustomerDAO implements CustomerDAO
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	@Override
-	public Customer findByLogin(final String login)
+	public Optional<Customer> findByLogin(final String login)
 	{
 		final RowMapper<Customer> mapper = new DefaultCustomerRawMapper();
 		final Map<String, Object> param = new HashMap<>();
 		param.put(LOGIN, login);
 		final List<Customer> customerList = this.namedParameterJdbcTemplate.query(FIND_BY_LOGIN, param, mapper);
-		return customerList.stream().findFirst().orElse(null);
+		return customerList.stream().findFirst();
 	}
 
 	@Override

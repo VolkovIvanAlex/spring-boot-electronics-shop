@@ -1,13 +1,11 @@
 package aim.traineeship.electronics.shop.service;
 
-import org.springframework.validation.BindingResult;
-
-import aim.traineeship.electronics.shop.dto.SimpleCustomerDTO;
+import aim.traineeship.electronics.shop.dto.CustomerDTO;
 
 
 public interface CustomerService
 {
-	boolean checkValidation(final SimpleCustomerDTO customerDTO, final BindingResult result);
+	void registerNewAccount(final CustomerDTO customerDTO);
 
-	void registerNewAccount(final SimpleCustomerDTO defaultCustomerDTO);
+	boolean checkDuplicate(final CustomerDTO customerDTO);
 }

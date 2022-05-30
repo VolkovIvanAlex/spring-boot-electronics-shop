@@ -1,12 +1,27 @@
 package aim.traineeship.electronics.shop.entities;
 
+import java.util.Locale;
+
+
 public enum Gender
 {
-	MALE("Male"),
-	FEMALE("Female"),
-	OTHER("Other");
+	MALE("MALE"),
+	FEMALE("FEMALE"),
+	OTHER("OTHER");
 
 	private final String title;
+
+	public static boolean isInGenderEnum(final String gender)
+	{
+		for (final Gender g : Gender.values())
+		{
+			if (g.getTitle().equals(gender.toUpperCase(Locale.ROOT)))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	Gender(final String title)
 	{

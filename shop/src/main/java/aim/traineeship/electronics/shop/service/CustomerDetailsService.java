@@ -1,5 +1,7 @@
 package aim.traineeship.electronics.shop.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,11 +24,12 @@ public class CustomerDetailsService implements UserDetailsService
 	@Override
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException
 	{
-		final Customer customer = customerDAO.findByLogin(username);
-		if (customer == null)
+		final Optional<Customer> customerOptional = customerDAO.findByLogin(username);
+		if (customerOptional.isPresent())
 		{
-			throw new UsernameNotFoundException(USER_NOT_FOUND_MSG);
+			final Customer customer = customerOptional.get();
+			return new CustomerDetails(customer);
 		}
-		return new CustomerDetails(customer);
+		throw new UsernameNotFoundException(USER_NOT_FOUND_MSG);
 	}
 }

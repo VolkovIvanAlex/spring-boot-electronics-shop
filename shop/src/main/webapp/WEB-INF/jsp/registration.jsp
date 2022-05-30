@@ -33,9 +33,9 @@
         <br>
         <label>Select Gender</label>
         <form:select path="gender" name="gender" required="true">
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
+            <c:forEach var="genderValue" items="${genderValues}">
+                <form:option value="${genderValue}">${genderValue}</form:option>
+            </c:forEach>
         </form:select>
         <form:errors path="gender" cssStyle="background: indianred"/>
         <br>
