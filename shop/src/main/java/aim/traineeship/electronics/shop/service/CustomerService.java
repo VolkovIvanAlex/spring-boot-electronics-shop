@@ -7,5 +7,5 @@ public interface CustomerService
 {
 	void registerNewAccount(final CustomerDTO customerDTO);
 
-	boolean checkDuplicate(final CustomerDTO customerDTO);
+	boolean isCustomerExist(final String login);
 }

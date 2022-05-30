@@ -24,8 +24,8 @@ public class RegistrationController
 	@Autowired
 	private CustomerService customerService;
 
-	@Qualifier("simpleCustomerValidator")
 	@Autowired
+	@Qualifier("customerValidator")
 	private Validator customerValidator;
 
 	@GetMapping("/registration")

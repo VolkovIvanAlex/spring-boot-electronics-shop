@@ -18,23 +18,23 @@ import aim.traineeship.electronics.shop.entities.Gender;
 public class CustomerConverter implements Converter<CustomerDTO, Customer>
 {
 	private static final String DATE_PATTERN = "dd-MM-yyyy";
-	private static final SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
 
 	@Override
 	public Customer convert(final CustomerDTO customerDTO)
 	{
+		final SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
 		final Customer customer = new Customer();
 		customer.setLogin(customerDTO.getLogin());
 		customer.setPassword(customerDTO.getPassword());
 		customer.setFirstName(customerDTO.getFirstName());
 		customer.setLastName(customerDTO.getLastName());
 		customer.setGender(Gender.valueOf(customerDTO.getGender().toUpperCase(Locale.ROOT)));
-		customer.setBirthDay(parseDate(customerDTO.getBirthDay()).get());
+		customer.setBirthDay(parseDate(customerDTO.getBirthDay(), format).get());
 		customer.setPhone(customerDTO.getPhone());
 		return customer;
 	}
 
-	private Optional<Date> parseDate(final String date)
+	private Optional<Date> parseDate(final String date, final SimpleDateFormat format)
 	{
 		Optional<Date> result = Optional.empty();
 		try
@@ -44,6 +44,6 @@ public class CustomerConverter implements Converter<CustomerDTO, Customer>
 		catch (final ParseException ignored)
 		{
 		}
-		return result.stream().findFirst();
+		return result;
 	}
 }

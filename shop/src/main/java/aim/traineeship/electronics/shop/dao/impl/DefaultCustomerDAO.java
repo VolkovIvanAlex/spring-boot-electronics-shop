@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import aim.traineeship.electronics.shop.dao.CustomerDAO;
-import aim.traineeship.electronics.shop.dao.mapper.DefaultCustomerRawMapper;
+import aim.traineeship.electronics.shop.dao.mapper.DefaultCustomerRowMapper;
 import aim.traineeship.electronics.shop.entities.Customer;
 
 
@@ -21,6 +21,9 @@ public class DefaultCustomerDAO implements CustomerDAO
 {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	private static final String LOGIN = "login";
 	private static final String PASSWORD = "password";
@@ -36,13 +39,10 @@ public class DefaultCustomerDAO implements CustomerDAO
 			"INSERT INTO Customer (login, password, firstName, lastName, gender, birthDay, phone)" +
 					"VALUES (:login, :password, :firstName, :lastName, :gender, :birthDay, :phone)";
 
-	@Autowired
-	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
 	@Override
 	public Optional<Customer> findByLogin(final String login)
 	{
-		final RowMapper<Customer> mapper = new DefaultCustomerRawMapper();
+		final RowMapper<Customer> mapper = new DefaultCustomerRowMapper();
 		final Map<String, Object> param = new HashMap<>();
 		param.put(LOGIN, login);
 		final List<Customer> customerList = this.namedParameterJdbcTemplate.query(FIND_BY_LOGIN, param, mapper);
@@ -57,7 +57,7 @@ public class DefaultCustomerDAO implements CustomerDAO
 		params.put(PASSWORD, passwordEncoder.encode(customer.getPassword()));
 		params.put(FIRST_NAME, customer.getFirstName());
 		params.put(LAST_NAME, customer.getLastName());
-		params.put(GENDER, customer.getGender().getTitle());
+		params.put(GENDER, customer.getGender().name());
 		params.put(BIRTHDAY, customer.getBirthDay());
 		params.put(PHONE, customer.getPhone());
 		namedParameterJdbcTemplate.update(INSERT_CUSTOMER, params);

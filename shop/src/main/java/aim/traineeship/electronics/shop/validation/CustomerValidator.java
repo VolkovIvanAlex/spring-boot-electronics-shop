@@ -2,12 +2,10 @@ package aim.traineeship.electronics.shop.validation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -18,15 +16,10 @@ import aim.traineeship.electronics.shop.service.impl.DefaultCustomerService;
 
 
 @Component
-public class SimpleCustomerValidator implements Validator
+public class CustomerValidator implements Validator
 {
 	@Autowired
 	private DefaultCustomerService customerService;
-
-	@Autowired
-	private MessageSource messageSource;
-
-	private static final Locale locale = Locale.US;
 
 	private static final String LOGIN = "login";
 	private static final String FIRST_NAME = "firstName";
@@ -70,10 +63,9 @@ public class SimpleCustomerValidator implements Validator
 
 	private void checkDuplicate(final CustomerDTO customerDTO, final Errors errors)
 	{
-		if (customerService.checkDuplicate(customerDTO))
+		if (customerService.isCustomerExist(customerDTO.getLogin()))
 		{
-			errors.rejectValue(LOGIN, DUPLICATE_EMAIL_CODE,
-					messageSource.getMessage(DUPLICATE_EMAIL_CODE, null, locale));
+			errors.rejectValue(LOGIN, DUPLICATE_EMAIL_CODE);
 		}
 	}
 
@@ -82,8 +74,7 @@ public class SimpleCustomerValidator implements Validator
 		final Matcher matcher = pattern.matcher(customerDTO.getLogin());
 		if (!matcher.matches())
 		{
-			errors.rejectValue(LOGIN, INVALID_EMAIL_CODE,
-					messageSource.getMessage(INVALID_EMAIL_CODE, null, locale));
+			errors.rejectValue(LOGIN, INVALID_EMAIL_CODE);
 		}
 	}
 
@@ -92,8 +83,7 @@ public class SimpleCustomerValidator implements Validator
 		final char[] firstName = customerDTO.getFirstName().toCharArray();
 		if (checkForDigits(firstName))
 		{
-			errors.rejectValue(FIRST_NAME, INVALID_FIRST_NAME_CODE,
-					messageSource.getMessage(INVALID_FIRST_NAME_CODE, null, locale));
+			errors.rejectValue(FIRST_NAME, INVALID_FIRST_NAME_CODE);
 		}
 	}
 
@@ -102,8 +92,7 @@ public class SimpleCustomerValidator implements Validator
 		final char[] lastName = customerDTO.getLastName().toCharArray();
 		if (checkForDigits(lastName))
 		{
-			errors.rejectValue(LAST_NAME, INVALID_LAST_NAME_CODE,
-					messageSource.getMessage(INVALID_LAST_NAME_CODE, null, locale));
+			errors.rejectValue(LAST_NAME, INVALID_LAST_NAME_CODE);
 		}
 	}
 
@@ -124,8 +113,7 @@ public class SimpleCustomerValidator implements Validator
 		final String gender = customerDTO.getGender();
 		if (!Gender.isInGenderEnum(gender))
 		{
-			errors.rejectValue(GENDER, UNKNOWN_GENDER_CODE,
-					messageSource.getMessage(UNKNOWN_GENDER_CODE, null, locale));
+			errors.rejectValue(GENDER, UNKNOWN_GENDER_CODE);
 		}
 	}
 
@@ -139,8 +127,7 @@ public class SimpleCustomerValidator implements Validator
 		}
 		catch (final ParseException parseException)
 		{
-			errors.rejectValue(BIRTHDAY, INVALID_DATE_CODE,
-					messageSource.getMessage(INVALID_DATE_CODE, null, locale));
+			errors.rejectValue(BIRTHDAY, INVALID_DATE_CODE);
 		}
 	}
 
@@ -149,8 +136,7 @@ public class SimpleCustomerValidator implements Validator
 		final String phone = customerDTO.getPhone();
 		if (!phone.matches(PHONE_PATTERN) || phone.length() != 10)
 		{
-			errors.rejectValue(PHONE, INVALID_PHONE_CODE,
-					messageSource.getMessage(INVALID_PHONE_CODE, null, locale));
+			errors.rejectValue(PHONE, INVALID_PHONE_CODE);
 		}
 	}
 }

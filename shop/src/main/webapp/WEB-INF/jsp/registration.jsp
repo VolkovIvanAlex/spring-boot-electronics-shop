@@ -36,6 +36,7 @@
             <c:forEach var="genderValue" items="${genderValues}">
                 <form:option value="${genderValue}">${genderValue}</form:option>
             </c:forEach>
+            <form:option value="kaka">kaka </form:option>
         </form:select>
         <form:errors path="gender" cssStyle="background: indianred"/>
         <br>

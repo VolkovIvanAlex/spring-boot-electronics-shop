@@ -26,8 +26,8 @@ public class DefaultCustomerService implements CustomerService
 	}
 
 	@Override
-	public boolean checkDuplicate(final CustomerDTO customerDTO)
+	public boolean isCustomerExist(final String login)
 	{
-		return customerDAO.findByLogin(customerDTO.getLogin()).isPresent();
+		return customerDAO.findByLogin(login).isPresent();
 	}
 }

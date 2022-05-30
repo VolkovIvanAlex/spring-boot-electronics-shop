@@ -10,7 +10,7 @@ import aim.traineeship.electronics.shop.entities.Customer;
 import aim.traineeship.electronics.shop.entities.Gender;
 
 
-public class DefaultCustomerRawMapper implements RowMapper<Customer>
+public class DefaultCustomerRowMapper implements RowMapper<Customer>
 {
 	private static final String ID = "id";
 	private static final String LOGIN = "login";

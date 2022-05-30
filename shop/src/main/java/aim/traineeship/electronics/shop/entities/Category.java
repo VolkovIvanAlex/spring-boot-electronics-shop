@@ -4,6 +4,7 @@ public class Category extends Entity
 {
 	private String code;
 	private String name;
+	private Integer products;
 
 	public Category()
 	{
@@ -27,5 +28,15 @@ public class Category extends Entity
 	public void setName(final String name)
 	{
 		this.name = name;
+	}
+
+	public Integer getProducts()
+	{
+		return products;
+	}
+
+	public void setProducts(final Integer products)
+	{
+		this.products = products;
 	}
 }
