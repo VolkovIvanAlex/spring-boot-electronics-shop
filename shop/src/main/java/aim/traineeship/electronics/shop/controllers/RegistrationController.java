@@ -40,12 +40,12 @@ public class RegistrationController
 	public String registrationCheck(@ModelAttribute("customerDTO") final CustomerDTO customerDTO,
 			final Model model, final HttpServletRequest request, final BindingResult result)
 	{
-		model.addAttribute("genderValues", Gender.values());
 		try
 		{
 			customerValidator.validate(customerDTO, result);
 			if (result.hasErrors())
 			{
+				model.addAttribute("genderValues", Gender.values());
 				return "registration";
 			}
 			customerService.registerNewAccount(customerDTO);
