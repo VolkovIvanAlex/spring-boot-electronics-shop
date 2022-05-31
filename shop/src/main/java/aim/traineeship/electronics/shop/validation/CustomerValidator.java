@@ -132,7 +132,7 @@ public class CustomerValidator implements Validator
 		}
 		catch (final ParseException parseException)
 		{
-			LOGGER.warn(PARSE_EXCEPTION);
+			LOGGER.error("Error during parsing date {} {}", customerDTO.getBirthDay(), PARSE_EXCEPTION);
 			errors.rejectValue(BIRTHDAY, INVALID_DATE_CODE);
 		}
 	}

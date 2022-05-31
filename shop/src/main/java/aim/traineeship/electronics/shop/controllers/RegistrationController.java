@@ -60,7 +60,7 @@ public class RegistrationController
 		}
 		catch (final ServletException servletException)
 		{
-			LOGGER.warn(SERVLET_EXCEPTION);
+			LOGGER.error("Error during customer login {} {}", customerDTO.getLogin(), SERVLET_EXCEPTION);
 			return "registration";
 		}
 	}

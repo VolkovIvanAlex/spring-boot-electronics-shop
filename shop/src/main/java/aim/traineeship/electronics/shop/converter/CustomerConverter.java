@@ -45,7 +45,7 @@ public class CustomerConverter implements Converter<CustomerDTO, Customer>
 		}
 		catch (final ParseException ignored)
 		{
-			LOGGER.warn(PARSE_EXCEPTION);
+			LOGGER.error("Error during parsing date {} {}", date, PARSE_EXCEPTION);
 			return null;
 		}
 	}
