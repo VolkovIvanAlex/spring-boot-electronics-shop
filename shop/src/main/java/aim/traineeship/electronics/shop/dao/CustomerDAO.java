@@ -1,9 +1,13 @@
 package aim.traineeship.electronics.shop.dao;
 
+import java.util.Optional;
+
 import aim.traineeship.electronics.shop.entities.Customer;
 
 
 public interface CustomerDAO
 {
-	Customer findByLogin(final String login);
+	Optional<Customer> findByLogin(final String login);
+
+	void saveCustomer(final Customer customer);
 }

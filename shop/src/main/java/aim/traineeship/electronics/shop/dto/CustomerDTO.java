@@ -1,22 +1,14 @@
-package aim.traineeship.electronics.shop.entities;
+package aim.traineeship.electronics.shop.dto;
 
-import java.util.Date;
-
-
-public class Customer extends Entity
+public class CustomerDTO
 {
 	private String login;
 	private String password;
 	private String firstName;
 	private String lastName;
-	private Gender gender;
-	private Date birthDay;
+	private String gender;
+	private String birthDay;
 	private String phone;
-	private Address address;
-
-	public Customer()
-	{
-	}
 
 	public String getLogin()
 	{
@@ -58,22 +50,22 @@ public class Customer extends Entity
 		this.lastName = lastName;
 	}
 
-	public Gender getGender()
+	public String getGender()
 	{
 		return gender;
 	}
 
-	public void setGender(final Gender gender)
+	public void setGender(final String gender)
 	{
 		this.gender = gender;
 	}
 
-	public Date getBirthDay()
+	public String getBirthDay()
 	{
 		return birthDay;
 	}
 
-	public void setBirthDay(final Date birthDay)
+	public void setBirthDay(final String birthDay)
 	{
 		this.birthDay = birthDay;
 	}
@@ -86,15 +78,5 @@ public class Customer extends Entity
 	public void setPhone(final String phone)
 	{
 		this.phone = phone;
-	}
-
-	public Address getAddress()
-	{
-		return address;
-	}
-
-	public void setAddress(final Address address)
-	{
-		this.address = address;
 	}
 }
