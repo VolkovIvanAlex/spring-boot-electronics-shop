@@ -43,7 +43,6 @@ public class CustomerValidator implements Validator
 	private static final String UNKNOWN_GENDER_CODE = "custom.unknown.gender";
 	private static final String INVALID_DATE_CODE = "custom.invalid.date.format";
 	private static final String INVALID_PHONE_CODE = "custom.invalid.phone";
-	private static final String PARSE_EXCEPTION = "Parse exception detected while parsing date field in String type from CustomerDTO , due to invalid format given.";
 
 	private static final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 
@@ -132,7 +131,7 @@ public class CustomerValidator implements Validator
 		}
 		catch (final ParseException parseException)
 		{
-			LOGGER.error("Error during parsing date {} {}", customerDTO.getBirthDay(), PARSE_EXCEPTION);
+			LOGGER.error("Error during parsing date {}", customerDTO.getBirthDay(), parseException);
 			errors.rejectValue(BIRTHDAY, INVALID_DATE_CODE);
 		}
 	}

@@ -31,7 +31,6 @@ public class RegistrationController
 	private Validator customerValidator;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationController.class);
-	private static final String SERVLET_EXCEPTION = "Servlet exception detected while trying to auto-authenticate user.";
 
 	@GetMapping("/registration")
 	public String registration(final Model model)
@@ -60,7 +59,7 @@ public class RegistrationController
 		}
 		catch (final ServletException servletException)
 		{
-			LOGGER.error("Error during customer login {} {}", customerDTO.getLogin(), SERVLET_EXCEPTION);
+			LOGGER.error("Error during customer login {}", customerDTO.getLogin(), servletException);
 			return "registration";
 		}
 	}

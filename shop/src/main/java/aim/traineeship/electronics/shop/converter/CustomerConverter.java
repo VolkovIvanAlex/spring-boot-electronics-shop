@@ -19,7 +19,6 @@ import aim.traineeship.electronics.shop.entities.Gender;
 public class CustomerConverter implements Converter<CustomerDTO, Customer>
 {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerConverter.class);
-	private static final String PARSE_EXCEPTION = "Parse exception detected while parsing date field in String type from CustomerDTO to Customer's date field in Date type.";
 	private static final String DATE_PATTERN = "dd-MM-yyyy";
 
 	@Override
@@ -43,9 +42,9 @@ public class CustomerConverter implements Converter<CustomerDTO, Customer>
 		{
 			return format.parse(date);
 		}
-		catch (final ParseException ignored)
+		catch (final ParseException parseException)
 		{
-			LOGGER.error("Error during parsing date {} {}", date, PARSE_EXCEPTION);
+			LOGGER.error("Error during parsing date {}", date, parseException);
 			return null;
 		}
 	}
