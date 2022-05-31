@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -20,6 +22,8 @@ public class CustomerValidator implements Validator
 {
 	@Autowired
 	private DefaultCustomerService customerService;
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerValidator.class);
 
 	private static final String LOGIN = "login";
 	private static final String FIRST_NAME = "firstName";
@@ -39,6 +43,7 @@ public class CustomerValidator implements Validator
 	private static final String UNKNOWN_GENDER_CODE = "custom.unknown.gender";
 	private static final String INVALID_DATE_CODE = "custom.invalid.date.format";
 	private static final String INVALID_PHONE_CODE = "custom.invalid.phone";
+	private static final String PARSE_EXCEPTION = "Parse exception detected while parsing date field in String type from CustomerDTO , due to invalid format given.";
 
 	private static final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 
@@ -127,6 +132,7 @@ public class CustomerValidator implements Validator
 		}
 		catch (final ParseException parseException)
 		{
+			LOGGER.warn(PARSE_EXCEPTION);
 			errors.rejectValue(BIRTHDAY, INVALID_DATE_CODE);
 		}
 	}

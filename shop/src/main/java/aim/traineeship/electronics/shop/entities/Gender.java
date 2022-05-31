@@ -1,5 +1,8 @@
 package aim.traineeship.electronics.shop.entities;
 
+import java.util.Arrays;
+
+
 public enum Gender
 {
 	MALE,
@@ -8,14 +11,6 @@ public enum Gender
 
 	public static boolean isInGenderEnum(final String gender)
 	{
-		try
-		{
-			Gender.valueOf(gender);
-			return true;
-		}
-		catch (final IllegalArgumentException exception)
-		{
-			return false;
-		}
+		return Arrays.stream(Gender.values()).anyMatch(g -> g.name().equals(gender));
 	}
 }

@@ -14,7 +14,7 @@
             method="post">
         <label>Enter login</label>
         <form:input path="login" type="email" required="true" placeholder="example@gmail.com"/>
-        <form:errors path="login" cssStyle="background: indianred"/>
+        <form:errors path="login" cssStyle="background: indianred;border-radius: 5px"/>
         <br>
         <br>
         <label>Enter Password</label>
@@ -23,32 +23,31 @@
         <br>
         <label>Enter First Name (Only Letters)</label>
         <form:input path="firstName" type="text" placeholder="Ivan" required="true"/>
-        <form:errors path="firstName" cssStyle="background: indianred"/>
+        <form:errors path="firstName" cssStyle="background: indianred;border-radius: 5px"/>
         <br>
         <br>
         <label>Enter Last Name (Only Letters)</label>
         <form:input path="lastName" type="text" placeholder="Volkov" required="true"/>
-        <form:errors path="lastName" cssStyle="background: indianred"/>
+        <form:errors path="lastName" cssStyle="background: indianred;border-radius: 5px"/>
         <br>
         <br>
         <label>Select Gender</label>
-        <form:select path="gender" name="gender" required="true">
+        <form:select path="gender" name="gender">
             <c:forEach var="genderValue" items="${genderValues}">
                 <form:option value="${genderValue}">${genderValue}</form:option>
             </c:forEach>
-            <form:option value="kaka">kaka </form:option>
         </form:select>
-        <form:errors path="gender" cssStyle="background: indianred"/>
+        <form:errors path="gender" cssStyle="background: indianred;border-radius: 5px"/>
         <br>
         <br>
         <label>Enter Birthday in format "dd-MM-yyyy"</label>
         <form:input path="birthDay" type="text" required="true" placeholder="08-12-2002"/>
-        <form:errors path="birthDay" cssStyle="background: indianred"/>
+        <form:errors path="birthDay" cssStyle="background: indianred;border-radius: 5px"/>
         <br>
         <br>
         <label>Enter phone (only 10 digits)</label>
         <form:input path="phone" type="number" required="true" placeholder="**********"/>
-        <form:errors path="phone" cssStyle="background: indianred"/>
+        <form:errors path="phone" cssStyle="background: indianred;border-radius: 5px"/>
         <br>
         <br>
         <input type="submit" value="Sign Up">

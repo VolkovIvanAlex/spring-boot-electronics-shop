@@ -3,6 +3,8 @@ package aim.traineeship.electronics.shop.controllers;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,9 @@ public class RegistrationController
 	@Qualifier("customerValidator")
 	private Validator customerValidator;
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationController.class);
+	private static final String SERVLET_EXCEPTION = "Servlet exception detected while trying to auto-authenticate user.";
+
 	@GetMapping("/registration")
 	public String registration(final Model model)
 	{
@@ -40,6 +45,7 @@ public class RegistrationController
 	public String registrationCheck(@ModelAttribute("customerDTO") final CustomerDTO customerDTO,
 			final Model model, final HttpServletRequest request, final BindingResult result)
 	{
+
 		try
 		{
 			customerValidator.validate(customerDTO, result);
@@ -54,6 +60,7 @@ public class RegistrationController
 		}
 		catch (final ServletException servletException)
 		{
+			LOGGER.warn(SERVLET_EXCEPTION);
 			return "registration";
 		}
 	}
