@@ -5,18 +5,12 @@
     <title>Home page</title>
 </head>
 <body>
-<header>
-</header>
-<h1>Welcome to our shop !</h1>
+<jsp:include page="header/main_header.jsp"/>
 <sec:authorize access="isAuthenticated()">
     <h1>Hi ,
         <sec:authentication property="principal.customer.firstName"/>
     </h1>
-    <a href="/logout"> Log out </a>
 </sec:authorize>
-<sec:authorize access="!isAuthenticated()">
-    <a href="/login">Log in</a>
-</sec:authorize>
-<a href="/categories">Categories</a>
+<h1>Welcome to our shop !</h1>
 </body>
 </html>
