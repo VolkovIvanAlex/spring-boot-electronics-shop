@@ -1,8 +1,8 @@
-package aim.traineeship.electronics.shop.converter;
+package aim.traineeship.electronics.shop.converter.impl;
 
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
+import aim.traineeship.electronics.shop.converter.Converter;
 import aim.traineeship.electronics.shop.dto.ProductDTO;
 import aim.traineeship.electronics.shop.entities.Product;
 

@@ -20,7 +20,7 @@
         border-radius: 5px;
         text-decoration: none;
         background: sandybrown;
-        font: small-caps bold 24px/1 sans-serif;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
     }
 </style>
 <jsp:include page="header/main_header.jsp"/>
