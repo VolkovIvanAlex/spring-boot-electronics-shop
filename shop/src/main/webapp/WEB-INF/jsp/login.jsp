@@ -7,6 +7,7 @@
     <title>Login Page</title>
 </head>
 <body>
+<div style="width:400px; margin:0 auto; text-align: center; background: khaki ;border-radius: 5px; padding: 10px; margin-top: 150px">
 <form:form
         action="/login"
         method="post">
@@ -18,7 +19,8 @@
     <label>Enter Password</label>
     <input type="password" name="password">
     <c:if test="${param.error != null}">
-        <p>Invalid login or password. Please try again.</p>
+        <p style="background: indianred;border-radius: 5px; text-decoration-color: khaki">Invalid login or password.
+            Please try again.</p>
     </c:if>
     <br>
     <br>
@@ -26,5 +28,6 @@
 </form:form>
 <a href="/"> Go Back. </a>
 <label> Want to create account ? -> </label> <a href="/registration"> Create Account</a>
+</div>
 </body>
 </html>

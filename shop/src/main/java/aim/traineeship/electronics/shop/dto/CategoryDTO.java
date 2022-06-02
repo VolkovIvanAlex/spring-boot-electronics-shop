@@ -1,13 +1,20 @@
-package aim.traineeship.electronics.shop.entities;
+package aim.traineeship.electronics.shop.dto;
 
-public class Category extends Entity
+public class CategoryDTO
 {
+	private Integer id;
 	private String code;
 	private String name;
 	private Integer productsAmount;
 
-	public Category()
+	public Integer getId()
 	{
+		return id;
+	}
+
+	public void setId(final Integer id)
+	{
+		this.id = id;
 	}
 
 	public String getCode()

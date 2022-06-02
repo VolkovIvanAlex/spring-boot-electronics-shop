@@ -48,14 +48,14 @@ CREATE TABLE Cart
 
 CREATE TABLE Product
 (
-    id            Integer     NOT NULL AUTO_INCREMENT,
-    code          VARCHAR(50) NOT NULL UNIQUE,
-    name          VARCHAR(70) NOT NULL,
-    price         DOUBLE      NOT NULL,
-    description   VARCHAR(250),
-    category_code Integer     NOT NULL,
+    id          Integer     NOT NULL AUTO_INCREMENT,
+    code        VARCHAR(50) NOT NULL UNIQUE,
+    name        VARCHAR(70) NOT NULL,
+    price       DOUBLE      NOT NULL,
+    description VARCHAR(250),
+    category_id Integer     NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (category_code) REFERENCES Category (id)
+    FOREIGN KEY (category_id) REFERENCES Category (id)
 );
 
 CREATE TABLE CartEntry

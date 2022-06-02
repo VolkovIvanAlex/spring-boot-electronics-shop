@@ -44,7 +44,6 @@ public class RegistrationController
 	public String registrationCheck(@ModelAttribute("customerDTO") final CustomerDTO customerDTO,
 			final Model model, final HttpServletRequest request, final BindingResult result)
 	{
-
 		try
 		{
 			customerValidator.validate(customerDTO, result);
