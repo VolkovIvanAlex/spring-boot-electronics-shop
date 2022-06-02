@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import aim.traineeship.electronics.shop.entities.Category;
+import aim.traineeship.electronics.shop.dto.CategoryDTO;
 import aim.traineeship.electronics.shop.service.CategoryService;
 
 
@@ -20,7 +20,7 @@ public class CategoryController
 	@GetMapping("/categories")
 	public String categories(final Model model)
 	{
-		final List<Category> categories = categoryService.getCategories();
+		final List<CategoryDTO> categories = categoryService.getCategories();
 		model.addAttribute("categories", categories);
 		return "categories";
 	}

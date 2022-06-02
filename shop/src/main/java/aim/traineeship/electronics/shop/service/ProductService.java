@@ -2,10 +2,10 @@ package aim.traineeship.electronics.shop.service;
 
 import java.util.List;
 
-import aim.traineeship.electronics.shop.entities.Product;
+import aim.traineeship.electronics.shop.dto.ProductDTO;
 
 
 public interface ProductService
 {
-	List<Product> getProductsByCategory(String categoryCode);
+	List<ProductDTO> getProductsByCategoryId(String categoryCode);
 }

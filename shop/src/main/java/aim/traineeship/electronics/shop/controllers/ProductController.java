@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import aim.traineeship.electronics.shop.entities.Product;
+import aim.traineeship.electronics.shop.dto.ProductDTO;
 import aim.traineeship.electronics.shop.service.ProductService;
 
 
@@ -19,10 +19,10 @@ public class ProductController
 	@Autowired
 	private ProductService productService;
 
-	@RequestMapping(value = "categories/id/{categoryId}", method = RequestMethod.GET)
-	public String laptops(final Model model, @PathVariable("categoryId") final String categoryId)
+	@RequestMapping(value = "/products/{categoryId}", method = RequestMethod.GET)
+	public String products(final Model model, @PathVariable("categoryId") final String categoryId)
 	{
-		final List<Product> products = productService.getProductsByCategory(categoryId);
+		final List<ProductDTO> products = productService.getProductsByCategoryId(categoryId);
 		model.addAttribute("products", products);
 		return "plp";
 	}

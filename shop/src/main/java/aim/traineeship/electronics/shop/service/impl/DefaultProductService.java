@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import aim.traineeship.electronics.shop.converter.ProductConverter;
 import aim.traineeship.electronics.shop.dao.ProductDAO;
-import aim.traineeship.electronics.shop.entities.Product;
+import aim.traineeship.electronics.shop.dto.ProductDTO;
 import aim.traineeship.electronics.shop.service.ProductService;
 
 
@@ -16,9 +17,12 @@ public class DefaultProductService implements ProductService
 	@Autowired
 	private ProductDAO productDAO;
 
+	@Autowired
+	private ProductConverter productConverter;
+
 	@Override
-	public List<Product> getProductsByCategory(final String categoryId)
+	public List<ProductDTO> getProductsByCategoryId(final String categoryId)
 	{
-		return productDAO.findByCategoryId(categoryId);
+		return productConverter.convert(productDAO.findByCategoryId(categoryId));
 	}
 }

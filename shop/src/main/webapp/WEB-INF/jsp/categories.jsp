@@ -6,7 +6,7 @@
 </head>
 <body>
 <c:forEach items="${categories}" var="category">
-    <a href="categories/id/${category.id}">${category.name} products : ${category.productsAmount}</a>
+    <a href="/products/${category.id}">${category.name} products : ${category.productsAmount}</a>
     <br>
     <br>
 </c:forEach>
