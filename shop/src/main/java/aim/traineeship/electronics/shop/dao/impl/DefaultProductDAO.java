@@ -25,6 +25,9 @@ public class DefaultProductDAO implements ProductDAO
 	private static final String FIND_BY_CATEGORY = "SELECT id,code,P.name,price,description FROM Product AS P "
 			+ "WHERE category_id = :id ";
 
+	private static final String FIND_BY_PRODUCT_ID = "SELECT id,code,P.name,price,description FROM Product AS P "
+			+ "WHERE id = :id ";
+
 	@Override
 	public List<Product> findByCategoryId(final String id)
 	{
@@ -32,5 +35,14 @@ public class DefaultProductDAO implements ProductDAO
 		final Map<String, Object> parameter = new HashMap<>();
 		parameter.put(ID, id);
 		return this.namedParameterJdbcTemplate.query(FIND_BY_CATEGORY, parameter, mapper);
+	}
+
+	@Override
+	public Product findByProductId(final String id)
+	{
+		final RowMapper<Product> mapper = new DefaultProductRowMapper();
+		final Map<String, Object> parameter = new HashMap<>();
+		parameter.put(ID, id);
+		return this.namedParameterJdbcTemplate.queryForObject(FIND_BY_PRODUCT_ID, parameter, mapper);
 	}
 }

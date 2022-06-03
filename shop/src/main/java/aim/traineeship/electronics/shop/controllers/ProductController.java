@@ -14,16 +14,26 @@ import aim.traineeship.electronics.shop.service.ProductService;
 
 
 @Controller
+@RequestMapping(value = "/products")
 public class ProductController
 {
 	@Autowired
 	private ProductService productService;
 
-	@RequestMapping(value = "/products/{categoryId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{categoryId}", method = RequestMethod.GET)
 	public String products(final Model model, @PathVariable("categoryId") final String categoryId)
 	{
 		final List<ProductDTO> products = productService.getProductsByCategoryId(categoryId);
 		model.addAttribute("products", products);
 		return "plp";
+	}
+
+	@RequestMapping(value = "/{categoryId}/{productId}", method = RequestMethod.GET)
+	public String productDetails(@PathVariable("categoryId") final String categoryId,
+			@PathVariable("productId") final String productId, final Model model)
+	{
+		final ProductDTO product = productService.getProductById(productId);
+		model.addAttribute("product", product);
+		return "pdp";
 	}
 }

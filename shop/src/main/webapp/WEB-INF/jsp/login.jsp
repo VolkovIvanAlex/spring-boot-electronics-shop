@@ -7,27 +7,48 @@
     <title>Login Page</title>
 </head>
 <body>
-<div style="width:400px; margin:0 auto; text-align: center; background: khaki ;border-radius: 5px; padding: 10px; margin-top: 150px">
+<style>
+    .login {
+        width: 50%;
+        text-align: center;
+        background: cornflowerblue;
+        border-radius: 5px;
+        padding: 30px;
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 30px;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+</style>
+<div class="login">
 <form:form
         action="/login"
         method="post">
 
     <label>Enter User Name</label>
-    <input type="text" name="username">
+    <input type="text" name="username" style="padding: 5px">
     <br>
     <br>
     <label>Enter Password</label>
-    <input type="password" name="password">
+    <input type="password" name="password" style="padding: 5px">
     <c:if test="${param.error != null}">
-        <p style="background: indianred;border-radius: 5px; text-decoration-color: khaki">Invalid login or password.
-            Please try again.</p>
+        <p style="background: indianred;border-radius: 5px; color: white">Invalid login or password. Please try
+            again.</p>
     </c:if>
-    <br>
-    <br>
     <input type="submit" value="Login">
 </form:form>
-<a href="/"> Go Back. </a>
-<label> Want to create account ? -> </label> <a href="/registration"> Create Account</a>
+    <br>
+    <br>
+    <a href="/">
+        <button>Go Back</button>
+    </a>
+    <label> Want to create account ? -> </label>
+    <a href="/registration">
+        <button>Create Account</button>
+    </a>
 </div>
 </body>
 </html>

@@ -27,4 +27,10 @@ public class DefaultProductService implements ProductService
 		final List<Product> products = productDAO.findByCategoryId(categoryId);
 		return productConverter.convertList(products);
 	}
+
+	@Override
+	public ProductDTO getProductById(final String productId)
+	{
+		return productConverter.convert(productDAO.findByProductId(productId));
+	}
 }
