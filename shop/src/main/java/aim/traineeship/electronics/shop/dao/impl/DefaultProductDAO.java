@@ -20,29 +20,33 @@ public class DefaultProductDAO implements ProductDAO
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-	private static final String ID = "id";
+	private static final String CODE = "code";
 
-	private static final String FIND_BY_CATEGORY = "SELECT id,code,P.name,price,description FROM Product AS P "
-			+ "WHERE category_id = :id ";
+	private static final String FIND_BY_CATEGORY_CODE =
+			"SELECT P.id, P.code, P.name, price, description, category_id , C.code AS category_code, C.name AS category_name FROM Product AS P "
+					+ "JOIN Category AS C ON P.category_id = C.id "
+					+ "WHERE C.code = :code";
 
-	private static final String FIND_BY_PRODUCT_ID = "SELECT id,code,P.name,price,description FROM Product AS P "
-			+ "WHERE id = :id ";
+	private static final String FIND_BY_PRODUCT_CODE =
+			"SELECT P.id, P.code, P.name, price, description, category_id , C.code AS category_code, C.name AS category_name FROM Product AS P "
+					+ "JOIN Category AS C ON P.category_id = C.id "
+					+ "WHERE P.code = :code";
 
 	@Override
-	public List<Product> findByCategoryId(final String id)
+	public List<Product> findByCategoryCode(final String code)
 	{
 		final RowMapper<Product> mapper = new DefaultProductRowMapper();
 		final Map<String, Object> parameter = new HashMap<>();
-		parameter.put(ID, id);
-		return this.namedParameterJdbcTemplate.query(FIND_BY_CATEGORY, parameter, mapper);
+		parameter.put(CODE, code);
+		return this.namedParameterJdbcTemplate.query(FIND_BY_CATEGORY_CODE, parameter, mapper);
 	}
 
 	@Override
-	public Product findByProductId(final String id)
+	public Product findByProductCode(final String code)
 	{
 		final RowMapper<Product> mapper = new DefaultProductRowMapper();
 		final Map<String, Object> parameter = new HashMap<>();
-		parameter.put(ID, id);
-		return this.namedParameterJdbcTemplate.queryForObject(FIND_BY_PRODUCT_ID, parameter, mapper);
+		parameter.put(CODE, code);
+		return this.namedParameterJdbcTemplate.queryForObject(FIND_BY_PRODUCT_CODE, parameter, mapper);
 	}
 }

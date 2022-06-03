@@ -20,19 +20,18 @@ public class ProductController
 	@Autowired
 	private ProductService productService;
 
-	@RequestMapping(value = "/{categoryId}", method = RequestMethod.GET)
-	public String products(final Model model, @PathVariable("categoryId") final String categoryId)
+	@RequestMapping(value = "/{categoryCode}", method = RequestMethod.GET)
+	public String products(final Model model, @PathVariable("categoryCode") final String categoryCode)
 	{
-		final List<ProductDTO> products = productService.getProductsByCategoryId(categoryId);
+		final List<ProductDTO> products = productService.getProductsByCategoryCode(categoryCode);
 		model.addAttribute("products", products);
 		return "plp";
 	}
 
-	@RequestMapping(value = "/{categoryId}/{productId}", method = RequestMethod.GET)
-	public String productDetails(@PathVariable("categoryId") final String categoryId,
-			@PathVariable("productId") final String productId, final Model model)
+	@RequestMapping(value = "/product/{productCode}", method = RequestMethod.GET)
+	public String productDetails(@PathVariable("productCode") final String productCode, final Model model)
 	{
-		final ProductDTO product = productService.getProductById(productId);
+		final ProductDTO product = productService.getProductByCode(productCode);
 		model.addAttribute("product", product);
 		return "pdp";
 	}

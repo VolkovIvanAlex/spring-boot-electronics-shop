@@ -21,7 +21,7 @@
     <h2>code : ${product.code}</h2>
     <h2>price : ${product.price}</h2>
     <h2>description : ${product.description}</h2>
-    <a href="/products/${categoryId}">
+    <a href="/products/${product.categoryDTO.code}">
         <button>Go back</button>
     </a>
 </div>
