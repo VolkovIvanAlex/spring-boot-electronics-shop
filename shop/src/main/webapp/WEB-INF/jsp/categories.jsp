@@ -4,7 +4,8 @@
 <head>
     <title>Categories</title>
 </head>
-<body>
+<body style="margin: 0; padding: 0;">
+<jsp:include page="header/main_header.jsp"/>
 <style>
     .links-style {
         padding: 3px;
