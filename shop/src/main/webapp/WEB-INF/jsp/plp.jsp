@@ -20,12 +20,14 @@
 <jsp:include page="header/main_header.jsp"/>
 <div class="links-style">
     <c:forEach items="${products}" var="product">
-        <a href="/${product.code}">${product.code} , ${product.name} , ${product.price}</a>
+        <a href="/product/code_input/${product.code}">${product.code} , ${product.name} , ${product.price}</a>
+        <a href="/products/singleAddToCart/${product.code}">
+            <button type="submit">Add to Cart</button>
+        </a>
         <br>
         <br>
     </c:forEach>
-    <c:if test="${empty products}"><p>Sorry , we don't have these products</p></c:if>
-
+    <c:if test="${empty products}"><p>Sorry , we don't have these products for now.</p></c:if>
     <a href="/categories">
         <button>Go back</button>
     </a>
