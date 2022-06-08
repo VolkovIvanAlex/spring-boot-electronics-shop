@@ -5,14 +5,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class PageNotFoundException extends RuntimeException
+public class ItemNotFoundException extends RuntimeException
 {
-	public PageNotFoundException(final String message)
+
+	public ItemNotFoundException()
+	{
+	}
+
+	public ItemNotFoundException(final String message)
 	{
 		super(message);
 	}
 
-	public PageNotFoundException(final String message, final Throwable cause)
+	public ItemNotFoundException(final String message, final Throwable cause)
 	{
 		super(message, cause);
 	}

@@ -8,12 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import aim.traineeship.electronics.shop.dto.ProductDTO;
-import aim.traineeship.electronics.shop.exception.PageNotFoundException;
+import aim.traineeship.electronics.shop.exception.ItemNotFoundException;
 import aim.traineeship.electronics.shop.service.ProductService;
 
 
@@ -46,8 +48,20 @@ public class ProductController
 		catch (final NoSuchElementException noSuchElementException)
 		{
 			LOGGER.error(FIND_PRODUCT_ERROR, productCode, noSuchElementException);
-			throw new PageNotFoundException("Error while trying to get product with code " + productCode);
+			throw new ItemNotFoundException();
 		}
 		return "pdp";
+	}
+
+	@ExceptionHandler(ItemNotFoundException.class)
+	public String notFoundRedirect()
+	{
+		return "redirect:/Error-404";
+	}
+
+	@GetMapping("/Error-404")
+	public String notFoundShow()
+	{
+		return "error/404";
 	}
 }
