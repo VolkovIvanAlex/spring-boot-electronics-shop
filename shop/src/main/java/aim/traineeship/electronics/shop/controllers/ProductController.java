@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import aim.traineeship.electronics.shop.dto.ProductDTO;
+import aim.traineeship.electronics.shop.exception.PageNotFoundException;
 import aim.traineeship.electronics.shop.service.ProductService;
 
 
@@ -21,6 +22,8 @@ public class ProductController
 {
 	@Autowired
 	private ProductService productService;
+
+	private static final String FIND_PRODUCT_ERROR = "Error while trying to get product with code {}";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 
@@ -32,7 +35,7 @@ public class ProductController
 		return "plp";
 	}
 
-	@RequestMapping(value = "/product/code_input/{productCode}", method = RequestMethod.GET)
+	@RequestMapping(value = "/product/{productCode}", method = RequestMethod.GET)
 	public String productDetails(@PathVariable("productCode") final String productCode, final Model model)
 	{
 		try
@@ -42,8 +45,8 @@ public class ProductController
 		}
 		catch (final NoSuchElementException noSuchElementException)
 		{
-			LOGGER.error("Error while trying to get product with code {}", productCode, noSuchElementException);
-			model.addAttribute("noSuchElementException", noSuchElementException);
+			LOGGER.error(FIND_PRODUCT_ERROR, productCode, noSuchElementException);
+			throw new PageNotFoundException("Error while trying to get product with code " + productCode);
 		}
 		return "pdp";
 	}

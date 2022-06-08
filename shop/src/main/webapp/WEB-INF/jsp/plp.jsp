@@ -20,7 +20,7 @@
 <jsp:include page="header/main_header.jsp"/>
 <div class="links-style">
     <c:forEach items="${products}" var="product">
-        <a href="/product/code_input/${product.code}">${product.code} , ${product.name} , ${product.price}</a>
+        <a href="/product/${product.code}">${product.code} , ${product.name} , ${product.price}</a>
         <br>
         <br>
     </c:forEach>

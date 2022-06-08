@@ -26,11 +26,6 @@
             <button>Go back</button>
         </a>
     </c:if>
-    <c:if test="${not empty noSuchElementException}"><p>Sorry , we don't have this product in our store for now.</p>
-        <a href="/categories">
-            <button>Go back</button>
-        </a>
-    </c:if>
 </div>
 </body>
 </html>
