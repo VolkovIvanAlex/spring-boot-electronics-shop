@@ -21,9 +21,6 @@
 <div class="links-style">
     <c:forEach items="${products}" var="product">
         <a href="/product/code_input/${product.code}">${product.code} , ${product.name} , ${product.price}</a>
-        <a href="/products/singleAddToCart/${product.code}">
-            <button type="submit">Add to Cart</button>
-        </a>
         <br>
         <br>
     </c:forEach>
