@@ -15,20 +15,32 @@
         transform: translate(-50%, -50%);
     }
 
-    .text-style {
+    .title {
+        color: aliceblue;
         padding: 60px;
         border-radius: 5px;
         text-decoration: none;
         background: sandybrown;
         font-family: "Trebuchet MS", Helvetica, sans-serif;
     }
+
+    .greeting {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
 </style>
 <jsp:include page="header/main_header.jsp"/>
 <sec:authorize access="isAuthenticated()">
-    <h1>Hi ,
-        <sec:authentication property="principal.customer.firstName"/>
-    </h1>
+    <div class="greeting">
+        <h1>Hello ,
+            <sec:authentication property="principal.customer.firstName"/>
+        </h1>
+    </div>
 </sec:authorize>
-<h1 class="center text-style">Welcome to our shop !</h1>
+<h1 class="center title">Welcome to our shop !</h1>
 </body>
 </html>

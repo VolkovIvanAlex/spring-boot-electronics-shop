@@ -10,7 +10,17 @@
             margin: 30px;
         }
 
+        .user-name {
+            padding: 3px;
+            border-radius: 5px;
+            text-decoration: none;
+            background: aliceblue;
+            font: small-caps bold 24px/1 sans-serif;
+            margin: 30px 30px 30px -10px;
+        }
+
         .vertical-center {
+            display: flex;
             margin: 0;
             position: relative;
             top: 50%;
@@ -25,6 +35,9 @@
         </sec:authorize>
         <sec:authorize access="isAuthenticated()">
             <a href="/logout" class="links-style">Log out </a>
+        </sec:authorize>
+        <sec:authorize access="isAuthenticated()">
+            <h1 class="user-name"> User : <sec:authentication property="principal.customer.firstName"/></h1>
         </sec:authorize>
     </div>
 </header>

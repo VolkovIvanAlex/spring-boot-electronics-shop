@@ -7,6 +7,7 @@ public class ProductDTO
 	private String name;
 	private Double price;
 	private String description;
+	private CategoryDTO categoryDTO;
 
 	public Integer getId()
 	{
@@ -56,5 +57,15 @@ public class ProductDTO
 	public void setDescription(final String description)
 	{
 		this.description = description;
+	}
+
+	public CategoryDTO getCategoryDTO()
+	{
+		return categoryDTO;
+	}
+
+	public void setCategoryDTO(final CategoryDTO categoryDTO)
+	{
+		this.categoryDTO = categoryDTO;
 	}
 }

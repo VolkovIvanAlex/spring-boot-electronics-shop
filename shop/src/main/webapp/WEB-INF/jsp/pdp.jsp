@@ -2,10 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Categories</title>
+    <title>Product Detail Page</title>
 </head>
 <body style="margin: 0; padding: 0;">
-<jsp:include page="header/main_header.jsp"/>
 <style>
     .links-style {
         padding: 3px;
@@ -16,15 +15,18 @@
         margin: 30px;
     }
 </style>
+<jsp:include page="header/main_header.jsp"/>
 <div class="links-style">
-<c:forEach items="${categories}" var="category">
-    <a href="/products/${category.code}">${category.name} products : ${category.productsAmount}</a>
-    <br>
-    <br>
-</c:forEach>
-    <a href="/">
-        <button>Go Back</button>
-    </a>
+    <c:if test="${not empty product}">
+        <h1>${product.name}</h1>
+        <h2>code : ${product.code}</h2>
+        <h2>price : ${product.price}</h2>
+        <h2>description : ${product.description}</h2>
+        <a href="/products/${product.categoryDTO.code}">
+            <button>Go back</button>
+        </a>
+    </c:if>
 </div>
 </body>
 </html>
+

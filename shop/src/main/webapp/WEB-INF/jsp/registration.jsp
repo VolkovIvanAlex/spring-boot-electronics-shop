@@ -5,8 +5,25 @@
 <head>
     <title>Registration page</title>
 </head>
-<body>
-<div style="width:800px; margin:0 auto; text-align: center; background: orange ;border-radius: 5px; padding: 10px; margin-top: 150px">
+<body style="margin: 0; padding: 0;">
+<style>
+    .registration {
+        width: 50%;
+        text-align: center;
+        background: orange;
+        border-radius: 5px;
+        padding: 30px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        font-size: 20px;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+</style>
+<jsp:include page="header/main_header.jsp"/>
+<div class="registration">
     <form:form
             modelAttribute="customerDTO"
             cssStyle="align-self: center"
@@ -52,7 +69,9 @@
         <br>
         <input type="submit" value="Sign Up">
     </form:form>
-    <a href="/login"> Go Back </a>
+    <a href="/login">
+        <button>Go Back</button>
+    </a>
 </div>
 </body>
 </html>

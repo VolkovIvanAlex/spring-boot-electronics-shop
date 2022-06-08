@@ -7,5 +7,7 @@ import aim.traineeship.electronics.shop.dto.ProductDTO;
 
 public interface ProductService
 {
-	List<ProductDTO> getProductsByCategoryId(String categoryCode);
+	List<ProductDTO> getProductsByCategoryCode(String categoryCode);
+
+	ProductDTO getProductByCode(String productCode);
 }

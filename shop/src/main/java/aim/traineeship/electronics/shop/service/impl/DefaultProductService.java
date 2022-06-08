@@ -22,9 +22,15 @@ public class DefaultProductService implements ProductService
 	private ProductConverter productConverter;
 
 	@Override
-	public List<ProductDTO> getProductsByCategoryId(final String categoryId)
+	public List<ProductDTO> getProductsByCategoryCode(final String categoryCode)
 	{
-		final List<Product> products = productDAO.findByCategoryId(categoryId);
+		final List<Product> products = productDAO.findByCategoryCode(categoryCode);
 		return productConverter.convertList(products);
+	}
+
+	@Override
+	public ProductDTO getProductByCode(final String productCode)
+	{
+		return productConverter.convert(productDAO.findByProductCode(productCode));
 	}
 }
