@@ -17,13 +17,20 @@
 </style>
 <jsp:include page="header/main_header.jsp"/>
 <div class="links-style">
-    <h1>${product.name}</h1>
-    <h2>code : ${product.code}</h2>
-    <h2>price : ${product.price}</h2>
-    <h2>description : ${product.description}</h2>
-    <a href="/products/${product.categoryDTO.code}">
-        <button>Go back</button>
-    </a>
+    <c:if test="${not empty product}">
+        <h1>${product.name}</h1>
+        <h2>code : ${product.code}</h2>
+        <h2>price : ${product.price}</h2>
+        <h2>description : ${product.description}</h2>
+        <a href="/products/${product.categoryDTO.code}">
+            <button>Go back</button>
+        </a>
+    </c:if>
+    <c:if test="${not empty noSuchElementException}"><p>Sorry , we don't have this product in our store for now.</p>
+        <a href="/categories">
+            <button>Go back</button>
+        </a>
+    </c:if>
 </div>
 </body>
 </html>
