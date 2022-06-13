@@ -32,6 +32,14 @@
         -ms-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
     }
+    .greeting {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
 </style>
 <jsp:include page="header/main_header.jsp"/>
 <sec:authorize access="isAuthenticated()">

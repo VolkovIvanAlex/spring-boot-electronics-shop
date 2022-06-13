@@ -1,25 +1,21 @@
-package aim.traineeship.electronics.shop.entities;
+package aim.traineeship.electronics.shop.dto;
 
-public class CartEntry extends Entity
+public class CartEntryDTO
 {
-	private Product product;
+	private ProductDTO productDTO;
 	private Integer quantity;
 	private Integer entryNumber;
 	private Double totalPrice;
-	private Cart cart;
+	private CartDTO cartDTO;
 
-	public CartEntry()
+	public ProductDTO getProductDTO()
 	{
+		return productDTO;
 	}
 
-	public Product getProduct()
+	public void setProductDTO(final ProductDTO productDTO)
 	{
-		return product;
-	}
-
-	public void setProduct(final Product product)
-	{
-		this.product = product;
+		this.productDTO = productDTO;
 	}
 
 	public Integer getQuantity()
@@ -52,14 +48,13 @@ public class CartEntry extends Entity
 		this.totalPrice = totalPrice;
 	}
 
-	public Cart getCart()
+	public CartDTO getCartDTO()
 	{
-		return cart;
+		return cartDTO;
 	}
 
-	public void setCart(final Cart cart)
+	public void setCartDTO(final CartDTO cartDTO)
 	{
-		this.cart = cart;
+		this.cartDTO = cartDTO;
 	}
 }
-

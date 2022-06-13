@@ -59,7 +59,7 @@ public class RegistrationController
 		catch (final ServletException servletException)
 		{
 			LOGGER.error("Error during customer login {}", customerDTO.getLogin(), servletException);
-			return "registration";
+			return "redirect:/";
 		}
 	}
 }

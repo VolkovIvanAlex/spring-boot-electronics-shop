@@ -3,6 +3,8 @@
 <html>
 <head>
     <title>Product Detail Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/ajax_sendProductInfo.js"></script>
 </head>
 <body style="margin: 0; padding: 0;">
 <style>
@@ -25,6 +27,12 @@
         <a href="/products/${product.categoryDTO.code}">
             <button>Go back</button>
         </a>
+        <form action="/products/addToCart" name="productForm" method="POST">
+            <input type="text" name="productCode" hidden value="${product.code}"/>
+            <input type="number" name="quantity" value="1"/>
+            <input type="text" name="pageName" hidden value="pdp"/>
+            <button name="addProductButton" type="submit"> Add to Cart</button>
+        </form>
     </c:if>
 </div>
 </body>

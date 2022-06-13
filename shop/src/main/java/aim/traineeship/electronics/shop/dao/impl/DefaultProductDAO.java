@@ -3,6 +3,7 @@ package aim.traineeship.electronics.shop.dao.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -42,11 +43,12 @@ public class DefaultProductDAO implements ProductDAO
 	}
 
 	@Override
-	public Product findByProductCode(final String code)
+	public Optional<Product> findByProductCode(final String code)
 	{
 		final RowMapper<Product> mapper = new DefaultProductRowMapper();
 		final Map<String, Object> parameter = new HashMap<>();
 		parameter.put(CODE, code);
-		return this.namedParameterJdbcTemplate.queryForObject(FIND_BY_PRODUCT_CODE, parameter, mapper);
+		final List<Product> product = this.namedParameterJdbcTemplate.query(FIND_BY_PRODUCT_CODE, parameter, mapper);
+		return product.stream().findFirst();
 	}
 }
