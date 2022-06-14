@@ -14,7 +14,7 @@ public class CartCalculationService
 	@Autowired
 	private CartDAO cartDao;
 
-	public void setTotalPrice(final CartDTO cart, final CartEntryDTO cartEntry)
+	public void calculate(final CartDTO cart, final CartEntryDTO cartEntry)
 	{
 		cartDao.updateCartTotalPrice(cart.getCode(), cart.getTotalPrice() + cartEntry.getTotalPrice());
 	}
