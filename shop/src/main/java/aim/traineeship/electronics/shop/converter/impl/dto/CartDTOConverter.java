@@ -7,8 +7,9 @@ import aim.traineeship.electronics.shop.converter.Converter;
 import aim.traineeship.electronics.shop.dto.CartDTO;
 import aim.traineeship.electronics.shop.entities.Cart;
 
+
 @Component
-public class CartDTOConverter implements Converter<CartDTO , Cart>
+public class CartDTOConverter implements Converter<CartDTO, Cart>
 {
 	@Autowired
 	private CustomerDTOConverter customerDTOConverter;
@@ -19,7 +20,8 @@ public class CartDTOConverter implements Converter<CartDTO , Cart>
 		final Cart cart = new Cart();
 		cart.setId(cartDTO.getId());
 		cart.setCode(cartDTO.getCode());
-		if (cartDTO.getPlacedDate() != null){
+		if (cartDTO.getPlacedDate() != null)
+		{
 			cart.setPlacedDate(cartDTO.getPlacedDate());
 		}
 		cart.setTotalPrice(cartDTO.getTotalPrice());

@@ -5,12 +5,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import aim.traineeship.electronics.shop.converter.Converter;
 import aim.traineeship.electronics.shop.dao.CartEntryDAO;
-import aim.traineeship.electronics.shop.dto.CartDTO;
-import aim.traineeship.electronics.shop.dto.CartEntryDTO;
-import aim.traineeship.electronics.shop.dto.ProductDTO;
+import aim.traineeship.electronics.shop.entities.Cart;
 import aim.traineeship.electronics.shop.entities.CartEntry;
+import aim.traineeship.electronics.shop.entities.Product;
 import aim.traineeship.electronics.shop.service.CartEntryService;
 
 
@@ -21,26 +19,25 @@ public class DefaultCartEntryService implements CartEntryService
 	@Autowired
 	private CartEntryDAO cartEntryDAO;
 
-	@Autowired
-	private Converter<CartEntryDTO, CartEntry> cartEntryDTOConverter;
-
 	@Override
-	public CartEntryDTO createCartEntry(final ProductDTO productDTO, final CartDTO cartDTO, final Integer quantity)
+	public CartEntry createCartEntry(final Product product, final Cart cart, final Integer quantity)
 	{
-		final CartEntryDTO cartEntryDTO = new CartEntryDTO();
+		final CartEntry cartEntry = new CartEntry();
 
-		final Optional<Integer> entryNumber = cartEntryDAO.getCurrentEntryNumber(cartDTO.getId());
-		if (entryNumber.isPresent())
-		{
-			cartEntryDTO.setEntryNumber(entryNumber.get()+1);
-		}
-		else cartEntryDTO.setEntryNumber(DEFAULT_ENTRY_NUMBER);
+		final Optional<Integer> entryNumber = cartEntryDAO.getCurrentEntryNumber(cart.getId());
 
-		cartEntryDTO.setTotalPrice(productDTO.getPrice() * quantity);
-		cartEntryDTO.setQuantity(quantity);
-		cartEntryDTO.setProductDTO(productDTO);
-		cartEntryDTO.setCartDTO(cartDTO);
-		cartEntryDAO.saveCartEntry(cartEntryDTOConverter.convert(cartEntryDTO));
-		return cartEntryDTO;
+		cartEntry.setEntryNumber(chooseEntryNumber(entryNumber));
+		cartEntry.setTotalPrice(product.getPrice() * quantity);
+		cartEntry.setQuantity(quantity);
+		cartEntry.setProduct(product);
+		cartEntry.setCart(cart);
+
+		cartEntryDAO.saveCartEntry(cartEntry);
+		return cartEntry;
+	}
+
+	private Integer chooseEntryNumber(final Optional<Integer> entryNumber)
+	{
+		return entryNumber.map(integer -> integer + 1).orElse(DEFAULT_ENTRY_NUMBER);
 	}
 }

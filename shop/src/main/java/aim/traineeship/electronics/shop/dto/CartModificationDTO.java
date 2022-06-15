@@ -1,14 +1,18 @@
 package aim.traineeship.electronics.shop.dto;
 
-public class NewProductDTO
+public class CartModificationDTO
 {
 	private String productCode;
 	private Integer quantity;
 
-	public NewProductDTO(final String productCode, final Integer quantity)
+	public CartModificationDTO(final AddToCartDTO addToCartDTO)
 	{
-		this.productCode = productCode;
-		this.quantity = quantity;
+		this.productCode = addToCartDTO.getProductCode();
+		this.quantity = addToCartDTO.getQuantity();
+	}
+
+	public CartModificationDTO()
+	{
 	}
 
 	public String getProductCode()

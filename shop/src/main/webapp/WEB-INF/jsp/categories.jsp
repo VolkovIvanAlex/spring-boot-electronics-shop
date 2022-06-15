@@ -41,7 +41,7 @@
     <br>
     <br>
 </c:forEach>
-    <a style="display: block" href="/">
+    <a style="display: inline-block;" href="/">
         <button class="go-back">Go Back</button>
     </a>
 </div>

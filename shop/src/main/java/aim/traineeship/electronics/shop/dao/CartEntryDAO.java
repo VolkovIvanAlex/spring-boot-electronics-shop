@@ -8,5 +8,8 @@ import aim.traineeship.electronics.shop.entities.CartEntry;
 public interface CartEntryDAO
 {
 	void saveCartEntry(final CartEntry cartEntry);
-	Optional<Integer> getCurrentEntryNumber(final Integer cartID);
+
+	Optional<Integer> getCurrentEntryNumber(final Integer cartId);
+
+	Optional<CartEntry> getCartEntryByCartId(final Integer cartId, final Integer entryNumber);
 }

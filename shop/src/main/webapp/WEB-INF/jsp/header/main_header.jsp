@@ -38,9 +38,6 @@
             <a href="/logout" class="links-style">Log out </a>
             <h1 class="user-name"> Logged-in User : <sec:authentication property="principal.customer.firstName"/></h1>
         </sec:authorize>
-        <sec:authorize access="isAuthenticated()">
-            <h1 class="user-name"> User : <sec:authentication property="principal.customer.firstName"/></h1>
-        </sec:authorize>
         <a class="links-style" href="/registration">Create Account</a>
     </div>
 </header>

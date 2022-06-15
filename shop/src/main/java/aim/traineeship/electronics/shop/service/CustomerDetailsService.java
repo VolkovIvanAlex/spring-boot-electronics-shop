@@ -8,9 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import aim.traineeship.electronics.shop.converter.Converter;
 import aim.traineeship.electronics.shop.dao.CustomerDAO;
-import aim.traineeship.electronics.shop.dto.CustomerDTO;
 import aim.traineeship.electronics.shop.entities.Customer;
 import aim.traineeship.electronics.shop.security.CustomerDetails;
 
@@ -21,9 +19,6 @@ public class CustomerDetailsService implements UserDetailsService
 	@Autowired
 	private CustomerDAO customerDAO;
 
-	@Autowired
-	private Converter<Customer, CustomerDTO> customerConverter;
-
 	private static final String USER_NOT_FOUND_MSG = "Not found user with username : ";
 
 	@Override
@@ -33,10 +28,5 @@ public class CustomerDetailsService implements UserDetailsService
 		final Customer customer = customerOptional.orElseThrow(
 				() -> new UsernameNotFoundException(USER_NOT_FOUND_MSG + username));
 		return new CustomerDetails(customer);
-	}
-
-	public CustomerDTO getCustomerDTO(final UserDetails principal)
-	{
-		return customerConverter.convert(((CustomerDetails) loadUserByUsername(principal.getUsername())).getCustomer());
 	}
 }

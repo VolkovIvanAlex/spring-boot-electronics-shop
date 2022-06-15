@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <head>
@@ -81,13 +82,13 @@
         <div class="item">
             <a href="/product/${product.code}">(${product.code}) ${product.name} = ${product.price}</a>
 
-            <form action="/product/addToCart">
+            <form:form action="/cart/add">
 
                 <input type="text" name="productCode" hidden value="${product.code}"/>
                 <input type="number" name="quantity" hidden value="1"/>
                 <button class="add-button" name="addProductButton" type="submit"> Add to Cart</button>
 
-            </form>
+            </form:form>
         </div>
     </c:forEach>
 

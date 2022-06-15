@@ -7,18 +7,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import aim.traineeship.electronics.shop.converter.Converter;
 import aim.traineeship.electronics.shop.dao.CartDAO;
-import aim.traineeship.electronics.shop.dto.CartDTO;
-import aim.traineeship.electronics.shop.dto.CartEntryDTO;
-import aim.traineeship.electronics.shop.dto.CustomerDTO;
-import aim.traineeship.electronics.shop.dto.NewProductDTO;
-import aim.traineeship.electronics.shop.dto.ProductDTO;
+import aim.traineeship.electronics.shop.dto.AddToCartDTO;
 import aim.traineeship.electronics.shop.entities.Cart;
-import aim.traineeship.electronics.shop.service.CartCalculationService;
+import aim.traineeship.electronics.shop.entities.Customer;
+import aim.traineeship.electronics.shop.entities.Product;
+import aim.traineeship.electronics.shop.service.CalculationService;
 import aim.traineeship.electronics.shop.service.CartEntryService;
 import aim.traineeship.electronics.shop.service.CartService;
-import aim.traineeship.electronics.shop.service.CustomerDetailsService;
+import aim.traineeship.electronics.shop.service.CustomerService;
 import aim.traineeship.electronics.shop.service.ProductService;
 
 
@@ -31,13 +28,7 @@ public class DefaultCartService implements CartService
 	private CartDAO cartDao;
 
 	@Autowired
-	private Converter<CartDTO, Cart> cartDTOConverter;
-
-	@Autowired
-	private Converter<Cart, CartDTO> cartConverter;
-
-	@Autowired
-	private CustomerDetailsService customerDetailsService;
+	private CustomerService customerService;
 
 	@Autowired
 	private ProductService productService;
@@ -46,37 +37,46 @@ public class DefaultCartService implements CartService
 	private CartEntryService cartEntryService;
 
 	@Autowired
-	private CartCalculationService cartCalculationService;
+	private CalculationService calculationService;
 
 	@Override
-	public void addToCart(final NewProductDTO newProductDTO, final HttpSession session)
+	public void addToCart(final AddToCartDTO addToCartDTO, final HttpSession session)
 	{
-		CartDTO cartDTO = (CartDTO) session.getAttribute("cart");
-		if (cartDTO == null)
-		{
-			final CartDTO cart = new CartDTO();
-			final UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
-					.getAuthentication()
-					.getPrincipal();
-			cart.setCode(String.valueOf((int) System.currentTimeMillis()));
-			final CustomerDTO customer = customerDetailsService.getCustomerDTO(principal);
-			cart.setCustomerDTO(customer);
-			cart.setTotalPrice(DEFAULT_TOTAL_PRICE);
-			cartDao.saveCart(cartDTOConverter.convert(cart));
-			session.setAttribute("cart", getByCode(cart.getCode()));
-			cartDTO = (CartDTO) session.getAttribute("cart");
-		}
-		final ProductDTO product = productService.getProductByCode(newProductDTO.getProductCode());
-		final CartEntryDTO cartEntry = cartEntryService.createCartEntry(product, cartDTO,
-				newProductDTO.getQuantity());
+		final Cart cart = createCartIfNotExists(session);
+		final Product product = productService.getProductByCode(addToCartDTO.getProductCode());
+		cartEntryService.createCartEntry(product, cart, addToCartDTO.getQuantity());
 
-		cartCalculationService.calculate(cartDTO, cartEntry);
-		session.setAttribute("cart", getByCode(cartDTO.getCode()));
+		calculationService.calculate(cart);
+		session.setAttribute("cart", getCartByCode(cart.getCode()));
 	}
 
 	@Override
-	public CartDTO getByCode(final String code)
+	public Cart createCartIfNotExists(final HttpSession session)
 	{
-		return cartConverter.convert(cartDao.findByCode(code));
+		Cart cart = (Cart) session.getAttribute("cart");
+		if (cart == null)
+		{
+			final Cart newCart = new Cart();
+
+			final UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
+					.getAuthentication()
+					.getPrincipal();
+			final Customer customer = customerService.findCustomerByLogin(principal.getUsername());
+			newCart.setCustomer(customer);
+
+			newCart.setCode(String.valueOf((int) System.currentTimeMillis()));
+			newCart.setTotalPrice(DEFAULT_TOTAL_PRICE);
+
+			cartDao.saveCart(newCart);
+			cart = getCartByCode(newCart.getCode());
+			session.setAttribute("cart", cart);
+		}
+		return cart;
+	}
+
+	@Override
+	public Cart getCartByCode(final String code)
+	{
+		return cartDao.findByCode(code);
 	}
 }

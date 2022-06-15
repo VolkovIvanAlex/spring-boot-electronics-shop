@@ -13,11 +13,11 @@ import aim.traineeship.electronics.shop.entities.Gender;
 
 public class DefaultCartRowMapper implements RowMapper<Cart>
 {
-	private static  final String ID = "id";
-	private static  final String CODE = "code";
-	private static  final String TOTAL_PRICE = "totalPrice";
-	private static  final String PLACED_DATE = "placedDate";
-	private static  final String CUSTOMER_ID = "customer_id";
+	private static final String ID = "id";
+	private static final String CODE = "code";
+	private static final String TOTAL_PRICE = "totalPrice";
+	private static final String PLACED_DATE = "placedDate";
+	private static final String CUSTOMER_ID = "customer_id";
 	private static final String LOGIN = "login";
 	private static final String PASSWORD = "password";
 	private static final String FIRST_NAME = "firstName";

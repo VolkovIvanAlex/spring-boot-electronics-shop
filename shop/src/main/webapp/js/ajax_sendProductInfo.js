@@ -6,10 +6,10 @@ $(document).ready(function () {
             url: form.attr('action'),
             type: 'Post',
             data: form.serialize()
-        }).done(function () {
-            console.log('success');
+        }).done(function (data) {
+            alert(data["quantity"] + " products with code " + data["productCode"] + ' added to cart');
         }).fail(function () {
-            console.log('fail');
+            alert('please enter a positive quantity');
         });
     })
 })

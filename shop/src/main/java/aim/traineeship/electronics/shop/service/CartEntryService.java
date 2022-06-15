@@ -1,11 +1,11 @@
 package aim.traineeship.electronics.shop.service;
 
-import aim.traineeship.electronics.shop.dto.CartDTO;
-import aim.traineeship.electronics.shop.dto.CartEntryDTO;
-import aim.traineeship.electronics.shop.dto.ProductDTO;
+import aim.traineeship.electronics.shop.entities.Cart;
+import aim.traineeship.electronics.shop.entities.CartEntry;
+import aim.traineeship.electronics.shop.entities.Product;
 
 
 public interface CartEntryService
 {
-	CartEntryDTO createCartEntry(final ProductDTO productDTO, final CartDTO cartDTO, final Integer quantity);
+	CartEntry createCartEntry(final Product product, final Cart cart, final Integer quantity);
 }
