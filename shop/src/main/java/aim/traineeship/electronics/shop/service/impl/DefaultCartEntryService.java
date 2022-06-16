@@ -1,5 +1,7 @@
 package aim.traineeship.electronics.shop.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +19,16 @@ public class DefaultCartEntryService implements CartEntryService
 	private CartEntryDAO cartEntryDAO;
 
 	@Override
-	public void createCartEntry(final Product product, final Cart cart, final Integer quantity)
+	public void addCartEntry(final Product product, final Cart cart, final Integer quantity)
 	{
-		if (isEntryExist(product, cart))
+		final Optional<CartEntry> cartEntry = getCartEntry(product, cart);
+		if (cartEntry.isPresent())
 		{
-			final CartEntry existingCartEntry = cartEntryDAO.getSingleCartEntry(product.getId(), cart.getId()).get();
-			cartEntryDAO.updateExistingEntry(product.getId(), cart.getId(),
-					existingCartEntry.getQuantity() + quantity,
-					existingCartEntry.getTotalPrice() + product.getPrice() * quantity);
+			final CartEntry existingCartEntry = cartEntry.get();
+
+			final int newQuantity = existingCartEntry.getQuantity() + quantity;
+			final double newTotalPrice = existingCartEntry.getTotalPrice() + product.getPrice() * quantity;
+			cartEntryDAO.updateExistingEntry(product.getId(), cart.getId(), newQuantity, newTotalPrice);
 		}
 		else
 		{
@@ -33,15 +37,15 @@ public class DefaultCartEntryService implements CartEntryService
 	}
 
 	@Override
-	public boolean isEntryExist(final Product product, final Cart cart)
+	public Optional<CartEntry> getCartEntry(final Product product, final Cart cart)
 	{
-		return cartEntryDAO.getSingleCartEntry(product.getId(), cart.getId()).isPresent();
+		return cartEntryDAO.getCartEntryByProductId(product.getId(), cart.getId());
 	}
 
 	private void createNewCartEntry(final Product product, final Cart cart, final Integer quantity)
 	{
 		final CartEntry cartEntry = new CartEntry();
-		final Integer entryNumber = cartEntryDAO.getCurrentEntryNumber(cart.getId());
+		final Integer entryNumber = cartEntryDAO.getMaxEntryNumber(cart.getId());
 
 		cartEntry.setEntryNumber(entryNumber);
 

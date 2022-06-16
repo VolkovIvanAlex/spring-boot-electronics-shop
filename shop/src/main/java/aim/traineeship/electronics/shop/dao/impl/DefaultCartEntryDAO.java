@@ -63,7 +63,7 @@ public class DefaultCartEntryDAO implements CartEntryDAO
 	}
 
 	@Override
-	public Integer getCurrentEntryNumber(final Integer cartId)
+	public Integer getMaxEntryNumber(final Integer cartId)
 	{
 		final Map<String, Object> parameter = new HashMap<>();
 		parameter.put(CART_ID, cartId);
@@ -82,7 +82,7 @@ public class DefaultCartEntryDAO implements CartEntryDAO
 	}
 
 	@Override
-	public Optional<CartEntry> getSingleCartEntry(final Integer productId, final Integer cartId)
+	public Optional<CartEntry> getCartEntryByProductId(final Integer productId, final Integer cartId)
 	{
 		final RowMapper<CartEntry> mapper = new DefaultCartEntryRowMapper();
 		final Map<String, Object> parameter = new HashMap<>();

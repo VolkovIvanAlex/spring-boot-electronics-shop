@@ -45,7 +45,7 @@ public class DefaultCartService implements CartService
 	{
 		final Cart cart = getCurrentCart(session);
 		final Product product = productService.getProductByCode(addToCartDTO.getProductCode());
-		cartEntryService.createCartEntry(product, cart, addToCartDTO.getQuantity());
+		cartEntryService.addCartEntry(product, cart, addToCartDTO.getQuantity());
 
 		calculationService.calculate(cart);
 		session.setAttribute(CART, getCartByCode(cart.getCode()));
@@ -84,7 +84,6 @@ public class DefaultCartService implements CartService
 
 		cartDao.saveCart(newCart);
 		newCart = getCartByCode(newCart.getCode());
-		session.setAttribute(CART, newCart);
 		return newCart;
 	}
 }
