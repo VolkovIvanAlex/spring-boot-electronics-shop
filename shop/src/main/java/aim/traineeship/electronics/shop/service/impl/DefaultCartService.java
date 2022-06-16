@@ -23,6 +23,7 @@ import aim.traineeship.electronics.shop.service.ProductService;
 public class DefaultCartService implements CartService
 {
 	private static final Double DEFAULT_TOTAL_PRICE = 0.0;
+	private static final String CART = "cart";
 
 	@Autowired
 	private CartDAO cartDao;
@@ -42,35 +43,23 @@ public class DefaultCartService implements CartService
 	@Override
 	public void addToCart(final AddToCartDTO addToCartDTO, final HttpSession session)
 	{
-		final Cart cart = createCartIfNotExists(session);
+		final Cart cart = getCurrentCart(session);
 		final Product product = productService.getProductByCode(addToCartDTO.getProductCode());
 		cartEntryService.createCartEntry(product, cart, addToCartDTO.getQuantity());
 
 		calculationService.calculate(cart);
-		session.setAttribute("cart", getCartByCode(cart.getCode()));
+		session.setAttribute(CART, getCartByCode(cart.getCode()));
 	}
 
 	@Override
-	public Cart createCartIfNotExists(final HttpSession session)
+	public Cart getCurrentCart(final HttpSession session)
 	{
-		Cart cart = (Cart) session.getAttribute("cart");
-		if (cart == null)
+		Cart cart = (Cart) session.getAttribute(CART);
+		if (cart != null)
 		{
-			final Cart newCart = new Cart();
-
-			final UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
-					.getAuthentication()
-					.getPrincipal();
-			final Customer customer = customerService.findCustomerByLogin(principal.getUsername());
-			newCart.setCustomer(customer);
-
-			newCart.setCode(String.valueOf((int) System.currentTimeMillis()));
-			newCart.setTotalPrice(DEFAULT_TOTAL_PRICE);
-
-			cartDao.saveCart(newCart);
-			cart = getCartByCode(newCart.getCode());
-			session.setAttribute("cart", cart);
+			return cart;
 		}
+		cart = createCart(session);
 		return cart;
 	}
 
@@ -78,5 +67,24 @@ public class DefaultCartService implements CartService
 	public Cart getCartByCode(final String code)
 	{
 		return cartDao.findByCode(code);
+	}
+
+	private Cart createCart(final HttpSession session)
+	{
+		Cart newCart = new Cart();
+
+		final UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
+				.getAuthentication()
+				.getPrincipal();
+		final Customer customer = customerService.findCustomerByLogin(principal.getUsername());
+		newCart.setCustomer(customer);
+
+		newCart.setCode(String.valueOf((int) System.currentTimeMillis()));
+		newCart.setTotalPrice(DEFAULT_TOTAL_PRICE);
+
+		cartDao.saveCart(newCart);
+		newCart = getCartByCode(newCart.getCode());
+		session.setAttribute(CART, newCart);
+		return newCart;
 	}
 }

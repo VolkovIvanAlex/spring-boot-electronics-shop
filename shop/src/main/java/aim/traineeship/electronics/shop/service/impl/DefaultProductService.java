@@ -31,7 +31,7 @@ public class DefaultProductService implements ProductService
 	@Override
 	public ProductDTO getProductDTOByCode(final String productCode)
 	{
-		return productConverter.convert(productDAO.findByProductCode(productCode).orElseThrow());
+		return productConverter.convert(getProductByCode(productCode));
 	}
 
 	@Override

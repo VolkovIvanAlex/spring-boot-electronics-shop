@@ -9,8 +9,8 @@ import aim.traineeship.electronics.shop.entities.Cart;
 public interface CartService
 {
 	void addToCart(final AddToCartDTO newProductDTO, final HttpSession session);
-	
-	Cart createCartIfNotExists(final HttpSession session);
+
+	Cart getCurrentCart(final HttpSession session);
 
 	Cart getCartByCode(String code);
 }

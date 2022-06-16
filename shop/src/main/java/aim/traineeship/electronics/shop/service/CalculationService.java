@@ -1,6 +1,6 @@
 package aim.traineeship.electronics.shop.service;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,14 +22,12 @@ public class CalculationService
 
 	public void calculate(final Cart cart)
 	{
-		Integer entryNumber = 1;
 		Double cartEntryTotalPrice = 0.0;
 
-		Optional<CartEntry> cartEntry = cartEntryDAO.getCartEntryByCartId(cart.getId(), entryNumber++);
-		while (cartEntry.isPresent())
+		final List<CartEntry> cartEntries = cartEntryDAO.getCartEntriesByCartId(cart.getId());
+		for (final CartEntry cartEntry : cartEntries)
 		{
-			cartEntryTotalPrice += cartEntry.get().getTotalPrice();
-			cartEntry = cartEntryDAO.getCartEntryByCartId(cart.getId(), entryNumber++);
+			cartEntryTotalPrice += cartEntry.getTotalPrice();
 		}
 		cartDao.updateCartTotalPrice(cart.getCode(), cartEntryTotalPrice);
 	}

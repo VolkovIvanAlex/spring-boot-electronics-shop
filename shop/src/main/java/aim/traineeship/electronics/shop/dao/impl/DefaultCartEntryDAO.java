@@ -27,6 +27,8 @@ public class DefaultCartEntryDAO implements CartEntryDAO
 	private static final String QUANTITY = "quantity";
 	private static final String CART_ID = "cart_id";
 
+	private static final Integer DEFAULT_ENTRY_NUMBER = 1;
+
 	private static final String INSERT_CART_ENTRY =
 			"INSERT INTO CartEntry (entryNumber , product_id , totalPrice , quantity ,cart_id)"
 					+ "VALUES (:entryNumber , :product_id , :totalPrice , :quantity ,:cart_id)";
@@ -34,10 +36,19 @@ public class DefaultCartEntryDAO implements CartEntryDAO
 	private static final String SELECT_CURRENT_ENTRY_NUMBER = "SELECT MAX(entryNumber) AS entryNumber FROM CartEntry "
 			+ "WHERE cart_id = :cart_id";
 
-	private static final String SELECT_CART_ENTRY_BY_CART_ID =
+	private static final String SELECT_CART_ENTRIES_BY_CART_ID =
 			"SELECT entryNumber , product_id , totalPrice , quantity , cart_id "
 					+ "FROM CartEntry "
-					+ "WHERE  entryNumber = :entryNumber AND cart_id = :cart_id;";
+					+ "WHERE cart_id = :cart_id ";
+
+	private static final String SELECT_SINGLE_CART_ENTRY =
+			"SELECT entryNumber , product_id , totalPrice , quantity , cart_id "
+					+ "FROM CartEntry "
+					+ "WHERE cart_id = :cart_id AND product_id = :product_id ";
+
+	private static final String UPDATE_PRICE_AND_QUANTITY =
+			"UPDATE CartEntry SET totalPrice = :totalPrice , quantity = :quantity "
+					+ "WHERE cart_id = :cart_id AND product_id = :product_id ";
 
 	@Override
 	public void saveCartEntry(final CartEntry cartEntry)
@@ -52,24 +63,44 @@ public class DefaultCartEntryDAO implements CartEntryDAO
 	}
 
 	@Override
-	public Optional<Integer> getCurrentEntryNumber(final Integer cartId)
+	public Integer getCurrentEntryNumber(final Integer cartId)
 	{
 		final Map<String, Object> parameter = new HashMap<>();
 		parameter.put(CART_ID, cartId);
 		final Integer result = namedParameterJdbcTemplate.queryForObject(SELECT_CURRENT_ENTRY_NUMBER, parameter,
 				Integer.class);
-		return Optional.ofNullable(result);
+		return result != null ? result + 1 : DEFAULT_ENTRY_NUMBER;
 	}
 
 	@Override
-	public Optional<CartEntry> getCartEntryByCartId(final Integer cartId, final Integer entryNumber)
+	public List<CartEntry> getCartEntriesByCartId(final Integer cartId)
 	{
 		final RowMapper<CartEntry> mapper = new DefaultCartEntryRowMapper();
 		final Map<String, Object> parameter = new HashMap<>();
 		parameter.put(CART_ID, cartId);
-		parameter.put(ENTRY_NUMBER, entryNumber);
-		final List<CartEntry> result = namedParameterJdbcTemplate.query(SELECT_CART_ENTRY_BY_CART_ID, parameter,
-				mapper);
-		return result.stream().findFirst();
+		return namedParameterJdbcTemplate.query(SELECT_CART_ENTRIES_BY_CART_ID, parameter, mapper);
+	}
+
+	@Override
+	public Optional<CartEntry> getSingleCartEntry(final Integer productId, final Integer cartId)
+	{
+		final RowMapper<CartEntry> mapper = new DefaultCartEntryRowMapper();
+		final Map<String, Object> parameter = new HashMap<>();
+		parameter.put(PRODUCT_ID, productId);
+		parameter.put(CART_ID, cartId);
+		final List<CartEntry> cartEntry = namedParameterJdbcTemplate.query(SELECT_SINGLE_CART_ENTRY, parameter, mapper);
+		return cartEntry.stream().findFirst();
+	}
+
+	@Override
+	public void updateExistingEntry(final Integer productId, final Integer cartId, final Integer quantity,
+			final Double totalPrice)
+	{
+		final Map<String, Object> parameters = new HashMap<>();
+		parameters.put(PRODUCT_ID, productId);
+		parameters.put(TOTAL_PRICE, totalPrice);
+		parameters.put(QUANTITY, quantity);
+		parameters.put(CART_ID, cartId);
+		namedParameterJdbcTemplate.update(UPDATE_PRICE_AND_QUANTITY, parameters);
 	}
 }

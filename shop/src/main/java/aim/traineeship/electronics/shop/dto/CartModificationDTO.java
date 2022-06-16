@@ -5,10 +5,10 @@ public class CartModificationDTO
 	private String productCode;
 	private Integer quantity;
 
-	public CartModificationDTO(final AddToCartDTO addToCartDTO)
+	public CartModificationDTO(final String productCode, final Integer quantity)
 	{
-		this.productCode = addToCartDTO.getProductCode();
-		this.quantity = addToCartDTO.getQuantity();
+		this.productCode = productCode;
+		this.quantity = quantity;
 	}
 
 	public CartModificationDTO()
