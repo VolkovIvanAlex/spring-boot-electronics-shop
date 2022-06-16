@@ -1,4 +1,4 @@
-package aim.traineeship.electronics.shop.converter;
+package aim.traineeship.electronics.shop.converter.impl.dto;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,9 +16,9 @@ import aim.traineeship.electronics.shop.entities.Gender;
 
 
 @Component
-public class CustomerConverter implements Converter<CustomerDTO, Customer>
+public class CustomerDTOConverter implements Converter<CustomerDTO, Customer>
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerConverter.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerDTOConverter.class);
 	private static final String DATE_PATTERN = "dd-MM-yyyy";
 
 	@Override
@@ -26,6 +26,7 @@ public class CustomerConverter implements Converter<CustomerDTO, Customer>
 	{
 		final SimpleDateFormat format = new SimpleDateFormat(DATE_PATTERN);
 		final Customer customer = new Customer();
+		customer.setId(customerDTO.getId());
 		customer.setLogin(customerDTO.getLogin());
 		customer.setPassword(customerDTO.getPassword());
 		customer.setFirstName(customerDTO.getFirstName());

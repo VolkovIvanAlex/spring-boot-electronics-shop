@@ -1,9 +1,12 @@
 package aim.traineeship.electronics.shop.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import aim.traineeship.electronics.shop.converter.impl.dto.CustomerDTOConverter;
 import aim.traineeship.electronics.shop.dao.CustomerDAO;
 import aim.traineeship.electronics.shop.dto.CustomerDTO;
 import aim.traineeship.electronics.shop.entities.Customer;
@@ -17,7 +20,9 @@ public class DefaultCustomerService implements CustomerService
 	private CustomerDAO customerDAO;
 
 	@Autowired
-	private Converter<CustomerDTO, Customer> customerConverter;
+	private CustomerDTOConverter customerConverter;
+
+	private static final String USER_NOT_FOUND_MSG = "Not found user with username : ";
 
 	@Override
 	public void registerNewAccount(final CustomerDTO customerDTO)
@@ -29,5 +34,12 @@ public class DefaultCustomerService implements CustomerService
 	public boolean isCustomerExist(final String login)
 	{
 		return customerDAO.findByLogin(login).isPresent();
+	}
+
+	@Override
+	public Customer findCustomerByLogin(final String login)
+	{
+		final Optional<Customer> customerOptional = customerDAO.findByLogin(login);
+		return customerOptional.orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MSG + login));
 	}
 }

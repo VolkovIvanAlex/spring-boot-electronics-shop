@@ -9,7 +9,7 @@ VALUES ("4", "TV");
 INSERT INTO Category (code, name)
 VALUES ("5", "Scooters");
 INSERT INTO Category (code, name)
-VALUES ("6", "Peripheric Devices");
+VALUES ("6", "Peripheral_Devices");
 
 INSERT INTO Product (code, name, price, description, category_id)
 VALUES ("6", "MacBook Air", 1200, "some description for MacBook Air", "1");

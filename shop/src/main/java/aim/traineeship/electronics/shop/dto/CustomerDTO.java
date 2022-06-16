@@ -2,6 +2,7 @@ package aim.traineeship.electronics.shop.dto;
 
 public class CustomerDTO
 {
+	private Integer id;
 	private String login;
 	private String password;
 	private String firstName;
@@ -9,6 +10,16 @@ public class CustomerDTO
 	private String gender;
 	private String birthDay;
 	private String phone;
+
+	public Integer getId()
+	{
+		return id;
+	}
+
+	public void setId(final Integer id)
+	{
+		this.id = id;
+	}
 
 	public String getLogin()
 	{

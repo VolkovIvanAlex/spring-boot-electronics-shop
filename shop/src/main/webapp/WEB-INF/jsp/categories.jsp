@@ -15,6 +15,25 @@
         font: small-caps bold 24px/1 sans-serif;
         margin: 30px;
     }
+
+    .go-back {
+        display: inline-block;
+        background-color: #f4511e;
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        font-size: 16px;
+        margin: 4px 2px;
+        opacity: 0.6;
+        transition: 0.3s;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .go-back:hover {
+        opacity: 1
+    }
 </style>
 <div class="links-style">
 <c:forEach items="${categories}" var="category">
@@ -22,8 +41,8 @@
     <br>
     <br>
 </c:forEach>
-    <a href="/">
-        <button>Go Back</button>
+    <a style="display: inline-block;" href="/">
+        <button class="go-back">Go Back</button>
     </a>
 </div>
 </body>

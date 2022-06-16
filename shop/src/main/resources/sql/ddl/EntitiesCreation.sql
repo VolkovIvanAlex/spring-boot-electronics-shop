@@ -40,8 +40,8 @@ CREATE TABLE Cart
     totalPrice  DOUBLE      NOT NULL,
     placedDate  DATE        NOT NULL,
     customer_id INTEGER     NOT NULL,
-    address_id  INTEGER     NOT NULL,
-    PRIMARY KEY (id),
+    address_id  INTEGER
+        PRIMARY KEY (id),
     FOREIGN KEY (customer_id) REFERENCES Customer (id),
     FOREIGN KEY (address_id) REFERENCES Address (id)
 );
@@ -60,13 +60,13 @@ CREATE TABLE Product
 
 CREATE TABLE CartEntry
 (
-    id           Integer NOT NULL AUTO_INCREMENT,
-    entryNumber  INTEGER NOT NULL UNIQUE,
-    product_code INTEGER NOT NULL,
-    totalPrice   DOUBLE  NOT NULL,
-    quantity     INTEGER NOT NULL,
-    cart_id      INTEGER NOT NULL,
+    id          Integer NOT NULL AUTO_INCREMENT,
+    entryNumber INTEGER NOT NULL,
+    product_id  INTEGER NOT NULL,
+    totalPrice  DOUBLE  NOT NULL,
+    quantity    INTEGER NOT NULL,
+    cart_id     INTEGER NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (product_code) REFERENCES Product (id),
+    FOREIGN KEY (product_id) REFERENCES Product (id),
     FOREIGN KEY (cart_id) REFERENCES Cart (id)
 );

@@ -32,7 +32,7 @@ public class ProductController
 	@RequestMapping(value = "/product/{productCode}", method = RequestMethod.GET)
 	public String productDetails(@PathVariable("productCode") final String productCode, final Model model)
 	{
-		final ProductDTO product = productService.getProductByCode(productCode);
+		final ProductDTO product = productService.getProductDTOByCode(productCode);
 		model.addAttribute("product", product);
 		return "pdp";
 	}
