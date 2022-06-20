@@ -11,7 +11,7 @@
     .login {
         width: 50%;
         text-align: center;
-        background: cornflowerblue;
+        background: #00b3b3;
         border-radius: 5px;
         padding: 30px;
         position: absolute;
@@ -29,6 +29,21 @@
         border-bottom: 1px solid #ccc;
         width: 20%;
     }
+
+    .reg-btn {
+        display: inline-block;
+        background-color: #6700C9;
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        font-size: 16px;
+        margin-left: 5%;
+        transition: 0.3s;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
 
     .label-input {
         display: flex;
@@ -52,8 +67,7 @@
         padding: 16px 32px;
         text-align: center;
         font-size: 16px;
-        margin: 4px 2px;
-        opacity: 0.6;
+        margin-left: 5%;
         transition: 0.3s;
         text-decoration: none;
         cursor: pointer;
@@ -83,13 +97,14 @@
         <input class="login-btn" type="submit" value="Login">
     </form:form>
     <br>
-    <a style="display: block" href="/">
-        <button class="go-back">Go Back</button>
-    </a>
-    <label> Want to create account ?</label>
-    <a style="display: block" href="/registration">
-        <button class="login-btn">Create Account</button>
-    </a>
+    <div>
+        <a href="/" style="text-decoration: none;">
+            <button class="go-back">Go Back</button>
+        </a>
+        <a href="/registration">
+            <button class="reg-btn">Create Account</button>
+        </a>
+    </div>
 </div>
 </body>
 </html>

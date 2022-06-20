@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import aim.traineeship.electronics.shop.dao.CartDAO;
 import aim.traineeship.electronics.shop.dto.AddToCartDTO;
+import aim.traineeship.electronics.shop.dto.RemoveFromCartDTO;
+import aim.traineeship.electronics.shop.dto.UpdateCartDTO;
 import aim.traineeship.electronics.shop.entities.Cart;
 import aim.traineeship.electronics.shop.entities.Customer;
 import aim.traineeship.electronics.shop.entities.Product;
@@ -59,7 +61,7 @@ public class DefaultCartService implements CartService
 		{
 			return cart;
 		}
-		cart = createCart(session);
+		cart = createCart();
 		return cart;
 	}
 
@@ -69,13 +71,39 @@ public class DefaultCartService implements CartService
 		return cartDao.findByCode(code);
 	}
 
-	private Cart createCart(final HttpSession session)
+	@Override
+	public void updateCart(final UpdateCartDTO updateCartDTO, final HttpSession session)
+	{
+		final Product product = productService.getProductByCode(updateCartDTO.getProductCode());
+		final Cart cart = getCartByCode(updateCartDTO.getCartCode());
+
+		final int newQuantity = updateCartDTO.getQuantity();
+		final double newTotalPrice = product.getPrice() * newQuantity;
+
+		cartEntryService.updateCartEntry(product, cart, newQuantity, newTotalPrice);
+		calculationService.calculate(cart);
+		session.setAttribute(CART, getCartByCode(cart.getCode()));
+	}
+
+	@Override
+	public void removeFromCart(final RemoveFromCartDTO removeFromCartDTO, final HttpSession session)
+	{
+		final Product product = productService.getProductByCode(removeFromCartDTO.getProductCode());
+		final Cart cart = getCartByCode(removeFromCartDTO.getCartCode());
+
+		cartEntryService.deleteCartEntry(product, cart);
+		calculationService.calculate(cart);
+		session.setAttribute(CART, getCartByCode(cart.getCode()));
+	}
+
+	private Cart createCart()
 	{
 		Cart newCart = new Cart();
 
 		final UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
 				.getAuthentication()
 				.getPrincipal();
+
 		final Customer customer = customerService.findCustomerByLogin(principal.getUsername());
 		newCart.setCustomer(customer);
 

@@ -10,12 +10,14 @@ public interface CartEntryDAO
 {
 	void saveCartEntry(final CartEntry cartEntry);
 
+	void updateExistingEntry(final Integer productId, final Integer cartId, final Integer quantity,
+			final Double totalPrice);
+
+	void deleteCartEntry(final Integer productId, final Integer cartId);
+
 	Integer getMaxEntryNumber(final Integer cartId);
 
 	List<CartEntry> getCartEntriesByCartId(final Integer cartId);
 
 	Optional<CartEntry> getCartEntryByProductId(final Integer productId, final Integer cartId);
-
-	void updateExistingEntry(final Integer productId, final Integer cartId, final Integer quantity,
-			final Double totalPrice);
 }

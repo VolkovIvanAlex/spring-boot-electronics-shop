@@ -1,5 +1,5 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<header style="background: bisque; height: 50px">
+<header style="background:  #ff9966; height: 50px">
     <style>
         .links-style {
             padding: 3px;
@@ -31,6 +31,7 @@
     <div class="vertical-center">
         <a href="/" class="links-style">Home</a>
         <a href="/categories" class="links-style">Categories</a>
+        <a href="/cart" class="links-style">Cart</a>
         <sec:authorize access="!isAuthenticated()">
             <a href="/login" class="links-style">Log in</a>
         </sec:authorize>

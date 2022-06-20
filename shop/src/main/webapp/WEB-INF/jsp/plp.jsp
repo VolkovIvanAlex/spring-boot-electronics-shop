@@ -22,11 +22,12 @@
     }
 
     .product-container {
-        isplay: block;
+        display: block;
         text-align: center;
     }
 
     .item {
+        font-size: 20px;
         width: 20%;
         height: 35%;
         display: inline-block;
@@ -63,7 +64,6 @@
         background-color: #4CAE7E;
         border: none;
         border-radius: 15px;
-        box-shadow: 0 9px #999;
     }
 
     .add-button:hover {
@@ -80,7 +80,8 @@
 <div class="links-style , product-container">
     <c:forEach items="${products}" var="product">
         <div class="item">
-            <a href="/product/${product.code}">(${product.code}) ${product.name} = ${product.price}</a>
+            <a style="text-decoration: none" href="/product/${product.code}">(${product.code}) ${product.name}
+                = ${product.price}</a>
 
             <form:form action="/cart/add">
 
@@ -92,12 +93,11 @@
         </div>
     </c:forEach>
 
+    <c:if test="${empty products}"><p>Sorry , we don't have these products for now.</p></c:if>
+
     <a style="display: block;" href="/categories">
         <button class="go-back">Go back</button>
     </a>
-
-
-    <c:if test="${empty products}"><p>Sorry , we don't have these products for now.</p></c:if>
 </div>
 
 </body>

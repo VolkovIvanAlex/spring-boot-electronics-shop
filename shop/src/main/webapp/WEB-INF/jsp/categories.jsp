@@ -37,7 +37,8 @@
 </style>
 <div class="links-style">
 <c:forEach items="${categories}" var="category">
-    <a href="/products/${category.code}">${category.name} products : ${category.productsAmount}</a>
+    <a style="text-decoration: none" href="/products/${category.code}">${category.name} products
+        : ${category.productsAmount}</a>
     <br>
     <br>
 </c:forEach>

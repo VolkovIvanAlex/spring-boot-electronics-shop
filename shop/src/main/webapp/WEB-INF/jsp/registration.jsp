@@ -10,14 +10,14 @@
     .registration {
         width: 50%;
         text-align: center;
-        background: orange;
+        background: #00b3b3;
         border-radius: 5px;
         padding: 30px;
         position: absolute;
         top: 50%;
         left: 50%;
         font-family: "Trebuchet MS", Helvetica, sans-serif;
-        font-size: 20px;
+        font-size: 18px;
         -ms-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
     }
@@ -39,7 +39,6 @@
         text-align: center;
         font-size: 16px;
         margin: 4px 2px;
-        opacity: 0.6;
         transition: 0.3s;
         text-decoration: none;
         cursor: pointer;

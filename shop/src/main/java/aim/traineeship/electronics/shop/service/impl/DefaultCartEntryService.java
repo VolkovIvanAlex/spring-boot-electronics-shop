@@ -1,5 +1,6 @@
 package aim.traineeship.electronics.shop.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +30,33 @@ public class DefaultCartEntryService implements CartEntryService
 			final int newQuantity = existingCartEntry.getQuantity() + quantity;
 			final double newTotalPrice = existingCartEntry.getTotalPrice() + product.getPrice() * quantity;
 			cartEntryDAO.updateExistingEntry(product.getId(), cart.getId(), newQuantity, newTotalPrice);
+			return;
 		}
-		else
-		{
-			createNewCartEntry(product, cart, quantity);
-		}
+		createNewCartEntry(product, cart, quantity);
+	}
+
+	@Override
+	public void updateCartEntry(final Product product, final Cart cart, final Integer quantity, final Double totalPrice)
+	{
+		cartEntryDAO.updateExistingEntry(product.getId(), cart.getId(), quantity, totalPrice);
+	}
+
+	@Override
+	public void deleteCartEntry(final Product product, final Cart cart)
+	{
+		cartEntryDAO.deleteCartEntry(product.getId(), cart.getId());
 	}
 
 	@Override
 	public Optional<CartEntry> getCartEntry(final Product product, final Cart cart)
 	{
 		return cartEntryDAO.getCartEntryByProductId(product.getId(), cart.getId());
+	}
+
+	@Override
+	public List<CartEntry> getCartEntries(final Cart cart)
+	{
+		return cartEntryDAO.getCartEntriesByCartId(cart.getId());
 	}
 
 	private void createNewCartEntry(final Product product, final Cart cart, final Integer quantity)
