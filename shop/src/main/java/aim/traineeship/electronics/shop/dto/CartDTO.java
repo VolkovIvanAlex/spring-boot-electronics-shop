@@ -1,6 +1,7 @@
 package aim.traineeship.electronics.shop.dto;
 
 import java.util.Date;
+import java.util.List;
 
 
 public class CartDTO
@@ -11,6 +12,7 @@ public class CartDTO
 	private Date placedDate;
 	private CustomerDTO customerDTO;
 	private AddressDTO addressDTO;
+	private List<CartEntryDTO> cartEntries;
 
 	public Integer getId()
 	{
@@ -70,5 +72,15 @@ public class CartDTO
 	public void setAddressDTO(final AddressDTO addressDTO)
 	{
 		this.addressDTO = addressDTO;
+	}
+
+	public List<CartEntryDTO> getCartEntries()
+	{
+		return cartEntries;
+	}
+
+	public void setCartEntries(final List<CartEntryDTO> cartEntries)
+	{
+		this.cartEntries = cartEntries;
 	}
 }

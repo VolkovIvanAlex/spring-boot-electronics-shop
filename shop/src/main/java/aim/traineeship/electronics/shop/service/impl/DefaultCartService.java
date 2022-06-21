@@ -1,5 +1,7 @@
 package aim.traineeship.electronics.shop.service.impl;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +9,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import aim.traineeship.electronics.shop.converter.impl.CartConverter;
+import aim.traineeship.electronics.shop.converter.impl.CartEntryConverter;
 import aim.traineeship.electronics.shop.dao.CartDAO;
 import aim.traineeship.electronics.shop.dto.AddToCartDTO;
-import aim.traineeship.electronics.shop.dto.RemoveFromCartDTO;
-import aim.traineeship.electronics.shop.dto.UpdateCartDTO;
+import aim.traineeship.electronics.shop.dto.CartDTO;
 import aim.traineeship.electronics.shop.entities.Cart;
+import aim.traineeship.electronics.shop.entities.CartEntry;
 import aim.traineeship.electronics.shop.entities.Customer;
 import aim.traineeship.electronics.shop.entities.Product;
 import aim.traineeship.electronics.shop.service.CalculationService;
@@ -42,15 +46,23 @@ public class DefaultCartService implements CartService
 	@Autowired
 	private CalculationService calculationService;
 
+	@Autowired
+	private CartConverter cartConverter;
+
+	@Autowired
+	private CartEntryConverter cartEntryConverter;
+
 	@Override
 	public void addToCart(final AddToCartDTO addToCartDTO, final HttpSession session)
 	{
-		final Cart cart = getCurrentCart(session);
+		Cart cart = getCurrentCart(session);
 		final Product product = productService.getProductByCode(addToCartDTO.getProductCode());
 		cartEntryService.addCartEntry(product, cart, addToCartDTO.getQuantity());
 
 		calculationService.calculate(cart);
-		session.setAttribute(CART, getCartByCode(cart.getCode()));
+		cart = getCartByCode(cart.getCode());
+		cart.setCartEntries(cartEntryService.getCartEntries(cart));
+		session.setAttribute(CART, cart);
 	}
 
 	@Override
@@ -66,34 +78,54 @@ public class DefaultCartService implements CartService
 	}
 
 	@Override
+	public CartDTO getCurrentCartDTO(final HttpSession session)
+	{
+		final Cart cart = getCurrentCart(session);
+		final CartDTO cartDTO = cartConverter.convert(cart);
+		if (cartEntryService.getCartEntries(cart).size() > 0)
+		{
+			cartDTO.setCartEntries(cartEntryConverter.convertList(cart.getCartEntries()));
+		}
+		session.setAttribute(CART, cart);
+		return cartDTO;
+	}
+
+	@Override
 	public Cart getCartByCode(final String code)
 	{
 		return cartDao.findByCode(code);
 	}
 
 	@Override
-	public void updateCart(final UpdateCartDTO updateCartDTO, final HttpSession session)
+	public void updateCart(final AddToCartDTO addToCartDTO, final HttpSession session)
 	{
-		final Product product = productService.getProductByCode(updateCartDTO.getProductCode());
-		final Cart cart = getCartByCode(updateCartDTO.getCartCode());
+		final Product product = productService.getProductByCode(addToCartDTO.getProductCode());
+		Cart cart = getCurrentCart(session);
 
-		final int newQuantity = updateCartDTO.getQuantity();
+		final int newQuantity = addToCartDTO.getQuantity();
 		final double newTotalPrice = product.getPrice() * newQuantity;
-
 		cartEntryService.updateCartEntry(product, cart, newQuantity, newTotalPrice);
+
 		calculationService.calculate(cart);
-		session.setAttribute(CART, getCartByCode(cart.getCode()));
+		cart = getCartByCode(cart.getCode());
+		cart.setCartEntries(cartEntryService.getCartEntries(cart));
+		session.setAttribute(CART, cart);
 	}
 
 	@Override
-	public void removeFromCart(final RemoveFromCartDTO removeFromCartDTO, final HttpSession session)
+	public void removeFromCart(final AddToCartDTO addToCartDTO, final HttpSession session)
 	{
-		final Product product = productService.getProductByCode(removeFromCartDTO.getProductCode());
-		final Cart cart = getCartByCode(removeFromCartDTO.getCartCode());
+		final Product product = productService.getProductByCode(addToCartDTO.getProductCode());
+		Cart cart = getCurrentCart(session);
 
 		cartEntryService.deleteCartEntry(product, cart);
+		List<CartEntry> cartEntries = cartEntryService.getCartEntries(cart);
+		cartEntries = cartEntryService.updateEntryNumbers(cartEntries);
+
 		calculationService.calculate(cart);
-		session.setAttribute(CART, getCartByCode(cart.getCode()));
+		cart = getCartByCode(cart.getCode());
+		cart.setCartEntries(cartEntries);
+		session.setAttribute(CART, cart);
 	}
 
 	private Cart createCart()

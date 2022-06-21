@@ -19,4 +19,6 @@ public interface CartEntryService
 	Optional<CartEntry> getCartEntry(final Product product, final Cart cart);
 
 	List<CartEntry> getCartEntries(final Cart cart);
+
+	List<CartEntry> updateEntryNumbers(final List<CartEntry> cartEntries);
 }

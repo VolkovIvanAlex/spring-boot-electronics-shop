@@ -23,16 +23,17 @@ public class DefaultCartEntryService implements CartEntryService
 	public void addCartEntry(final Product product, final Cart cart, final Integer quantity)
 	{
 		final Optional<CartEntry> cartEntry = getCartEntry(product, cart);
-		if (cartEntry.isPresent())
-		{
-			final CartEntry existingCartEntry = cartEntry.get();
 
-			final int newQuantity = existingCartEntry.getQuantity() + quantity;
-			final double newTotalPrice = existingCartEntry.getTotalPrice() + product.getPrice() * quantity;
-			cartEntryDAO.updateExistingEntry(product.getId(), cart.getId(), newQuantity, newTotalPrice);
+		if (cartEntry.isEmpty())
+		{
+			createNewCartEntry(product, cart, quantity);
 			return;
 		}
-		createNewCartEntry(product, cart, quantity);
+		final CartEntry existingCartEntry = cartEntry.get();
+
+		final int newQuantity = existingCartEntry.getQuantity() + quantity;
+		final double newTotalPrice = existingCartEntry.getTotalPrice() + product.getPrice() * quantity;
+		cartEntryDAO.updateExistingEntry(product.getId(), cart.getId(), newQuantity, newTotalPrice);
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class DefaultCartEntryService implements CartEntryService
 	private void createNewCartEntry(final Product product, final Cart cart, final Integer quantity)
 	{
 		final CartEntry cartEntry = new CartEntry();
-		final Integer entryNumber = cartEntryDAO.getMaxEntryNumber(cart.getId());
+		final Integer entryNumber = cartEntryDAO.getNextEntryNumber(cart.getId());
 
 		cartEntry.setEntryNumber(entryNumber);
 
@@ -71,5 +72,18 @@ public class DefaultCartEntryService implements CartEntryService
 		cartEntry.setProduct(product);
 		cartEntry.setCart(cart);
 		cartEntryDAO.saveCartEntry(cartEntry);
+	}
+
+	@Override
+	public List<CartEntry> updateEntryNumbers(final List<CartEntry> cartEntries)
+	{
+		int entryNumber = 1;
+		for (final CartEntry cartEntry : cartEntries)
+		{
+			cartEntry.setEntryNumber(entryNumber);
+			cartEntryDAO.updateEntryNumber(cartEntry.getProduct().getId(), cartEntry.getCart().getId(), entryNumber);
+			entryNumber++;
+		}
+		return cartEntries;
 	}
 }

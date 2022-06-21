@@ -61,6 +61,9 @@ public class DefaultCartEntryDAO implements CartEntryDAO
 	private static final String DELETE_CART_ENTRY = "DELETE FROM CartEntry "
 			+ "WHERE cart_id = :cart_id AND product_id = :product_id ;";
 
+	private static final String UPDATE_ENTRY_NUMBER = "UPDATE CartEntry SET entryNumber = :entryNumber "
+			+ "WHERE product_id = :product_id AND cart_id = :cart_id ";
+
 	@Override
 	public void saveCartEntry(final CartEntry cartEntry)
 	{
@@ -95,7 +98,17 @@ public class DefaultCartEntryDAO implements CartEntryDAO
 	}
 
 	@Override
-	public Integer getMaxEntryNumber(final Integer cartId)
+	public void updateEntryNumber(final Integer productId, final Integer cartId, final Integer newEntryNumber)
+	{
+		final Map<String, Object> parameters = new HashMap<>();
+		parameters.put(PRODUCT_ID, productId);
+		parameters.put(CART_ID, cartId);
+		parameters.put(ENTRY_NUMBER, newEntryNumber);
+		namedParameterJdbcTemplate.update(UPDATE_ENTRY_NUMBER, parameters);
+	}
+
+	@Override
+	public Integer getNextEntryNumber(final Integer cartId)
 	{
 		final Map<String, Object> parameter = new HashMap<>();
 		parameter.put(CART_ID, cartId);

@@ -16,6 +16,10 @@ public class AddToCartDTO
 		this.quantity = quantity;
 	}
 
+	public AddToCartDTO()
+	{
+	}
+
 	public String getProductCode()
 	{
 		return productCode;

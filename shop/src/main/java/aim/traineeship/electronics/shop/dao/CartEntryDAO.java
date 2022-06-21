@@ -15,7 +15,9 @@ public interface CartEntryDAO
 
 	void deleteCartEntry(final Integer productId, final Integer cartId);
 
-	Integer getMaxEntryNumber(final Integer cartId);
+	void updateEntryNumber(final Integer productId, final Integer cartId, final Integer newEntryNumber);
+
+	Integer getNextEntryNumber(final Integer cartId);
 
 	List<CartEntry> getCartEntriesByCartId(final Integer cartId);
 
