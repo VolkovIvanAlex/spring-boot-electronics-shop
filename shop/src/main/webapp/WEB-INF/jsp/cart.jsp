@@ -132,6 +132,9 @@
                 </h2>
             </div>
         </c:forEach>
+        <div>
+            <h1 style="display: inline-block">Cart total : ${cart.totalPrice}</h1>
+        </div>
     </c:if>
     <c:if test="${empty cart.cartEntries}"><p>Seems like you haven't added any product to your cart.</p></c:if>
 
