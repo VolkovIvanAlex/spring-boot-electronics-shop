@@ -20,5 +20,5 @@ public interface CartEntryService
 
 	List<CartEntry> getCartEntries(final Cart cart);
 
-	List<CartEntry> updateEntryNumbers(final List<CartEntry> cartEntries);
+	List<CartEntry> updateEntryNumbers(final Cart cart);
 }

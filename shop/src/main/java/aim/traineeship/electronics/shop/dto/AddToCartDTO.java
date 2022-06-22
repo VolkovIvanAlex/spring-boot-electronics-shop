@@ -7,7 +7,7 @@ public class AddToCartDTO
 {
 	private String productCode;
 
-	@Min(1)
+	@Min(0)
 	private Integer quantity;
 
 	public AddToCartDTO(final String productCode, final Integer quantity)

@@ -1,16 +1,20 @@
 package aim.traineeship.electronics.shop.converter.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import aim.traineeship.electronics.shop.converter.Converter;
-import aim.traineeship.electronics.shop.dto.CategoryDTO;
 import aim.traineeship.electronics.shop.dto.ProductDTO;
+import aim.traineeship.electronics.shop.entities.Category;
 import aim.traineeship.electronics.shop.entities.Product;
 
 
 @Component
 public class ProductConverter implements Converter<Product, ProductDTO>
 {
+	@Autowired
+	private CategoryConverter categoryConverter;
+
 	@Override
 	public ProductDTO convert(final Product product)
 	{
@@ -21,12 +25,12 @@ public class ProductConverter implements Converter<Product, ProductDTO>
 		productDTO.setPrice(product.getPrice());
 		productDTO.setDescription(product.getDescription());
 
-		final CategoryDTO categoryDTO = new CategoryDTO();
-		categoryDTO.setId(product.getCategory().getId());
-		categoryDTO.setCode(product.getCategory().getCode());
-		categoryDTO.setName(product.getCategory().getName());
+		final Category category = product.getCategory();
+		if (category != null)
+		{
+			productDTO.setCategoryDTO(categoryConverter.convert(category));
+		}
 
-		productDTO.setCategoryDTO(categoryDTO);
 		return productDTO;
 	}
 }

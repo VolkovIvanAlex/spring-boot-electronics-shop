@@ -12,9 +12,7 @@ public interface CartService
 	void addToCart(final AddToCartDTO newProductDTO, final HttpSession session);
 
 	void updateCart(final AddToCartDTO addToCartDTO, final HttpSession session);
-
-	void removeFromCart(final AddToCartDTO addToCartDTO, final HttpSession session);
-
+	
 	Cart getCurrentCart(final HttpSession session);
 
 	CartDTO getCurrentCartDTO(final HttpSession session);

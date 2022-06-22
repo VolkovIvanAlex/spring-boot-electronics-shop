@@ -5,17 +5,12 @@ import org.springframework.stereotype.Component;
 
 import aim.traineeship.electronics.shop.converter.Converter;
 import aim.traineeship.electronics.shop.dto.CartEntryDTO;
-import aim.traineeship.electronics.shop.dto.ProductDTO;
 import aim.traineeship.electronics.shop.entities.CartEntry;
-import aim.traineeship.electronics.shop.entities.Product;
 
 
 @Component
-public class CartEntryConverter implements Converter<CartEntry , CartEntryDTO>
+public class CartEntryConverter implements Converter<CartEntry, CartEntryDTO>
 {
-	@Autowired
-	private CartConverter cartConverter;
-
 	@Autowired
 	private ProductConverter productConverter;
 
@@ -27,15 +22,7 @@ public class CartEntryConverter implements Converter<CartEntry , CartEntryDTO>
 		cartEntryDTO.setQuantity(cartEntry.getQuantity());
 		cartEntryDTO.setTotalPrice(cartEntry.getTotalPrice());
 
-		final ProductDTO productDTO = new ProductDTO();
-		final Product product = cartEntry.getProduct();
-		productDTO.setId(product.getId());
-		productDTO.setCode(product.getCode());
-		productDTO.setName(product.getName());
-		productDTO.setPrice(product.getPrice());
-		productDTO.setDescription(product.getDescription());
-
-		cartEntryDTO.setProductDTO(productDTO);
+		cartEntryDTO.setProductDTO(productConverter.convert(cartEntry.getProduct()));
 		return cartEntryDTO;
 	}
 }

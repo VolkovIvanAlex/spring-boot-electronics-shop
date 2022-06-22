@@ -60,6 +60,20 @@ public class DefaultCartEntryService implements CartEntryService
 		return cartEntryDAO.getCartEntriesByCartId(cart.getId());
 	}
 
+	@Override
+	public List<CartEntry> updateEntryNumbers(final Cart cart)
+	{
+		final List<CartEntry> cartEntries = getCartEntries(cart);
+		int entryNumber = 1;
+		for (final CartEntry cartEntry : cartEntries)
+		{
+			cartEntry.setEntryNumber(entryNumber);
+			cartEntryDAO.updateEntryNumber(cartEntry.getProduct().getId(), cartEntry.getCart().getId(), entryNumber);
+			entryNumber++;
+		}
+		return cartEntries;
+	}
+
 	private void createNewCartEntry(final Product product, final Cart cart, final Integer quantity)
 	{
 		final CartEntry cartEntry = new CartEntry();
@@ -72,18 +86,5 @@ public class DefaultCartEntryService implements CartEntryService
 		cartEntry.setProduct(product);
 		cartEntry.setCart(cart);
 		cartEntryDAO.saveCartEntry(cartEntry);
-	}
-
-	@Override
-	public List<CartEntry> updateEntryNumbers(final List<CartEntry> cartEntries)
-	{
-		int entryNumber = 1;
-		for (final CartEntry cartEntry : cartEntries)
-		{
-			cartEntry.setEntryNumber(entryNumber);
-			cartEntryDAO.updateEntryNumber(cartEntry.getProduct().getId(), cartEntry.getCart().getId(), entryNumber);
-			entryNumber++;
-		}
-		return cartEntries;
 	}
 }

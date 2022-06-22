@@ -80,6 +80,20 @@
         text-decoration: none;
         cursor: pointer;
     }
+
+    .place-order {
+        display: inline-block;
+        background-color: #669999;
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        font-size: 16px;
+        margin: 0px 35px;
+        transition: 0.3s;
+        text-decoration: none;
+        cursor: pointer;
+    }
 </style>
 <jsp:include page="header/main_header.jsp"/>
 <div class="links-style , product-container">
@@ -118,7 +132,6 @@
                 </h2>
             </div>
         </c:forEach>
-        <h1>Cart total : ${cart.totalPrice}</h1>
     </c:if>
     <c:if test="${empty cart.cartEntries}"><p>Seems like you haven't added any product to your cart.</p></c:if>
 

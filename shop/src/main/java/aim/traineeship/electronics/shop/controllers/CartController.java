@@ -42,14 +42,9 @@ public class CartController
 	}
 
 	@PostMapping("/cart/update")
-	public String updateCartEntry(@Valid final AddToCartDTO addToCartDTO,
-			final BindingResult bindingResult, final HttpSession session, final Model model)
+	public String updateCartEntry(@Valid final AddToCartDTO addToCartDTO, final BindingResult bindingResult,
+			final HttpSession session, final Model model)
 	{
-		if (addToCartDTO.getQuantity() == 0)
-		{
-			cartService.removeFromCart(addToCartDTO, session);
-			return "redirect:/cart";
-		}
 		if (bindingResult.hasErrors())
 		{
 			final CartDTO cart = cartService.getCurrentCartDTO(session);
