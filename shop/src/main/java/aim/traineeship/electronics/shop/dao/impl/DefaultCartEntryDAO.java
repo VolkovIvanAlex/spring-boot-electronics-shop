@@ -37,18 +37,32 @@ public class DefaultCartEntryDAO implements CartEntryDAO
 			+ "WHERE cart_id = :cart_id";
 
 	private static final String SELECT_CART_ENTRIES_BY_CART_ID =
-			"SELECT entryNumber , product_id , totalPrice , quantity , cart_id "
+			"SELECT entryNumber , product_id , CartEntry.totalPrice AS totalPrice , quantity , cart_id , "
+					+ "Product.code AS product_code , Product.name AS product_name , Product.price AS product_price , "
+					+ "Cart.code AS cart_code , Cart.totalPrice AS cart_total_price "
 					+ "FROM CartEntry "
+					+ "JOIN Product ON product_id = Product.id "
+					+ "JOIN Cart ON cart_id = Cart.id "
 					+ "WHERE cart_id = :cart_id ";
 
 	private static final String SELECT_SINGLE_CART_ENTRY =
-			"SELECT entryNumber , product_id , totalPrice , quantity , cart_id "
+			"SELECT entryNumber , product_id , CartEntry.totalPrice AS totalPrice , quantity , cart_id , "
+					+ " Product.code AS product_code , Product.name AS product_name , Product.price AS product_price , "
+					+ "Cart.code AS cart_code , Cart.totalPrice AS cart_total_price "
 					+ "FROM CartEntry "
+					+ "JOIN Product ON product_id = Product.id "
+					+ "JOIN Cart ON cart_id = Cart.id "
 					+ "WHERE cart_id = :cart_id AND product_id = :product_id ";
 
 	private static final String UPDATE_PRICE_AND_QUANTITY =
 			"UPDATE CartEntry SET totalPrice = :totalPrice , quantity = :quantity "
 					+ "WHERE cart_id = :cart_id AND product_id = :product_id ";
+
+	private static final String DELETE_CART_ENTRY = "DELETE FROM CartEntry "
+			+ "WHERE cart_id = :cart_id AND product_id = :product_id ;";
+
+	private static final String UPDATE_ENTRY_NUMBER = "UPDATE CartEntry SET entryNumber = :entryNumber "
+			+ "WHERE product_id = :product_id AND cart_id = :cart_id ";
 
 	@Override
 	public void saveCartEntry(final CartEntry cartEntry)
@@ -63,7 +77,38 @@ public class DefaultCartEntryDAO implements CartEntryDAO
 	}
 
 	@Override
-	public Integer getMaxEntryNumber(final Integer cartId)
+	public void updateExistingEntry(final Integer productId, final Integer cartId, final Integer quantity,
+			final Double totalPrice)
+	{
+		final Map<String, Object> parameters = new HashMap<>();
+		parameters.put(PRODUCT_ID, productId);
+		parameters.put(TOTAL_PRICE, totalPrice);
+		parameters.put(QUANTITY, quantity);
+		parameters.put(CART_ID, cartId);
+		namedParameterJdbcTemplate.update(UPDATE_PRICE_AND_QUANTITY, parameters);
+	}
+
+	@Override
+	public void deleteCartEntry(final Integer productId, final Integer cartId)
+	{
+		final Map<String, Object> parameters = new HashMap<>();
+		parameters.put(PRODUCT_ID, productId);
+		parameters.put(CART_ID, cartId);
+		namedParameterJdbcTemplate.update(DELETE_CART_ENTRY, parameters);
+	}
+
+	@Override
+	public void updateEntryNumber(final Integer productId, final Integer cartId, final Integer newEntryNumber)
+	{
+		final Map<String, Object> parameters = new HashMap<>();
+		parameters.put(PRODUCT_ID, productId);
+		parameters.put(CART_ID, cartId);
+		parameters.put(ENTRY_NUMBER, newEntryNumber);
+		namedParameterJdbcTemplate.update(UPDATE_ENTRY_NUMBER, parameters);
+	}
+
+	@Override
+	public Integer getNextEntryNumber(final Integer cartId)
 	{
 		final Map<String, Object> parameter = new HashMap<>();
 		parameter.put(CART_ID, cartId);
@@ -90,17 +135,5 @@ public class DefaultCartEntryDAO implements CartEntryDAO
 		parameter.put(CART_ID, cartId);
 		final List<CartEntry> cartEntry = namedParameterJdbcTemplate.query(SELECT_SINGLE_CART_ENTRY, parameter, mapper);
 		return cartEntry.stream().findFirst();
-	}
-
-	@Override
-	public void updateExistingEntry(final Integer productId, final Integer cartId, final Integer quantity,
-			final Double totalPrice)
-	{
-		final Map<String, Object> parameters = new HashMap<>();
-		parameters.put(PRODUCT_ID, productId);
-		parameters.put(TOTAL_PRICE, totalPrice);
-		parameters.put(QUANTITY, quantity);
-		parameters.put(CART_ID, cartId);
-		namedParameterJdbcTemplate.update(UPDATE_PRICE_AND_QUANTITY, parameters);
 	}
 }

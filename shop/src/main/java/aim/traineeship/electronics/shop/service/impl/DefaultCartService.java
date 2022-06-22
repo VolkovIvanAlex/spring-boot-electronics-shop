@@ -1,5 +1,7 @@
 package aim.traineeship.electronics.shop.service.impl;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +9,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import aim.traineeship.electronics.shop.converter.impl.CartConverter;
 import aim.traineeship.electronics.shop.dao.CartDAO;
 import aim.traineeship.electronics.shop.dto.AddToCartDTO;
+import aim.traineeship.electronics.shop.dto.CartDTO;
 import aim.traineeship.electronics.shop.entities.Cart;
+import aim.traineeship.electronics.shop.entities.CartEntry;
 import aim.traineeship.electronics.shop.entities.Customer;
 import aim.traineeship.electronics.shop.entities.Product;
 import aim.traineeship.electronics.shop.service.CalculationService;
@@ -40,15 +45,20 @@ public class DefaultCartService implements CartService
 	@Autowired
 	private CalculationService calculationService;
 
+	@Autowired
+	private CartConverter cartConverter;
+
 	@Override
 	public void addToCart(final AddToCartDTO addToCartDTO, final HttpSession session)
 	{
-		final Cart cart = getCurrentCart(session);
+		Cart cart = getCurrentCart(session);
 		final Product product = productService.getProductByCode(addToCartDTO.getProductCode());
 		cartEntryService.addCartEntry(product, cart, addToCartDTO.getQuantity());
 
 		calculationService.calculate(cart);
-		session.setAttribute(CART, getCartByCode(cart.getCode()));
+		cart = getCartByCode(cart.getCode());
+		cart.setCartEntries(cartEntryService.getCartEntries(cart));
+		session.setAttribute(CART, cart);
 	}
 
 	@Override
@@ -64,9 +74,42 @@ public class DefaultCartService implements CartService
 	}
 
 	@Override
+	public CartDTO getCurrentCartDTO(final HttpSession session)
+	{
+		final Cart cart = getCurrentCart(session);
+		return cartConverter.convert(cart);
+	}
+
+	@Override
 	public Cart getCartByCode(final String code)
 	{
 		return cartDao.findByCode(code);
+	}
+
+	@Override
+	public void updateCart(final AddToCartDTO addToCartDTO, final HttpSession session)
+	{
+		final Product product = productService.getProductByCode(addToCartDTO.getProductCode());
+		Cart cart = getCurrentCart(session);
+		final List<CartEntry> cartEntries;
+
+		if (addToCartDTO.getQuantity() == 0)
+		{
+			cartEntryService.deleteCartEntry(product, cart);
+			cartEntries = cartEntryService.updateEntryNumbers(cart);
+		}
+		else
+		{
+			final int newQuantity = addToCartDTO.getQuantity();
+			final double newTotalPrice = product.getPrice() * newQuantity;
+			cartEntryService.updateCartEntry(product, cart, newQuantity, newTotalPrice);
+			cartEntries = cartEntryService.getCartEntries(cart);
+		}
+
+		calculationService.calculate(cart);
+		cart = getCartByCode(cart.getCode());
+		cart.setCartEntries(cartEntries);
+		session.setAttribute(CART, cart);
 	}
 
 	private Cart createCart(final HttpSession session)
@@ -76,6 +119,7 @@ public class DefaultCartService implements CartService
 		final UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
 				.getAuthentication()
 				.getPrincipal();
+
 		final Customer customer = customerService.findCustomerByLogin(principal.getUsername());
 		newCart.setCustomer(customer);
 
@@ -84,6 +128,7 @@ public class DefaultCartService implements CartService
 
 		cartDao.saveCart(newCart);
 		newCart = getCartByCode(newCart.getCode());
+		session.setAttribute(CART, newCart);
 		return newCart;
 	}
 }

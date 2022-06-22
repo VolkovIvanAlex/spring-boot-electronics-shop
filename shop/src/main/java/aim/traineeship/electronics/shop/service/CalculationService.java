@@ -22,10 +22,8 @@ public class CalculationService
 
 	public void calculate(final Cart cart)
 	{
-		double cartEntryTotalPrice = 0.0;
-
 		final List<CartEntry> cartEntries = cartEntryDAO.getCartEntriesByCartId(cart.getId());
-		cartEntryTotalPrice = cartEntries.stream().mapToDouble(CartEntry::getTotalPrice).sum();
+		final double cartEntryTotalPrice = cartEntries.stream().mapToDouble(CartEntry::getTotalPrice).sum();
 		cartDao.updateCartTotalPrice(cart.getCode(), cartEntryTotalPrice);
 	}
 }

@@ -65,7 +65,6 @@
         background-color: #4CAE7E;
         border: none;
         border-radius: 15px;
-        box-shadow: 0 9px #999;
     }
 
     .add-button:hover {
@@ -85,7 +84,7 @@
         <h2>code : ${product.code}</h2>
         <h2>price : ${product.price}</h2>
         <h2>description : ${product.description}</h2>
-        <a style="display: block;" href="/products/${product.categoryDTO.code}">
+        <a style="display: block; text-decoration: none" href="/products/${product.categoryDTO.code}">
             <button class="go-back">Go back</button>
         </a>
         <form:form class="form" action="/cart/add">
