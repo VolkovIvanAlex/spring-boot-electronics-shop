@@ -135,7 +135,7 @@ public class DefaultCartService implements CartService
 	public void submitCart(final AddressDTO addressDTO, final HttpSession session)
 	{
 		final Cart cart = getCurrentCart(session);
-		final Integer addressId = addressService.addAddressAndReturnId(addressDTO);
+		final Integer addressId = addressService.saveAddress(addressDTO);
 		addressDTO.setId(addressId);
 
 		updateAddress(addressDTO, cart);

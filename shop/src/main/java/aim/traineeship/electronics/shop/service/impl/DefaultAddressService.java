@@ -19,7 +19,7 @@ public class DefaultAddressService implements AddressService
 	private AddressDTOConverter addressDTOConverter;
 
 	@Override
-	public Integer addAddressAndReturnId(final AddressDTO addressDTO)
+	public Integer saveAddress(final AddressDTO addressDTO)
 	{
 		return addressDAO.saveAddress(addressDTOConverter.convert(addressDTO));
 	}
