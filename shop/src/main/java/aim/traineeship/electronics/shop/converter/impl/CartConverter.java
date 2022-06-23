@@ -1,5 +1,7 @@
 package aim.traineeship.electronics.shop.converter.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ import aim.traineeship.electronics.shop.entities.CartEntry;
 @Component
 public class CartConverter implements Converter<Cart, CartDTO>
 {
+	private static final String DATE_PATTERN = "dd-MM-yyyy";
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_PATTERN);
+
 	@Autowired
 	private CartEntryConverter cartEntryConverter;
 
@@ -30,9 +35,11 @@ public class CartConverter implements Converter<Cart, CartDTO>
 		final CartDTO cartDTO = new CartDTO();
 		cartDTO.setCode(cart.getCode());
 
-		if (cart.getPlacedDate() != null)
+		final Date placedDate = cart.getPlacedDate();
+		if (placedDate != null)
 		{
-			cartDTO.setPlacedDate(cart.getPlacedDate());
+			final String placedDateStr = dateFormat.format(placedDate);
+			cartDTO.setPlacedDate(placedDateStr);
 		}
 
 		cartDTO.setTotalPrice(cart.getTotalPrice());

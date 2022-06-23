@@ -1,6 +1,5 @@
 package aim.traineeship.electronics.shop.dto;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -9,7 +8,7 @@ public class CartDTO
 	private Integer id;
 	private String code;
 	private Double totalPrice;
-	private Date placedDate;
+	private String placedDate;
 	private CustomerDTO customerDTO;
 	private AddressDTO addressDTO;
 	private List<CartEntryDTO> cartEntries;
@@ -44,12 +43,12 @@ public class CartDTO
 		this.totalPrice = totalPrice;
 	}
 
-	public Date getPlacedDate()
+	public String getPlacedDate()
 	{
 		return placedDate;
 	}
 
-	public void setPlacedDate(final Date placedDate)
+	public void setPlacedDate(final String placedDate)
 	{
 		this.placedDate = placedDate;
 	}
