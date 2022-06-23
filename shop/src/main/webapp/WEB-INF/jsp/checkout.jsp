@@ -28,13 +28,13 @@
 
     .address-container {
         display: inline-block;
-        background:   #b3fff0;
+        background: #b3fff0;
         margin-top: 1%;
         padding-left: 21px;
         width: 49%;
     }
 
-    .cart-btn{
+    .cart-btn {
         display: inline-block;
         background-color: #6699C5;
         border: none;
@@ -67,7 +67,7 @@
         width: 50%;
     }
 
-    .input-error{
+    .input-error {
         background: #ff704d;
         border-radius: 5px
     }
@@ -98,27 +98,27 @@
         <h2>${cart.customerDTO.firstName} ${cart.customerDTO.lastName} (${cart.customerDTO.phone})</h2>
         <form:form modelAttribute="addressDTO" action="/checkout/address" method="post">
             <label>Street : </label>
-            <form:input cssClass="input" path="street" required="true" type="text"/>
+            <form:input cssClass="input" path="street" type="text"/>
             <form:errors cssClass="input-error" path="street"/>
             <br>
             <br>
             <label>Town : </label>
-            <form:input cssClass="input" path="town" required="true" type="text"/>
+            <form:input cssClass="input" path="town" type="text"/>
             <form:errors cssClass="input-error" path="town"/>
             <br>
             <br>
             <label>Zip-Code : </label>
-            <form:input cssClass="input" path="zipCode" required="true" type="text"/>
+            <form:input cssClass="input" path="zipCode" type="text"/>
             <form:errors cssClass="input-error" path="zipCode"/>
             <br>
             <br>
             <label>Region : </label>
-            <form:input cssClass="input" path="region" required="true" type="text"/>
+            <form:input cssClass="input" path="region" type="text"/>
             <form:errors cssClass="input-error" path="region"/>
             <br>
             <br>
             <label>Country : </label>
-            <form:input cssClass="input" path="country" required="true" type="text"/>
+            <form:input cssClass="input" path="country" type="text"/>
             <form:errors cssClass="input-error" path="country"/>
             <br>
             <br>

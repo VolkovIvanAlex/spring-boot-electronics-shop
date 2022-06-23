@@ -93,7 +93,7 @@ public class DefaultCartDAO implements CartDAO
 	}
 
 	@Override
-	public void updateCartAddressId(final String cartCode, final Integer addressId)
+	public void saveAddress(final String cartCode, final Integer addressId)
 	{
 		final Map<String, Object> parameters = new HashMap<>();
 		parameters.put(CODE, cartCode);
@@ -102,7 +102,7 @@ public class DefaultCartDAO implements CartDAO
 	}
 
 	@Override
-	public void updateCartPlacedDate(final String cartCode, final Date date)
+	public void savePlacedDate(final String cartCode, final Date date)
 	{
 		final Map<String, Object> parameters = new HashMap<>();
 		parameters.put(CODE, cartCode);

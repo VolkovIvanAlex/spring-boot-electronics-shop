@@ -165,12 +165,12 @@ public class DefaultCartService implements CartService
 
 	private void updateAddress(final AddressDTO addressDTO, final Cart cart)
 	{
-		cartDao.updateCartAddressId(cart.getCode(), addressDTO.getId());
+		cartDao.saveAddress(cart.getCode(), addressDTO.getId());
 	}
 
 	private void updatePlacedDate(final Cart cart)
 	{
 		final Date placedDate = Date.from(date.atStartOfDay(defaultZoneId).toInstant());
-		cartDao.updateCartPlacedDate(cart.getCode(), placedDate);
+		cartDao.savePlacedDate(cart.getCode(), placedDate);
 	}
 }

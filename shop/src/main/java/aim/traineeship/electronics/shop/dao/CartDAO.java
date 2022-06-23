@@ -16,7 +16,7 @@ public interface CartDAO
 
 	void updateCartTotalPrice(final String code, final Double price);
 
-	void updateCartAddressId(final String cartCode, final Integer addressId);
+	void saveAddress(final String cartCode, final Integer addressId);
 
-	void updateCartPlacedDate(final String cartCode, final Date date);
+	void savePlacedDate(final String cartCode, final Date date);
 }

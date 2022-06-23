@@ -3,10 +3,12 @@ package aim.traineeship.electronics.shop.controllers;
 import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,15 +38,22 @@ public class CheckoutController
 	}
 
 	@PostMapping("/checkout/address")
-	public String submitCart(@ModelAttribute("addressDTO") final AddressDTO addressDTO, final HttpSession session)
+	public String submitCart(@Valid @ModelAttribute("addressDTO") final AddressDTO addressDTO,
+			final BindingResult result, final HttpSession session, final Model model)
 	{
+		if (result.hasErrors())
+		{
+			final CartDTO cartDTO = cartService.getCurrentCartDTO(session);
+			model.addAttribute(CART, cartDTO);
+			return "checkout";
+		}
 		final CartDTO cartDTO = cartService.getCurrentCartDTO(session);
 		cartService.submitCart(addressDTO, session);
-		return "redirect:/confirmation/"+cartDTO.getCode();
+		return "redirect:/confirmation/" + cartDTO.getCode();
 	}
 
 	@GetMapping("/confirmation/{cartCode}")
-	public String confirmation(@PathVariable("cartCode")final String cartCode, final Model model)
+	public String confirmation(@PathVariable("cartCode") final String cartCode, final Model model)
 	{
 		final CartDTO cart = cartService.geFullCartDTO(cartCode);
 		model.addAttribute(CART, cart);
@@ -52,7 +61,8 @@ public class CheckoutController
 	}
 
 	@ExceptionHandler(NoSuchElementException.class)
-	public String noElement(){
+	public String noElement()
+	{
 		return "redirect:/404";
 	}
 }
