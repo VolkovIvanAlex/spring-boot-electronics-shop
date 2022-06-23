@@ -1,5 +1,8 @@
 package aim.traineeship.electronics.shop.service.impl;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,11 +15,13 @@ import org.springframework.stereotype.Service;
 import aim.traineeship.electronics.shop.converter.impl.CartConverter;
 import aim.traineeship.electronics.shop.dao.CartDAO;
 import aim.traineeship.electronics.shop.dto.AddToCartDTO;
+import aim.traineeship.electronics.shop.dto.AddressDTO;
 import aim.traineeship.electronics.shop.dto.CartDTO;
 import aim.traineeship.electronics.shop.entities.Cart;
 import aim.traineeship.electronics.shop.entities.CartEntry;
 import aim.traineeship.electronics.shop.entities.Customer;
 import aim.traineeship.electronics.shop.entities.Product;
+import aim.traineeship.electronics.shop.service.AddressService;
 import aim.traineeship.electronics.shop.service.CalculationService;
 import aim.traineeship.electronics.shop.service.CartEntryService;
 import aim.traineeship.electronics.shop.service.CartService;
@@ -30,6 +35,9 @@ public class DefaultCartService implements CartService
 	private static final Double DEFAULT_TOTAL_PRICE = 0.0;
 	private static final String CART = "cart";
 
+	private static final LocalDate date = LocalDate.now();
+	private static final ZoneId defaultZoneId = ZoneId.systemDefault();
+
 	@Autowired
 	private CartDAO cartDao;
 
@@ -41,6 +49,9 @@ public class DefaultCartService implements CartService
 
 	@Autowired
 	private CartEntryService cartEntryService;
+
+	@Autowired
+	private AddressService addressService;
 
 	@Autowired
 	private CalculationService calculationService;
@@ -87,6 +98,14 @@ public class DefaultCartService implements CartService
 	}
 
 	@Override
+	public CartDTO geFullCartDTO(final String code)
+	{
+		final Cart cart = cartDao.findFullByCode(code).orElseThrow();
+		cart.setCartEntries(cartEntryService.getCartEntries(cart));
+		return cartConverter.convert(cart);
+	}
+
+	@Override
 	public void updateCart(final AddToCartDTO addToCartDTO, final HttpSession session)
 	{
 		final Product product = productService.getProductByCode(addToCartDTO.getProductCode());
@@ -112,6 +131,18 @@ public class DefaultCartService implements CartService
 		session.setAttribute(CART, cart);
 	}
 
+	@Override
+	public void submitCart(final AddressDTO addressDTO, final HttpSession session)
+	{
+		final Cart cart = getCurrentCart(session);
+		final Integer addressId = addressService.addAddressAndReturnId(addressDTO);
+		addressDTO.setId(addressId);
+
+		updateAddress(addressDTO, cart);
+		updatePlacedDate(cart);
+		session.removeAttribute(CART);
+	}
+
 	private Cart createCart(final HttpSession session)
 	{
 		Cart newCart = new Cart();
@@ -130,5 +161,16 @@ public class DefaultCartService implements CartService
 		newCart = getCartByCode(newCart.getCode());
 		session.setAttribute(CART, newCart);
 		return newCart;
+	}
+
+	private void updateAddress(final AddressDTO addressDTO, final Cart cart)
+	{
+		cartDao.updateCartAddressId(cart.getCode(), addressDTO.getId());
+	}
+
+	private void updatePlacedDate(final Cart cart)
+	{
+		final Date placedDate = Date.from(date.atStartOfDay(defaultZoneId).toInstant());
+		cartDao.updateCartPlacedDate(cart.getCode(), placedDate);
 	}
 }

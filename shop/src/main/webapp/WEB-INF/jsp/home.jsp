@@ -20,7 +20,7 @@
         padding: 60px;
         border-radius: 5px;
         text-decoration: none;
-        background: sandybrown;
+        background: #ffcc99;
         font-family: "Trebuchet MS", Helvetica, sans-serif;
     }
 

@@ -29,7 +29,12 @@ public class CartConverter implements Converter<Cart, CartDTO>
 	{
 		final CartDTO cartDTO = new CartDTO();
 		cartDTO.setCode(cart.getCode());
-		cartDTO.setPlacedDate(cart.getPlacedDate());
+
+		if (cart.getPlacedDate() != null)
+		{
+			cartDTO.setPlacedDate(cart.getPlacedDate());
+		}
+
 		cartDTO.setTotalPrice(cart.getTotalPrice());
 
 		cartDTO.setCustomerDTO(customerConverter.convert(cart.getCustomer()));

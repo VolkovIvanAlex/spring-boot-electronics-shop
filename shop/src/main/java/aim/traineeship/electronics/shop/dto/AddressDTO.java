@@ -2,11 +2,22 @@ package aim.traineeship.electronics.shop.dto;
 
 public class AddressDTO
 {
+	private Integer id;
 	private String street;
 	private String zipCode;
 	private String town;
 	private String region;
 	private String country;
+
+	public Integer getId()
+	{
+		return id;
+	}
+
+	public void setId(final Integer id)
+	{
+		this.id = id;
+	}
 
 	public String getStreet()
 	{
