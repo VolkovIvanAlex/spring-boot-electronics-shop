@@ -2,100 +2,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%@ taglib prefix="page" tagdir="/WEB-INF/tags" %>
+<page:master/>
+<page:header/>
+<page:footer/>
 <html>
 <head>
     <title>Cart Page</title>
 </head>
-<body style="margin: 0; padding: 0;">
-<style>
-    .links-style {
-        padding: 3px;
-        border-radius: 5px;
-        text-decoration: none;
-        font: small-caps bold 20px sans-serif;
-        margin: 30px;
-    }
-
-    .product-container {
-        background: aliceblue;
-    }
-
-    .item {
-
-    }
-
-    .go-back {
-        display: inline-block;
-        background-color: #f4511e;
-        border: none;
-        color: white;
-        padding: 16px 32px;
-        text-align: center;
-        font-size: 16px;
-        margin: 4px 2px;
-        opacity: 0.6;
-        transition: 0.3s;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .go-back:hover {
-        opacity: 1
-    }
-
-    .input {
-        margin-right: 10px;
-        padding: 8px;
-        border: none;
-        border-bottom: 1px solid #ccc;
-    }
-
-    .update {
-        display: inline-block;
-        background-color: #670025;
-        border: none;
-        color: white;
-        padding: 16px 32px;
-        text-align: center;
-        font-size: 16px;
-        margin: 4px 2px;
-        opacity: 0.6;
-        transition: 0.3s;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .remove-button {
-        display: inline-block;
-        background-color: #f4511e;
-        border: none;
-        color: white;
-        padding: 16px 32px;
-        text-align: center;
-        font-size: 16px;
-        margin: 4px 2px;
-        opacity: 0.6;
-        transition: 0.3s;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    .place-order {
-        display: inline-block;
-        background-color: #669999;
-        border: none;
-        color: white;
-        padding: 16px 32px;
-        text-align: center;
-        font-size: 16px;
-        margin: 0px 35px;
-        transition: 0.3s;
-        text-decoration: none;
-        cursor: pointer;
-    }
-</style>
-<jsp:include page="header/main_header.jsp"/>
+<body>
 <div class="links-style , product-container">
 
     <c:if test="${not empty invalidQuantity}">
@@ -103,7 +18,7 @@
     </c:if>
     <c:if test="${not empty cart.cartEntries}">
         <c:forEach items="${cart.cartEntries}" var="cartEntry" varStatus="counter">
-            <div class="item">
+            <div>
                 <h2 style="display: inline-block;">
                     #${cartEntry.entryNumber} :
                     <a style="text-decoration: none" href="/product/${cartEntry.productDTO.code}">

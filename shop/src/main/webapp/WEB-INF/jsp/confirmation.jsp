@@ -1,26 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib prefix="page" tagdir="/WEB-INF/tags" %>
+<page:master/>
+<page:header/>
+<page:footer/>
 <html>
 <head>
     <title>Confirmation Page</title>
 </head>
-<body style="margin: 0; padding: 0;">
-<style>
-    .text-style-products {
-        text-decoration: none;
-        font: small-caps bold 20px sans-serif;
-    }
-    .container {
-        text-align: center;
-        background: aliceblue;
-        margin: 1%;
-        padding: 2%;
-        border-radius: 5px;
-    }
-</style>
-<jsp:include page="header/main_header.jsp"/>
+<body>
 <div class="container , text-style-products">
     <h1>Your order was successful! Thank you for shopping with us.</h1>
     <h2>Order # ${cart.code} |
