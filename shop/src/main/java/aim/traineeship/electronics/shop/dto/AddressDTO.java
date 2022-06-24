@@ -1,12 +1,31 @@
 package aim.traineeship.electronics.shop.dto;
 
+import javax.validation.constraints.NotEmpty;
+
+
 public class AddressDTO
 {
+	private Integer id;
+	@NotEmpty
 	private String street;
+	@NotEmpty
 	private String zipCode;
+	@NotEmpty
 	private String town;
+	@NotEmpty
 	private String region;
+	@NotEmpty
 	private String country;
+
+	public Integer getId()
+	{
+		return id;
+	}
+
+	public void setId(final Integer id)
+	{
+		this.id = id;
+	}
 
 	public String getStreet()
 	{

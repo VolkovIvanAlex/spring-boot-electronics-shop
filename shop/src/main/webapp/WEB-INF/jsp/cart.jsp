@@ -134,6 +134,9 @@
         </c:forEach>
         <div>
             <h1 style="display: inline-block">Cart total : ${cart.totalPrice}</h1>
+            <a href="/checkout">
+                <button class="place-order">Place order</button>
+            </a>
         </div>
     </c:if>
     <c:if test="${empty cart.cartEntries}"><p>Seems like you haven't added any product to your cart.</p></c:if>

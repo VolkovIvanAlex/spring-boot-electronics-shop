@@ -1,7 +1,10 @@
 package aim.traineeship.electronics.shop.dao.impl;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import aim.traineeship.electronics.shop.dao.CartDAO;
 import aim.traineeship.electronics.shop.dao.mapper.DefaultCartRowMapper;
+import aim.traineeship.electronics.shop.dao.mapper.FullCartRowMapper;
 import aim.traineeship.electronics.shop.entities.Cart;
 
 
@@ -23,6 +27,7 @@ public class DefaultCartDAO implements CartDAO
 	private static final String TOTAL_PRICE = "totalPrice";
 	private static final String PLACED_DATE = "placedDate";
 	private static final String CUSTOMER_ID = "customer_id";
+	private static final String ADDRESS_ID = "address_id";
 
 	private static final String INSERT_CART = "INSERT INTO Cart (code , totalPrice , placedDate , customer_id)"
 			+ "VALUES (:code , :totalPrice , :placedDate , :customer_id)";
@@ -32,7 +37,19 @@ public class DefaultCartDAO implements CartDAO
 			+ "FROM Cart AS CA JOIN Customer AS CU ON CA.customer_id = CU.id "
 			+ "WHERE CA.code = :code ";
 
+	private static final String SELECT_FULL_BY_CODE =
+			"SELECT CA.id AS id ,code ,totalPrice , placedDate , customer_id , "
+					+ " login , password , firstName , lastName , gender , birthDay , phone , street , town , region , zipCode , country "
+					+ " FROM Cart AS CA JOIN Customer AS CU ON CA.customer_id = CU.id JOIN Address AS A ON address_id = A.id "
+					+ " WHERE CA.code = :code";
+
 	private static final String UPDATE_PRICE = "UPDATE Cart SET totalPrice = :totalPrice "
+			+ "WHERE code = :code";
+
+	private static final String UPDATE_ADDRESS = "UPDATE Cart SET address_id = :address_id "
+			+ "WHERE code = :code";
+
+	private static final String UPDATE_DATE = "UPDATE Cart SET placedDate = :placedDate "
 			+ "WHERE code = :code";
 
 	@Override
@@ -52,7 +69,18 @@ public class DefaultCartDAO implements CartDAO
 		final Map<String, Object> parameter = new HashMap<>();
 		final RowMapper<Cart> mapper = new DefaultCartRowMapper();
 		parameter.put(CODE, code);
-		return namedParameterJdbcTemplate.query(SELECT_BY_CODE, parameter, mapper).get(0);
+		final List<Cart> result = namedParameterJdbcTemplate.query(SELECT_BY_CODE, parameter, mapper);
+		return result.get(0);
+	}
+
+	@Override
+	public Optional<Cart> findFullByCode(final String code)
+	{
+		final Map<String, Object> parameter = new HashMap<>();
+		final RowMapper<Cart> mapper = new FullCartRowMapper();
+		parameter.put(CODE, code);
+		final List<Cart> result = namedParameterJdbcTemplate.query(SELECT_FULL_BY_CODE, parameter, mapper);
+		return result.stream().findFirst();
 	}
 
 	@Override
@@ -62,5 +90,23 @@ public class DefaultCartDAO implements CartDAO
 		parameters.put(CODE, code);
 		parameters.put(TOTAL_PRICE, price);
 		namedParameterJdbcTemplate.update(UPDATE_PRICE, parameters);
+	}
+
+	@Override
+	public void saveAddress(final String cartCode, final Integer addressId)
+	{
+		final Map<String, Object> parameters = new HashMap<>();
+		parameters.put(CODE, cartCode);
+		parameters.put(ADDRESS_ID, addressId);
+		namedParameterJdbcTemplate.update(UPDATE_ADDRESS, parameters);
+	}
+
+	@Override
+	public void savePlacedDate(final String cartCode, final Date date)
+	{
+		final Map<String, Object> parameters = new HashMap<>();
+		parameters.put(CODE, cartCode);
+		parameters.put(PLACED_DATE, date);
+		namedParameterJdbcTemplate.update(UPDATE_DATE, parameters);
 	}
 }
