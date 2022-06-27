@@ -1,4 +1,5 @@
 <%@ tag language="java" %>
+<%@ taglib prefix="template" tagdir="/WEB-INF/tags" %>
 <html>
 <head>
     <link rel="stylesheet" href="../../css/style.css">
@@ -7,5 +8,6 @@
     <script src="${pageContext.request.contextPath}/js/ajax_sendProductInfo.js" type="text/javascript"></script>
 </head>
 <body>
+<jsp:doBody/>
 </body>
 </html>
