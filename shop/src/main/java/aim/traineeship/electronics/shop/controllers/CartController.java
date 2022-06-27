@@ -32,7 +32,7 @@ public class CartController
 	public ResponseEntity<CartModificationDTO> addToCart(@Valid final AddToCartDTO addToCartDTO,
 			final BindingResult bindingResult, final HttpSession session)
 	{
-		if (bindingResult.hasErrors())
+		if (bindingResult.hasErrors() || addToCartDTO.getQuantity() == 0)
 		{
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
