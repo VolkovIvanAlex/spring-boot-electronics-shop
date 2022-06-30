@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import aim.traineeship.electronics.shop.converter.impl.dto.AnonymousDTOConverter;
 import aim.traineeship.electronics.shop.converter.impl.dto.CustomerDTOConverter;
 import aim.traineeship.electronics.shop.dao.CustomerDAO;
+import aim.traineeship.electronics.shop.dto.AnonymousDTO;
 import aim.traineeship.electronics.shop.dto.CustomerDTO;
 import aim.traineeship.electronics.shop.entities.Customer;
 import aim.traineeship.electronics.shop.service.CustomerService;
@@ -22,12 +24,21 @@ public class DefaultCustomerService implements CustomerService
 	@Autowired
 	private CustomerDTOConverter customerConverter;
 
+	@Autowired
+	private AnonymousDTOConverter anonymousConverter;
+
 	private static final String USER_NOT_FOUND_MSG = "Not found user with username : ";
 
 	@Override
 	public void registerNewAccount(final CustomerDTO customerDTO)
 	{
 		customerDAO.saveCustomer(customerConverter.convert(customerDTO));
+	}
+
+	@Override
+	public Integer registerAnonymousUser(final AnonymousDTO anonymousDTO)
+	{
+		return customerDAO.saveAnonymousCustomer(anonymousConverter.convert(anonymousDTO));
 	}
 
 	@Override

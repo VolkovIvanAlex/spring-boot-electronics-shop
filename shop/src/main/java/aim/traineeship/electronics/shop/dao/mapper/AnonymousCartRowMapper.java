@@ -6,10 +6,9 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import aim.traineeship.electronics.shop.entities.Cart;
-import aim.traineeship.electronics.shop.entities.Customer;
 
 
-public class DefaultCartRowMapper implements RowMapper<Cart>
+public class AnonymousCartRowMapper implements RowMapper<Cart>
 {
 	private static final String ID = "id";
 	private static final String CODE = "code";
@@ -24,10 +23,6 @@ public class DefaultCartRowMapper implements RowMapper<Cart>
 		cart.setCode(rs.getString(CODE));
 		cart.setTotalPrice(rs.getDouble(TOTAL_PRICE));
 		cart.setPlacedDate(rs.getDate(PLACED_DATE));
-
-		final DefaultCustomerRowMapper customerRowMapper = new DefaultCustomerRowMapper();
-		final Customer customer = customerRowMapper.mapRow(rs, rowNum);
-		cart.setCustomer(customer);
 		return cart;
 	}
 }

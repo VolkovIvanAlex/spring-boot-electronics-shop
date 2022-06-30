@@ -3,8 +3,8 @@ package aim.traineeship.electronics.shop.service;
 import javax.servlet.http.HttpSession;
 
 import aim.traineeship.electronics.shop.dto.AddToCartDTO;
-import aim.traineeship.electronics.shop.dto.AddressDTO;
 import aim.traineeship.electronics.shop.dto.CartDTO;
+import aim.traineeship.electronics.shop.dto.CheckoutDTO;
 import aim.traineeship.electronics.shop.entities.Cart;
 
 
@@ -14,7 +14,7 @@ public interface CartService
 
 	void updateCart(final AddToCartDTO addToCartDTO, final HttpSession session);
 
-	void submitCart(AddressDTO addressDTO, final HttpSession session);
+	void submitCart(CheckoutDTO addressDTO, final HttpSession session);
 
 	Cart getCurrentCart(final HttpSession session);
 

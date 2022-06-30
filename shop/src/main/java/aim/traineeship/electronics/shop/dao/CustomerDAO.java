@@ -10,4 +10,6 @@ public interface CustomerDAO
 	Optional<Customer> findByLogin(final String login);
 
 	void saveCustomer(final Customer customer);
+
+	Integer saveAnonymousCustomer(final Customer customer);
 }

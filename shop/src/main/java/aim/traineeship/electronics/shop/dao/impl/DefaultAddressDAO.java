@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import aim.traineeship.electronics.shop.dao.AddressDAO;
 import aim.traineeship.electronics.shop.entities.Address;
 
+
 @Repository
 public class DefaultAddressDAO implements AddressDAO
 {
@@ -24,7 +25,8 @@ public class DefaultAddressDAO implements AddressDAO
 	private static final String COUNTRY = "country";
 
 	@Autowired
-	public DefaultAddressDAO(final DataSource dataSource) {
+	public DefaultAddressDAO(final DataSource dataSource)
+	{
 		simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
 				.withTableName("Address").usingGeneratedKeyColumns("id");
 	}
@@ -32,14 +34,12 @@ public class DefaultAddressDAO implements AddressDAO
 	@Override
 	public Integer saveAddress(final Address address)
 	{
-		final Map<String , Object> parameters = new HashMap<>();
-		parameters.put(STREET , address.getStreet());
-		parameters.put(TOWN , address.getTown());
-		parameters.put(ZIP_CODE , address.getZipCode());
-		parameters.put(REGION , address.getRegion());
-		parameters.put(COUNTRY , address.getCountry());
+		final Map<String, Object> parameters = new HashMap<>();
+		parameters.put(STREET, address.getStreet());
+		parameters.put(TOWN, address.getTown());
+		parameters.put(ZIP_CODE, address.getZipCode());
+		parameters.put(REGION, address.getRegion());
+		parameters.put(COUNTRY, address.getCountry());
 		return simpleJdbcInsert.executeAndReturnKey(parameters).intValue();
 	}
-
-
 }

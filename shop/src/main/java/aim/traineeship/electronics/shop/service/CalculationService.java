@@ -20,10 +20,11 @@ public class CalculationService
 	@Autowired
 	private CartEntryDAO cartEntryDAO;
 
-	public void calculate(final Cart cart)
+	public Double calculate(final Cart cart)
 	{
 		final List<CartEntry> cartEntries = cartEntryDAO.getCartEntriesByCartId(cart.getId());
 		final double cartEntryTotalPrice = cartEntries.stream().mapToDouble(CartEntry::getTotalPrice).sum();
 		cartDao.updateCartTotalPrice(cart.getCode(), cartEntryTotalPrice);
+		return cartEntryTotalPrice;
 	}
 }

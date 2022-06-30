@@ -10,6 +10,7 @@ import aim.traineeship.electronics.shop.dto.CartDTO;
 import aim.traineeship.electronics.shop.entities.Address;
 import aim.traineeship.electronics.shop.entities.Cart;
 import aim.traineeship.electronics.shop.entities.CartEntry;
+import aim.traineeship.electronics.shop.entities.Customer;
 
 
 @Component
@@ -29,15 +30,17 @@ public class CartConverter implements Converter<Cart, CartDTO>
 	{
 		final CartDTO cartDTO = new CartDTO();
 		cartDTO.setCode(cart.getCode());
+		cartDTO.setTotalPrice(cart.getTotalPrice());
 
 		if (cart.getPlacedDate() != null)
 		{
 			cartDTO.setPlacedDate(cart.getPlacedDate());
 		}
-
-		cartDTO.setTotalPrice(cart.getTotalPrice());
-
-		cartDTO.setCustomerDTO(customerConverter.convert(cart.getCustomer()));
+		final Customer customer = cart.getCustomer();
+		if (customer != null)
+		{
+			cartDTO.setCustomerDTO(customerConverter.convert(customer));
+		}
 
 		final Address address = cart.getAddress();
 		if (address != null)
