@@ -7,14 +7,6 @@ public class AnonymousDTO
 	private String lastName;
 	private String phone;
 
-	public AnonymousDTO(final CheckoutDTO checkoutDTO)
-	{
-		this.login = checkoutDTO.getLogin();
-		this.firstName = checkoutDTO.getFirstName();
-		this.lastName = checkoutDTO.getLastName();
-		this.phone = checkoutDTO.getPhone();
-	}
-
 	public String getLogin()
 	{
 		return login;

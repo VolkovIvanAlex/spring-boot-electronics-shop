@@ -37,23 +37,23 @@
                     <br>
                     <label>First Name : </label>
                     <div>
-                        <form:input cssClass="input-address" path="firstName" type="text"/>
-                        <form:errors cssClass="input-error" path="firstName"/>
+                        <form:input cssClass="input-address" path="anonymousDTO.firstName" type="text"/>
+                        <form:errors cssClass="input-error" path="anonymousDTO.firstName"/>
                     </div>
                     <label>Last Name : </label>
                     <div>
-                        <form:input cssClass="input-address" path="lastName" type="text"/>
-                        <form:errors cssClass="input-error" path="lastName"/>
+                        <form:input cssClass="input-address" path="anonymousDTO.lastName" type="text"/>
+                        <form:errors cssClass="input-error" path="anonymousDTO.lastName"/>
                     </div>
                     <label>Email : </label>
                     <div>
-                        <form:input cssClass="input-address" path="login" type="text"/>
-                        <form:errors cssClass="input-error" path="login"/>
+                        <form:input cssClass="input-address" path="anonymousDTO.login" type="text"/>
+                        <form:errors cssClass="input-error" path="anonymousDTO.login"/>
                     </div>
                     <label>Phone : </label>
                     <div>
-                        <form:input cssClass="input-address" path="phone" type="text"/>
-                        <form:errors cssClass="input-error" path="phone"/>
+                        <form:input cssClass="input-address" path="anonymousDTO.phone" type="text"/>
+                        <form:errors cssClass="input-error" path="anonymousDTO.phone"/>
                     </div>
                     <br>
                 </sec:authorize>

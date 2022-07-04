@@ -1,8 +1,11 @@
 package aim.traineeship.electronics.shop.service.impl;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -22,22 +25,25 @@ public class DefaultCustomerService implements CustomerService
 	private CustomerDAO customerDAO;
 
 	@Autowired
-	private CustomerDTOConverter customerConverter;
+	private CustomerDTOConverter customerDTOConverter;
 
 	@Autowired
 	private AnonymousDTOConverter anonymousConverter;
 
 	private static final String USER_NOT_FOUND_MSG = "Not found user with username : ";
+	public static final String ANONYMOUS_LOGIN = "anonymous";
 
 	@Override
 	public void registerNewAccount(final CustomerDTO customerDTO)
 	{
-		customerDAO.saveCustomer(customerConverter.convert(customerDTO));
+		customerDAO.saveCustomer(customerDTOConverter.convert(customerDTO));
 	}
 
 	@Override
 	public Integer registerAnonymousUser(final AnonymousDTO anonymousDTO)
 	{
+		final String anonymousLogin = UUID.randomUUID().toString();
+		anonymousDTO.setLogin(anonymousDTO.getLogin() + "|" + anonymousLogin);
 		return customerDAO.saveAnonymousCustomer(anonymousConverter.convert(anonymousDTO));
 	}
 
@@ -52,5 +58,29 @@ public class DefaultCustomerService implements CustomerService
 	{
 		final Optional<Customer> customerOptional = customerDAO.findByLogin(login);
 		return customerOptional.orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MSG + login));
+	}
+
+	@Override
+	public Optional<Customer> getAuthenticatedCustomer()
+	{
+		Optional<Customer> customer = Optional.empty();
+		try
+		{
+			final UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
+					.getAuthentication()
+					.getPrincipal();
+			customer = Optional.ofNullable(findCustomerByLogin(principal.getUsername()));
+			return customer;
+		}
+		catch (final ClassCastException castException)
+		{
+			return customer;
+		}
+	}
+
+	@Override
+	public Customer getAnonymous()
+	{
+		return customerDAO.findByLoginAnonymous(ANONYMOUS_LOGIN).orElseThrow();
 	}
 }

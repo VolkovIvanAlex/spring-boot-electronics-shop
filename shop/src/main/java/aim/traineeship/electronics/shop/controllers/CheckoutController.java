@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import aim.traineeship.electronics.shop.dto.AddressDTO;
 import aim.traineeship.electronics.shop.dto.CartDTO;
 import aim.traineeship.electronics.shop.dto.CheckoutDTO;
-import aim.traineeship.electronics.shop.dto.CustomerDTO;
 import aim.traineeship.electronics.shop.service.CartService;
 import aim.traineeship.electronics.shop.validation.CheckoutValidator;
 
@@ -39,8 +37,7 @@ public class CheckoutController
 	{
 		final CartDTO cartDTO = cartService.getCurrentCartDTO(session);
 		model.addAttribute(CART, cartDTO);
-		model.addAttribute("checkoutDTO", new CheckoutDTO(new AddressDTO()));
-		model.addAttribute("customerDTO", new CustomerDTO());
+		model.addAttribute("checkoutDTO", new CheckoutDTO());
 		return "checkout";
 	}
 
@@ -48,18 +45,13 @@ public class CheckoutController
 	public String submitCart(@Valid @ModelAttribute("checkoutDTO") final CheckoutDTO checkoutDTO,
 			final BindingResult result, final HttpSession session, final Model model)
 	{
-		if (checkoutDTO.getLogin() != null)
-		{
-			checkoutValidator.validate(checkoutDTO, result);
-		}
-
+		final CartDTO cartDTO = cartService.getCurrentCartDTO(session);
+		checkoutValidator.validate(checkoutDTO, result);
 		if (result.hasErrors())
 		{
-			final CartDTO cartDTO = cartService.getCurrentCartDTO(session);
 			model.addAttribute(CART, cartDTO);
 			return "checkout";
 		}
-		final CartDTO cartDTO = cartService.getCurrentCartDTO(session);
 		cartService.submitCart(checkoutDTO, session);
 		return "redirect:/confirmation/" + cartDTO.getCode();
 	}

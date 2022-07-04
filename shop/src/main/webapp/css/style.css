@@ -26,16 +26,18 @@ body {
 }
 
 .user-name {
+    display: inline-block;
+    margin: 0px;
     padding: 3px;
     border-radius: 5px;
     text-decoration: none;
     background: aliceblue;
     font: small-caps bold 24px/1 sans-serif;
-    margin: 30px 30px 30px -10px;
 }
 
 .vertical-center {
-    display: flex;
+    display: inline-block;
+    width: 100%;
     margin: 0;
     position: relative;
     top: 50%;
@@ -49,7 +51,7 @@ footer {
     width: 100%;
     text-align: center;
     padding: 3px;
-    background-color: #ff9966;
+    background-color: #668cff;
     color: white;
 }
 
@@ -143,7 +145,7 @@ footer {
 
 .right-container {
     display: inline-block;
-    background: #b3fff0;
+    background: #c1f0f0;
     margin-top: 1%;
     margin-bottom: 10%;
     padding-left: 21px;
@@ -212,7 +214,7 @@ footer {
     padding: 60px;
     border-radius: 5px;
     text-decoration: none;
-    background: #ffcc99;
+    background: #99b3ff;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
@@ -220,7 +222,7 @@ footer {
     position: absolute;
     top: 30%;
     left: 50%;
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font: small-caps bold 20px sans-serif;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
@@ -228,7 +230,7 @@ footer {
 .login {
     width: 30%;
     text-align: center;
-    background: #00b3b3;
+    background: #c1f0f0;
     border-radius: 5px;
     padding: 30px;
     position: absolute;
@@ -262,17 +264,15 @@ footer {
 }
 
 .label-input {
-    display: flex;
     margin: 10px;
 }
 
 .input-login {
-    margin-left: 45px;
     padding: 8px;
     display: block;
     border: none;
     border-bottom: 1px solid #ccc;
-    width: 20%;
+    width: 100%;
 }
 
 .input-pdp {
@@ -325,7 +325,7 @@ footer {
 .registration {
     width: 50%;
     text-align: center;
-    background: #00b3b3;
+    background: #c1f0f0;
     border-radius: 5px;
     padding: 30px;
     position: absolute;

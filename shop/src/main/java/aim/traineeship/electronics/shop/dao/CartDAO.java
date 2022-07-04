@@ -14,8 +14,6 @@ public interface CartDAO
 
 	Optional<Cart> findFullByCode(String code);
 
-	Optional<Cart> findFullByCodeAnonymous(String code);
-
 	void updateCartTotalPrice(final String code, final Double price);
 
 	void saveAddress(final String cartCode, final Integer addressId);

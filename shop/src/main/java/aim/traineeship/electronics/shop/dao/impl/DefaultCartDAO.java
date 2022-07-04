@@ -15,7 +15,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import aim.traineeship.electronics.shop.dao.CartDAO;
-import aim.traineeship.electronics.shop.dao.mapper.AnonymousFullCartRowMapper;
 import aim.traineeship.electronics.shop.dao.mapper.DefaultCartRowMapper;
 import aim.traineeship.electronics.shop.dao.mapper.FullCartRowMapper;
 import aim.traineeship.electronics.shop.entities.Cart;
@@ -35,26 +34,15 @@ public class DefaultCartDAO implements CartDAO
 	private static final String CUSTOMER_ID = "customer_id";
 	private static final String ADDRESS_ID = "address_id";
 
-	private static final String INSERT_CART = "INSERT INTO Cart (code , totalPrice , placedDate , customer_id)"
-			+ "VALUES (:code , :totalPrice , :placedDate , :customer_id)";
-
 	private static final String SELECT_BY_CODE = "SELECT CA.id ,code ,totalPrice , placedDate , customer_id , "
 			+ "login , password , firstName , lastName , gender , birthDay , phone "
 			+ "FROM Cart AS CA JOIN Customer AS CU ON CA.customer_id = CU.id "
 			+ "WHERE CA.code = :code ";
 
-	private static final String SELECT_BY_CODE_ANONYMOUS = "SELECT id ,code ,totalPrice , placedDate "
-			+ "FROM Cart WHERE code = :code ";
-
 	private static final String SELECT_FULL_BY_CODE =
 			"SELECT CA.id AS id ,code ,totalPrice , placedDate , customer_id , "
-					+ " login , password , firstName , lastName , gender , birthDay , phone , street , town , region , zipCode , country "
+					+ " login , firstName , lastName , street , town , region , zipCode , country "
 					+ " FROM Cart AS CA JOIN Customer AS CU ON CA.customer_id = CU.id JOIN Address AS A ON address_id = A.id "
-					+ " WHERE CA.code = :code";
-
-	private static final String SELECT_FULL_BY_CODE_ANONYMOUS =
-			"SELECT CA.id AS id ,code ,totalPrice , placedDate , street , town , region , zipCode , country "
-					+ " FROM Cart AS CA JOIN Address AS A ON address_id = A.id "
 					+ " WHERE CA.code = :code";
 
 	private static final String UPDATE_PRICE = "UPDATE Cart SET totalPrice = :totalPrice "
@@ -83,14 +71,7 @@ public class DefaultCartDAO implements CartDAO
 		parameters.put(CODE, cart.getCode());
 		parameters.put(TOTAL_PRICE, cart.getTotalPrice());
 		parameters.put(PLACED_DATE, cart.getPlacedDate());
-		if (cart.getCustomer() == null)
-		{
-			parameters.put(CUSTOMER_ID, null);
-		}
-		else
-		{
-			parameters.put(CUSTOMER_ID, cart.getCustomer().getId());
-		}
+		parameters.put(CUSTOMER_ID, cart.getCustomer().getId());
 		return simpleJdbcInsert.executeAndReturnKey(parameters).intValue();
 	}
 
@@ -111,16 +92,6 @@ public class DefaultCartDAO implements CartDAO
 		final RowMapper<Cart> mapper = new FullCartRowMapper();
 		parameter.put(CODE, code);
 		final List<Cart> result = namedParameterJdbcTemplate.query(SELECT_FULL_BY_CODE, parameter, mapper);
-		return result.stream().findFirst();
-	}
-
-	@Override
-	public Optional<Cart> findFullByCodeAnonymous(final String code)
-	{
-		final Map<String, Object> parameter = new HashMap<>();
-		final RowMapper<Cart> mapper = new AnonymousFullCartRowMapper();
-		parameter.put(CODE, code);
-		final List<Cart> result = namedParameterJdbcTemplate.query(SELECT_FULL_BY_CODE_ANONYMOUS, parameter, mapper);
 		return result.stream().findFirst();
 	}
 

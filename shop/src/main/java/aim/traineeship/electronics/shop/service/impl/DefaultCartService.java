@@ -9,15 +9,12 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import aim.traineeship.electronics.shop.converter.impl.CartConverter;
 import aim.traineeship.electronics.shop.dao.CartDAO;
 import aim.traineeship.electronics.shop.dto.AddToCartDTO;
 import aim.traineeship.electronics.shop.dto.AddressDTO;
-import aim.traineeship.electronics.shop.dto.AnonymousDTO;
 import aim.traineeship.electronics.shop.dto.CartDTO;
 import aim.traineeship.electronics.shop.dto.CheckoutDTO;
 import aim.traineeship.electronics.shop.entities.Cart;
@@ -91,7 +88,7 @@ public class DefaultCartService implements CartService
 	public CartDTO getCurrentCartDTO(final HttpSession session)
 	{
 		final Cart cart = getCurrentCart(session);
-		final Optional<Customer> customer = getAuthenticatedCustomer();
+		final Optional<Customer> customer = customerService.getAuthenticatedCustomer();
 		if (customer.isPresent())
 		{
 			cart.setCustomer(customer.get());
@@ -109,16 +106,7 @@ public class DefaultCartService implements CartService
 	@Override
 	public CartDTO geFullCartDTO(final String code)
 	{
-		final Cart cart;
-		if (getAuthenticatedCustomer().isEmpty())
-		{
-			cart = cartDao.findFullByCodeAnonymous(code).orElseThrow();
-		}
-		else
-		{
-			cart = cartDao.findFullByCode(code).orElseThrow();
-		}
-
+		final Cart cart = cartDao.findFullByCode(code).orElseThrow();
 		cart.setCartEntries(cartEntryService.getCartEntries(cart));
 		return cartConverter.convert(cart);
 	}
@@ -160,9 +148,9 @@ public class DefaultCartService implements CartService
 		addressDTO.setId(addressId);
 		updateAddress(addressDTO, cart);
 
-		if (cart.getCustomer() == null)
+		if (cart.getCustomer().getLogin().equals(DefaultCustomerService.ANONYMOUS_LOGIN))
 		{
-			final Integer anonymousId = customerService.registerAnonymousUser(new AnonymousDTO(checkoutDTO));
+			final Integer anonymousId = customerService.registerAnonymousUser(checkoutDTO.getAnonymousDTO());
 			updateCustomer(anonymousId, cart);
 		}
 
@@ -177,30 +165,21 @@ public class DefaultCartService implements CartService
 		newCart.setCode(String.valueOf((int) System.currentTimeMillis()));
 		newCart.setTotalPrice(DEFAULT_TOTAL_PRICE);
 
-		final Optional<Customer> authenticatedCustomer = getAuthenticatedCustomer();
-		authenticatedCustomer.ifPresent(newCart::setCustomer);
+		final Optional<Customer> authenticatedCustomer = customerService.getAuthenticatedCustomer();
+		if (authenticatedCustomer.isPresent())
+		{
+			newCart.setCustomer(authenticatedCustomer.get());
+		}
+		else
+		{
+			final Customer anonymous = customerService.getAnonymous();
+			newCart.setCustomer(anonymous);
+		}
 
 		final Integer cartId = cartDao.saveCart(newCart);
 		newCart.setId(cartId);
 		session.setAttribute(CART, newCart);
 		return newCart;
-	}
-
-	private Optional<Customer> getAuthenticatedCustomer()
-	{
-		Optional<Customer> customer = Optional.empty();
-		try
-		{
-			final UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
-					.getAuthentication()
-					.getPrincipal();
-			customer = Optional.ofNullable(customerService.findCustomerByLogin(principal.getUsername()));
-			return customer;
-		}
-		catch (final ClassCastException castException)
-		{
-			return customer;
-		}
 	}
 
 	private void updateAddress(final AddressDTO addressDTO, final Cart cart)
