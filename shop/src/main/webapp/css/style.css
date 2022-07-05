@@ -27,7 +27,7 @@ body {
 
 .user-name {
     display: inline-block;
-    margin: 0px;
+    margin: 0px 25px 0px 0px;
     padding: 3px;
     border-radius: 5px;
     text-decoration: none;
@@ -196,8 +196,10 @@ footer {
 
 
 .input-error {
-    background: #ff704d;
-    border-radius: 5px
+    color: white;
+    background: #ff80aa;
+    padding: 5px;
+    border-radius: 5px;
 }
 
 .center {
@@ -243,6 +245,7 @@ footer {
 }
 
 .login-btn {
+    margin-top: 10px;
     padding: 8px;
     border: none;
     border-bottom: 1px solid #ccc;
@@ -323,7 +326,7 @@ footer {
 }
 
 .registration {
-    width: 50%;
+    width: 60%;
     text-align: center;
     background: #c1f0f0;
     border-radius: 5px;

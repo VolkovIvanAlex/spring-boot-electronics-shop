@@ -8,14 +8,13 @@
         <div style="float: right">
             <sec:authorize access="!isAuthenticated()">
                 <a href="/login" class="links-style">Log in</a>
+                <a class="links-style" href="/registration">Create Account</a>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
                 <a href="/logout" class="links-style">Log out </a>
                 <h1 class="user-name">User : <sec:authentication
                         property="principal.customer.firstName"/></h1>
             </sec:authorize>
-            <a class="links-style" href="/registration">Create Account</a>
-
         </div>
     </div>
 </header>

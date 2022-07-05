@@ -79,8 +79,8 @@ public class DefaultCustomerService implements CustomerService
 	}
 
 	@Override
-	public Customer getAnonymous()
+	public Customer getDefaultAnonymous()
 	{
-		return customerDAO.findByLoginAnonymous(ANONYMOUS_LOGIN).orElseThrow();
+		return customerDAO.findByLogin(ANONYMOUS_LOGIN).orElseThrow();
 	}
 }

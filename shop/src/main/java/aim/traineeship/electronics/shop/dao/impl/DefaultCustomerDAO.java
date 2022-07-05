@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import aim.traineeship.electronics.shop.dao.CustomerDAO;
-import aim.traineeship.electronics.shop.dao.mapper.AnonymousCustomerRowMapper;
 import aim.traineeship.electronics.shop.dao.mapper.DefaultCustomerRowMapper;
 import aim.traineeship.electronics.shop.entities.Customer;
 
@@ -42,9 +41,6 @@ public class DefaultCustomerDAO implements CustomerDAO
 	private static final String FIND_BY_LOGIN = "SELECT id,login,password,firstName,lastName,gender,birthDay,phone "
 			+ "FROM Customer WHERE login = :login ";
 
-	private static final String FIND_BY_LOGIN_ANONYMOUS = "SELECT id,login,firstName,lastName,phone "
-			+ "FROM Customer WHERE login = :login ";
-
 	private static final String INSERT_CUSTOMER =
 			"INSERT INTO Customer (login, password, firstName, lastName, gender, birthDay, phone)" +
 					"VALUES (:login, :password, :firstName, :lastName, :gender, :birthDay, :phone)";
@@ -63,17 +59,6 @@ public class DefaultCustomerDAO implements CustomerDAO
 		final Map<String, Object> param = new HashMap<>();
 		param.put(LOGIN, login);
 		final List<Customer> customerList = this.namedParameterJdbcTemplate.query(FIND_BY_LOGIN, param, mapper);
-		return customerList.stream().findFirst();
-	}
-
-	@Override
-	public Optional<Customer> findByLoginAnonymous(final String login)
-	{
-		final RowMapper<Customer> mapper = new AnonymousCustomerRowMapper();
-		final Map<String, Object> param = new HashMap<>();
-		param.put(LOGIN, login);
-		final List<Customer> customerList = this.namedParameterJdbcTemplate.query(FIND_BY_LOGIN_ANONYMOUS, param,
-				mapper);
 		return customerList.stream().findFirst();
 	}
 

@@ -1,10 +1,17 @@
 package aim.traineeship.electronics.shop.dto;
 
+import javax.validation.constraints.NotEmpty;
+
+
 public class AnonymousDTO
 {
+	@NotEmpty
 	private String login;
+	@NotEmpty
 	private String firstName;
+	@NotEmpty
 	private String lastName;
+	@NotEmpty
 	private String phone;
 
 	public String getLogin()

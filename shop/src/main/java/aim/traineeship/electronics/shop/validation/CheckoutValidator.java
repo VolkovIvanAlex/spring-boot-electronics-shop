@@ -60,7 +60,7 @@ public class CheckoutValidator implements Validator
 	private void validateFirstName(final CheckoutDTO checkoutDTO, final Errors errors)
 	{
 		final char[] firstName = checkoutDTO.getAnonymousDTO().getFirstName().toCharArray();
-		if (checkForDigits(firstName))
+		if (checkForDigits(firstName) /*|| firstName.length == 0*/)
 		{
 			errors.rejectValue(FIRST_NAME, INVALID_FIRST_NAME_CODE);
 		}
@@ -69,7 +69,7 @@ public class CheckoutValidator implements Validator
 	private void validateLastName(final CheckoutDTO checkoutDTO, final Errors errors)
 	{
 		final char[] lastName = checkoutDTO.getAnonymousDTO().getLastName().toCharArray();
-		if (checkForDigits(lastName))
+		if (checkForDigits(lastName) /*|| lastName.length == 0*/)
 		{
 			errors.rejectValue(LAST_NAME, INVALID_LAST_NAME_CODE);
 		}

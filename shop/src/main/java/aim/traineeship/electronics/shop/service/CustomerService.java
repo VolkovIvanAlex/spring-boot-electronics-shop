@@ -19,5 +19,5 @@ public interface CustomerService
 
 	Optional<Customer> getAuthenticatedCustomer();
 
-	Customer getAnonymous();
+	Customer getDefaultAnonymous();
 }

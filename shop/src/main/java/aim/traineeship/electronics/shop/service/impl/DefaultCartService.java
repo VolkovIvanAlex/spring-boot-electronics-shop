@@ -62,13 +62,39 @@ public class DefaultCartService implements CartService
 	@Override
 	public void addToCart(final AddToCartDTO addToCartDTO, final HttpSession session)
 	{
-		final Cart cart = getCurrentCart(session);
+		Cart cart = getCurrentCart(session);
 		final Product product = productService.getProductByCode(addToCartDTO.getProductCode());
 		cartEntryService.addCartEntry(product, cart, addToCartDTO.getQuantity());
 
-		final Double cartTotalPrice = calculationService.calculate(cart);
-		cart.setTotalPrice(cartTotalPrice);
+		calculationService.calculate(cart);
+		cart = cartDao.findByCode(cart.getCode());
 		cart.setCartEntries(cartEntryService.getCartEntries(cart));
+		session.setAttribute(CART, cart);
+	}
+
+	@Override
+	public void updateCart(final AddToCartDTO addToCartDTO, final HttpSession session)
+	{
+		final Product product = productService.getProductByCode(addToCartDTO.getProductCode());
+		Cart cart = getCurrentCart(session);
+		final List<CartEntry> cartEntries;
+
+		if (addToCartDTO.getQuantity() == 0)
+		{
+			cartEntryService.deleteCartEntry(product, cart);
+			cartEntries = cartEntryService.updateEntryNumbers(cart);
+		}
+		else
+		{
+			final int newQuantity = addToCartDTO.getQuantity();
+			final double newTotalPrice = product.getPrice() * newQuantity;
+			cartEntryService.updateCartEntry(product, cart, newQuantity, newTotalPrice);
+			cartEntries = cartEntryService.getCartEntries(cart);
+		}
+		calculationService.calculate(cart);
+		cart = cartDao.findByCode(cart.getCode());
+		cart.setCartEntries(cartEntries);
+
 		session.setAttribute(CART, cart);
 	}
 
@@ -112,43 +138,15 @@ public class DefaultCartService implements CartService
 	}
 
 	@Override
-	public void updateCart(final AddToCartDTO addToCartDTO, final HttpSession session)
-	{
-		final Product product = productService.getProductByCode(addToCartDTO.getProductCode());
-		final Cart cart = getCurrentCart(session);
-		final List<CartEntry> cartEntries;
-
-		if (addToCartDTO.getQuantity() == 0)
-		{
-			cartEntryService.deleteCartEntry(product, cart);
-			cartEntries = cartEntryService.updateEntryNumbers(cart);
-		}
-		else
-		{
-			final int newQuantity = addToCartDTO.getQuantity();
-			final double newTotalPrice = product.getPrice() * newQuantity;
-			cartEntryService.updateCartEntry(product, cart, newQuantity, newTotalPrice);
-			cartEntries = cartEntryService.getCartEntries(cart);
-		}
-		cart.setCartEntries(cartEntries);
-
-		final Double cartTotalPrice = calculationService.calculate(cart);
-		cart.setTotalPrice(cartTotalPrice);
-
-		session.setAttribute(CART, cart);
-	}
-
-	@Override
 	public void submitCart(final CheckoutDTO checkoutDTO, final HttpSession session)
 	{
 		final Cart cart = getCurrentCart(session);
 
 		final AddressDTO addressDTO = checkoutDTO.getAddressDTO();
 		final Integer addressId = addressService.saveAddress(addressDTO);
-		addressDTO.setId(addressId);
-		updateAddress(addressDTO, cart);
+		updateAddress(addressId, cart);
 
-		if (cart.getCustomer().getLogin().equals(DefaultCustomerService.ANONYMOUS_LOGIN))
+		if (DefaultCustomerService.ANONYMOUS_LOGIN.equals(cart.getCustomer().getLogin()))
 		{
 			final Integer anonymousId = customerService.registerAnonymousUser(checkoutDTO.getAnonymousDTO());
 			updateCustomer(anonymousId, cart);
@@ -162,7 +160,7 @@ public class DefaultCartService implements CartService
 	{
 		final Cart newCart = new Cart();
 
-		newCart.setCode(String.valueOf((int) System.currentTimeMillis()));
+		newCart.setCode(String.valueOf(System.currentTimeMillis()));
 		newCart.setTotalPrice(DEFAULT_TOTAL_PRICE);
 
 		final Optional<Customer> authenticatedCustomer = customerService.getAuthenticatedCustomer();
@@ -172,7 +170,7 @@ public class DefaultCartService implements CartService
 		}
 		else
 		{
-			final Customer anonymous = customerService.getAnonymous();
+			final Customer anonymous = customerService.getDefaultAnonymous();
 			newCart.setCustomer(anonymous);
 		}
 
@@ -182,9 +180,9 @@ public class DefaultCartService implements CartService
 		return newCart;
 	}
 
-	private void updateAddress(final AddressDTO addressDTO, final Cart cart)
+	private void updateAddress(final Integer addressId, final Cart cart)
 	{
-		cartDao.saveAddress(cart.getCode(), addressDTO.getId());
+		cartDao.saveAddress(cart.getCode(), addressId);
 	}
 
 	private void updatePlacedDate(final Cart cart)

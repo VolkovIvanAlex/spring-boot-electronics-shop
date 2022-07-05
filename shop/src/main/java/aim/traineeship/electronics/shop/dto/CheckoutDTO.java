@@ -7,6 +7,7 @@ public class CheckoutDTO
 {
 	@Valid
 	private AddressDTO addressDTO;
+	@Valid
 	private AnonymousDTO anonymousDTO;
 
 	public AddressDTO getAddressDTO()

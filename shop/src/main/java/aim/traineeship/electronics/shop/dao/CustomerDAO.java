@@ -8,8 +8,6 @@ import aim.traineeship.electronics.shop.entities.Customer;
 public interface CustomerDAO
 {
 	Optional<Customer> findByLogin(final String login);
-	
-	Optional<Customer> findByLoginAnonymous(final String login);
 
 	void saveCustomer(final Customer customer);
 

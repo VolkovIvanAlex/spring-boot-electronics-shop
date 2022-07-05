@@ -35,7 +35,7 @@ public class DefaultCartDAO implements CartDAO
 	private static final String ADDRESS_ID = "address_id";
 
 	private static final String SELECT_BY_CODE = "SELECT CA.id ,code ,totalPrice , placedDate , customer_id , "
-			+ "login , password , firstName , lastName , gender , birthDay , phone "
+			+ "login ,firstName , lastName "
 			+ "FROM Cart AS CA JOIN Customer AS CU ON CA.customer_id = CU.id "
 			+ "WHERE CA.code = :code ";
 
