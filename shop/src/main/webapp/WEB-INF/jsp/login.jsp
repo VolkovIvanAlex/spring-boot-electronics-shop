@@ -8,17 +8,13 @@
                 action="/login"
                 method="post">
             <div class="label-input">
-                <label>Enter User Name : </label>
-                <input class="input-login" type="text" name="username" style="padding: 5px">
+                <input class="input-login" type="text" name="username" style="padding: 5px" placeholder="Login">
             </div>
             <div class="label-input">
-                <label>Enter Password : </label>
-                <input class="input-login" type="password" name="password" style="padding: 5px">
+                <input class="input-login" type="password" name="password" style="padding: 5px" placeholder="Password">
             </div>
             <c:if test="${param.error != null}">
-                <p style="background: indianred;border-radius: 5px; color: white">Invalid login or password. Please
-                    try
-                    again.</p>
+                <span class="input-error">Invalid login or password. Please try again.</span>
             </c:if>
             <input class="login-btn" type="submit" value="Login">
         </form:form>

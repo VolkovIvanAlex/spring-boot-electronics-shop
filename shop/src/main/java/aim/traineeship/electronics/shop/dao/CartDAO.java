@@ -8,7 +8,7 @@ import aim.traineeship.electronics.shop.entities.Cart;
 
 public interface CartDAO
 {
-	void saveCart(final Cart cart);
+	Integer saveCart(final Cart cart);
 
 	Cart findByCode(String code);
 
@@ -19,4 +19,6 @@ public interface CartDAO
 	void saveAddress(final String cartCode, final Integer addressId);
 
 	void savePlacedDate(final String cartCode, final Date date);
+
+	void saveCustomer(final Integer anonymousId, final String code);
 }

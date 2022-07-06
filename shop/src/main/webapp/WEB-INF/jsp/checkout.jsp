@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags" %>
@@ -25,35 +26,69 @@
         </div>
 
     </div>
-    <div class="address-container">
+    <div class="right-container">
         <div class="links-style-products">
-            <h2>${cart.customerDTO.firstName} ${cart.customerDTO.lastName} (${cart.customerDTO.phone})</h2>
-            <form:form modelAttribute="addressDTO" action="/checkout/address" method="post">
-                <label>Street : </label>
-                <form:input cssClass="input-address" path="street" type="text"/>
-                <form:errors cssClass="input-error" path="street"/>
-                <br>
-                <br>
-                <label>Town : </label>
-                <form:input cssClass="input-address" path="town" type="text"/>
-                <form:errors cssClass="input-error" path="town"/>
-                <br>
-                <br>
-                <label>Zip-Code : </label>
-                <form:input cssClass="input-address" path="zipCode" type="text"/>
-                <form:errors cssClass="input-error" path="zipCode"/>
-                <br>
-                <br>
-                <label>Region : </label>
-                <form:input cssClass="input-address" path="region" type="text"/>
-                <form:errors cssClass="input-error" path="region"/>
-                <br>
-                <br>
-                <label>Country : </label>
-                <form:input cssClass="input-address" path="country" type="text"/>
-                <form:errors cssClass="input-error" path="country"/>
-                <br>
-                <br>
+
+            <sec:authorize access="isAuthenticated()">
+                <h2>${cart.customerDTO.firstName} ${cart.customerDTO.lastName} (${cart.customerDTO.phone})</h2>
+            </sec:authorize>
+            <form:form modelAttribute="checkoutDTO" action="/checkout/address" method="post">
+                <sec:authorize access="!isAuthenticated()">
+                    <br>
+                    <label>First Name : </label>
+                    <div>
+                        <form:input cssClass="input-address" path="anonymousDTO.firstName" type="text"/>
+                        <form:errors cssClass="input-error" path="anonymousDTO.firstName"/>
+                    </div>
+                    <label>Last Name : </label>
+                    <div>
+                        <form:input cssClass="input-address" path="anonymousDTO.lastName" type="text"/>
+                        <form:errors cssClass="input-error" path="anonymousDTO.lastName"/>
+                    </div>
+                    <label>Email : </label>
+                    <div>
+                        <form:input cssClass="input-address" path="anonymousDTO.login" type="text"/>
+                        <form:errors cssClass="input-error" path="anonymousDTO.login"/>
+                    </div>
+                    <label>Phone : </label>
+                    <div>
+                        <form:input cssClass="input-address" path="anonymousDTO.phone" type="text"/>
+                        <form:errors cssClass="input-error" path="anonymousDTO.phone"/>
+                    </div>
+                    <br>
+                </sec:authorize>
+                <div class="address-container">
+                    <label>Street : </label>
+                    <div>
+                        <form:input cssClass="input-address" path="addressDTO.street" type="text"/>
+                        <form:errors cssClass="input-error" path="addressDTO.street"/>
+                    </div>
+                    <br>
+                    <label>Town : </label>
+                    <div>
+                        <form:input cssClass="input-address" path="addressDTO.town" type="text"/>
+                        <form:errors cssClass="input-error" path="addressDTO.town"/>
+                    </div>
+                    <br>
+                    <label>Zip-Code : </label>
+                    <div>
+                        <form:input cssClass="input-address" path="addressDTO.zipCode" type="text"/>
+                        <form:errors cssClass="input-error" path="addressDTO.zipCode"/>
+                    </div>
+                    <br>
+                    <label>Region : </label>
+                    <div>
+                        <form:input cssClass="input-address" path="addressDTO.region" type="text"/>
+                        <form:errors cssClass="input-error" path="addressDTO.region"/>
+                    </div>
+                    <br>
+                    <label>Country : </label>
+                    <div>
+                        <form:input cssClass="input-address" path="addressDTO.country" type="text"/>
+                        <form:errors cssClass="input-error" path="addressDTO.country"/>
+                    </div>
+                    <br>
+                </div>
                 <button class="confirm-btn" type="submit">Confirm</button>
             </form:form>
         </div>

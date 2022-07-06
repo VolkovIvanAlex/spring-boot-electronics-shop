@@ -7,7 +7,7 @@ import aim.traineeship.electronics.shop.dto.AddressDTO;
 import aim.traineeship.electronics.shop.entities.Address;
 
 @Component
-public class AddressDTOConverter implements Converter<AddressDTO , Address>
+public class AddressDTOConverter implements Converter<AddressDTO, Address>
 {
 	@Override
 	public Address convert(final AddressDTO addressDTO)

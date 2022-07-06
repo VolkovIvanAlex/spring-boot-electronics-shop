@@ -23,7 +23,7 @@ public class CalculationService
 	public void calculate(final Cart cart)
 	{
 		final List<CartEntry> cartEntries = cartEntryDAO.getCartEntriesByCartId(cart.getId());
-		final double cartEntryTotalPrice = cartEntries.stream().mapToDouble(CartEntry::getTotalPrice).sum();
-		cartDao.updateCartTotalPrice(cart.getCode(), cartEntryTotalPrice);
+		final double cartTotalPrice = cartEntries.stream().mapToDouble(CartEntry::getTotalPrice).sum();
+		cartDao.updateCartTotalPrice(cart.getCode(), cartTotalPrice);
 	}
 }

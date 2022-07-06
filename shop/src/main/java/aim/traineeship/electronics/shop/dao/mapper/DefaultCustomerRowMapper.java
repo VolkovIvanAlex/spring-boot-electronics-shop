@@ -30,7 +30,10 @@ public class DefaultCustomerRowMapper implements RowMapper<Customer>
 		customer.setPassword(rs.getString(PASSWORD));
 		customer.setFirstName(rs.getString(FIRST_NAME));
 		customer.setLastName(rs.getString(LAST_NAME));
-		customer.setGender(Gender.valueOf(rs.getString(GENDER).toUpperCase(Locale.ROOT)));
+		if (rs.getString(GENDER) != null)
+		{
+			customer.setGender(Gender.valueOf(rs.getString(GENDER).toUpperCase(Locale.ROOT)));
+		}
 		customer.setBirthDay(rs.getDate(BIRTHDAY));
 		customer.setPhone(rs.getString(PHONE));
 		return customer;

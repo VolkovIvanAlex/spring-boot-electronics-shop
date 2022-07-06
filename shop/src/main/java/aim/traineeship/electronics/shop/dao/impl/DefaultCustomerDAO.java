@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +25,8 @@ public class DefaultCustomerDAO implements CustomerDAO
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	private final SimpleJdbcInsert simpleJdbcInsert;
+
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -35,9 +40,17 @@ public class DefaultCustomerDAO implements CustomerDAO
 
 	private static final String FIND_BY_LOGIN = "SELECT id,login,password,firstName,lastName,gender,birthDay,phone "
 			+ "FROM Customer WHERE login = :login ";
+
 	private static final String INSERT_CUSTOMER =
 			"INSERT INTO Customer (login, password, firstName, lastName, gender, birthDay, phone)" +
 					"VALUES (:login, :password, :firstName, :lastName, :gender, :birthDay, :phone)";
+
+	@Autowired
+	public DefaultCustomerDAO(final DataSource dataSource)
+	{
+		simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+				.withTableName("Customer").usingGeneratedKeyColumns("id");
+	}
 
 	@Override
 	public Optional<Customer> findByLogin(final String login)
@@ -61,5 +74,16 @@ public class DefaultCustomerDAO implements CustomerDAO
 		params.put(BIRTHDAY, customer.getBirthDay());
 		params.put(PHONE, customer.getPhone());
 		namedParameterJdbcTemplate.update(INSERT_CUSTOMER, params);
+	}
+
+	@Override
+	public Integer saveAnonymousCustomer(final Customer customer)
+	{
+		final Map<String, Object> params = new HashMap<>();
+		params.put(FIRST_NAME, customer.getFirstName());
+		params.put(LAST_NAME, customer.getLastName());
+		params.put(LOGIN, customer.getLogin());
+		params.put(PHONE, customer.getPhone());
+		return simpleJdbcInsert.executeAndReturnKey(params).intValue();
 	}
 }

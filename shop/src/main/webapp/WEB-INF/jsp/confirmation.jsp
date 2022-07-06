@@ -4,7 +4,8 @@
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags" %>
 <template:page pageTitle="Confirmation Page">
     <div class="container , text-style-products">
-        <h1>Your order was successful! Thank you for shopping with us.</h1>
+        <h1>Your order was successful! Thank you , ${cart.customerDTO.firstName} ${cart.customerDTO.lastName} , for
+            shopping with us.</h1>
         <h2>Order # ${cart.code} |
             <fmt:formatDate value="${cart.placedDate}" pattern="dd.MM.yyyy"/> | To :
                 ${cart.addressDTO.street} ${cart.addressDTO.town} ${cart.addressDTO.zipCode} ${cart.addressDTO.region}</h2>
