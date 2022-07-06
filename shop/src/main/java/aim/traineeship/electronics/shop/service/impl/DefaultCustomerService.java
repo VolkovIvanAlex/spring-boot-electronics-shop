@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import aim.traineeship.electronics.shop.converter.impl.CustomerConverter;
 import aim.traineeship.electronics.shop.converter.impl.dto.AnonymousDTOConverter;
 import aim.traineeship.electronics.shop.converter.impl.dto.CustomerDTOConverter;
 import aim.traineeship.electronics.shop.dao.CustomerDAO;
@@ -29,6 +30,9 @@ public class DefaultCustomerService implements CustomerService
 
 	@Autowired
 	private AnonymousDTOConverter anonymousConverter;
+
+	@Autowired
+	private CustomerConverter customerConverter;
 
 	private static final String USER_NOT_FOUND_MSG = "Not found user with username : ";
 	public static final String ANONYMOUS_LOGIN = "anonymous";
@@ -82,5 +86,11 @@ public class DefaultCustomerService implements CustomerService
 	public Customer getDefaultAnonymous()
 	{
 		return customerDAO.findByLogin(ANONYMOUS_LOGIN).orElseThrow();
+	}
+
+	@Override
+	public CustomerDTO getAuthenticatedCustomerDTO()
+	{
+		return customerConverter.convert(getAuthenticatedCustomer().orElseThrow());
 	}
 }
