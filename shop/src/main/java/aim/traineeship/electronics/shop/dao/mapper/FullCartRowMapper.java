@@ -11,6 +11,7 @@ import aim.traineeship.electronics.shop.entities.Cart;
 
 public class FullCartRowMapper implements RowMapper<Cart>
 {
+
 	private static final String STREET = "street";
 	private static final String TOWN = "town";
 	private static final String ZIP_CODE = "zipCode";

@@ -138,6 +138,13 @@ public class DefaultCartService implements CartService
 	}
 
 	@Override
+	public List<CartDTO> getOrdersCurrentCustomer()
+	{
+		final Customer customer = customerService.getAuthenticatedCustomer().orElseThrow();
+		return cartConverter.convertList(cartDao.findOrdersByCustomerId(customer.getId()));
+	}
+
+	@Override
 	public void submitCart(final CheckoutDTO checkoutDTO, final HttpSession session)
 	{
 		final Cart cart = getCurrentCart(session);

@@ -35,15 +35,22 @@ public class DefaultCartDAO implements CartDAO
 	private static final String ADDRESS_ID = "address_id";
 
 	private static final String SELECT_BY_CODE = "SELECT CA.id ,code ,totalPrice , placedDate , customer_id , "
-			+ "login ,firstName , lastName "
+			+ "login ,firstName , lastName , phone "
 			+ "FROM Cart AS CA JOIN Customer AS CU ON CA.customer_id = CU.id "
 			+ "WHERE CA.code = :code ";
 
 	private static final String SELECT_FULL_BY_CODE =
 			"SELECT CA.id AS id ,code ,totalPrice , placedDate , customer_id , "
-					+ " login , firstName , lastName , street , town , region , zipCode , country "
+					+ " login , firstName , lastName , phone , street , town , region , zipCode , country "
 					+ " FROM Cart AS CA JOIN Customer AS CU ON CA.customer_id = CU.id JOIN Address AS A ON address_id = A.id "
 					+ " WHERE CA.code = :code";
+
+	private static final String SELECT_BY_CUSTOMER_ID =
+			"SELECT CA.id AS id ,code ,totalPrice , placedDate , customer_id , "
+					+ " login , firstName , lastName , phone ,  street , town , region , zipCode , country "
+					+ " FROM Cart AS CA JOIN Customer AS CU ON CA.customer_id = CU.id JOIN Address AS A ON address_id = A.id "
+					+ " WHERE customer_id = :customer_id "
+					+ " ORDER BY placedDate DESC ";
 
 	private static final String UPDATE_PRICE = "UPDATE Cart SET totalPrice = :totalPrice "
 			+ "WHERE code = :code";
@@ -93,6 +100,15 @@ public class DefaultCartDAO implements CartDAO
 		parameter.put(CODE, code);
 		final List<Cart> result = namedParameterJdbcTemplate.query(SELECT_FULL_BY_CODE, parameter, mapper);
 		return result.stream().findFirst();
+	}
+
+	@Override
+	public List<Cart> findOrdersByCustomerId(final Integer customerId)
+	{
+		final RowMapper<Cart> mapper = new FullCartRowMapper();
+		final Map<String, Object> parameter = new HashMap<>();
+		parameter.put(CUSTOMER_ID, customerId);
+		return namedParameterJdbcTemplate.query(SELECT_BY_CUSTOMER_ID, parameter, mapper);
 	}
 
 	@Override

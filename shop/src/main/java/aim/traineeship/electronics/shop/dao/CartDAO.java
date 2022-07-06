@@ -1,6 +1,7 @@
 package aim.traineeship.electronics.shop.dao;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import aim.traineeship.electronics.shop.entities.Cart;
@@ -10,9 +11,11 @@ public interface CartDAO
 {
 	Integer saveCart(final Cart cart);
 
-	Cart findByCode(String code);
+	Cart findByCode(final String code);
 
-	Optional<Cart> findFullByCode(String code);
+	Optional<Cart> findFullByCode(final String code);
+
+	List<Cart> findOrdersByCustomerId(final Integer customerId);
 
 	void updateCartTotalPrice(final String code, final Double price);
 

@@ -18,6 +18,7 @@ public class DefaultCartRowMapper implements RowMapper<Cart>
 	private static final String LOGIN = "login";
 	private static final String FIRST_NAME = "firstName";
 	private static final String LAST_NAME = "lastName";
+	private static final String PHONE = "phone";
 
 	@Override
 	public Cart mapRow(final ResultSet rs, final int rowNum) throws SQLException
@@ -32,6 +33,7 @@ public class DefaultCartRowMapper implements RowMapper<Cart>
 		customer.setLogin(rs.getString(LOGIN));
 		customer.setFirstName(rs.getString(FIRST_NAME));
 		customer.setLastName(rs.getString(LAST_NAME));
+		customer.setPhone(rs.getString(PHONE));
 		cart.setCustomer(customer);
 
 		return cart;
