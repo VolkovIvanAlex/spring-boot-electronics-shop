@@ -2,6 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <template:page pageTitle="My Orders">
     <div class="container , text-style-products">
@@ -19,9 +20,18 @@
             </div>
         </c:forEach>
         <c:if test="${orderPage.totalPages > 0}">
+
             <c:forEach begin="0" varStatus="status" end="${orderPage.totalPages-1}">
                 <a href="/my-orders/${status.index}">${status.count}</a>
             </c:forEach>
+            <form action="/my-orders/${orderPage.number}" method="post">
+                <select name="ordersToShow">
+                    <option>5</option>
+                    <option>10</option>
+                    <option>15</option>
+                </select>
+                <input type="submit" value="Apply">
+            </form>
         </c:if>
         <c:if test="${orderPage.totalPages <= 0}">
             <div class="alert-container">

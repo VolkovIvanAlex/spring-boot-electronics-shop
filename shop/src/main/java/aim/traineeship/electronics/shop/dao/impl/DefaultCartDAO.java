@@ -9,6 +9,7 @@ import java.util.Optional;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.RowMapper;
@@ -53,7 +54,7 @@ public class DefaultCartDAO implements CartDAO
 			"SELECT CA.id AS id ,code ,totalPrice , placedDate , customer_id , "
 					+ " login , firstName , lastName , phone ,  street , town , region , zipCode , country "
 					+ " FROM Cart AS CA JOIN Customer AS CU ON CA.customer_id = CU.id JOIN Address AS A ON address_id = A.id "
-					+ " WHERE customer_id = :customer_id "
+					+ " WHERE customer_id = :customer_id AND placedDate IS NOT NULL "
 					+ " ORDER BY placedDate DESC "
 					+ " LIMIT :pageSize OFFSET :offset";
 
@@ -69,7 +70,8 @@ public class DefaultCartDAO implements CartDAO
 	private static final String UPDATE_CUSTOMER = "UPDATE Cart SET customer_id = :customer_id "
 			+ "WHERE code = :code";
 
-	private static final String COUNT_ORDERS_BY_CUSTOMER_ID = "SELECT COUNT(*) FROM Cart WHERE customer_id = :customer_id";
+	private static final String COUNT_ORDERS_BY_CUSTOMER_ID = "SELECT COUNT(*) FROM Cart"
+			+ " WHERE customer_id = :customer_id AND placedDate IS NOT NULL";
 
 	@Autowired
 	public DefaultCartDAO(final DataSource dataSource)
@@ -110,7 +112,7 @@ public class DefaultCartDAO implements CartDAO
 	}
 
 	@Override
-	public PageImpl<Cart> findOrdersByCustomerId(final PageRequest pageRequest, final Integer customerId)
+	public Page<Cart> findOrdersByCustomerId(final PageRequest pageRequest, final Integer customerId)
 	{
 		final Integer ordersAmount = countOrders(customerId);
 		final RowMapper<Cart> mapper = new FullCartRowMapper();
