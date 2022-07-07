@@ -9,6 +9,8 @@ import java.util.Optional;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -33,6 +35,8 @@ public class DefaultCartDAO implements CartDAO
 	private static final String PLACED_DATE = "placedDate";
 	private static final String CUSTOMER_ID = "customer_id";
 	private static final String ADDRESS_ID = "address_id";
+	private static final String PAGE_SIZE = "pageSize";
+	private static final String OFFSET = "offset";
 
 	private static final String SELECT_BY_CODE = "SELECT CA.id ,code ,totalPrice , placedDate , customer_id , "
 			+ "login ,firstName , lastName , phone "
@@ -50,7 +54,8 @@ public class DefaultCartDAO implements CartDAO
 					+ " login , firstName , lastName , phone ,  street , town , region , zipCode , country "
 					+ " FROM Cart AS CA JOIN Customer AS CU ON CA.customer_id = CU.id JOIN Address AS A ON address_id = A.id "
 					+ " WHERE customer_id = :customer_id "
-					+ " ORDER BY placedDate DESC ";
+					+ " ORDER BY placedDate DESC "
+					+ " LIMIT :pageSize OFFSET :offset";
 
 	private static final String UPDATE_PRICE = "UPDATE Cart SET totalPrice = :totalPrice "
 			+ "WHERE code = :code";
@@ -63,6 +68,8 @@ public class DefaultCartDAO implements CartDAO
 
 	private static final String UPDATE_CUSTOMER = "UPDATE Cart SET customer_id = :customer_id "
 			+ "WHERE code = :code";
+
+	private static final String COUNT_ORDERS_BY_CUSTOMER_ID = "SELECT COUNT(*) FROM Cart WHERE customer_id = :customer_id";
 
 	@Autowired
 	public DefaultCartDAO(final DataSource dataSource)
@@ -103,12 +110,16 @@ public class DefaultCartDAO implements CartDAO
 	}
 
 	@Override
-	public List<Cart> findOrdersByCustomerId(final Integer customerId)
+	public PageImpl<Cart> findOrdersByCustomerId(final PageRequest pageRequest, final Integer customerId)
 	{
+		final Integer ordersAmount = countOrders(customerId);
 		final RowMapper<Cart> mapper = new FullCartRowMapper();
 		final Map<String, Object> parameter = new HashMap<>();
 		parameter.put(CUSTOMER_ID, customerId);
-		return namedParameterJdbcTemplate.query(SELECT_BY_CUSTOMER_ID, parameter, mapper);
+		parameter.put(PAGE_SIZE, pageRequest.getPageSize());
+		parameter.put(OFFSET, pageRequest.getOffset());
+		final List<Cart> orders = namedParameterJdbcTemplate.query(SELECT_BY_CUSTOMER_ID, parameter, mapper);
+		return new PageImpl<>(orders, pageRequest, ordersAmount);
 	}
 
 	@Override
@@ -145,5 +156,12 @@ public class DefaultCartDAO implements CartDAO
 		parameters.put(CODE, code);
 		parameters.put(CUSTOMER_ID, customerId);
 		namedParameterJdbcTemplate.update(UPDATE_CUSTOMER, parameters);
+	}
+
+	private Integer countOrders(final Integer customerId)
+	{
+		final Map<String, Object> parameter = new HashMap<>();
+		parameter.put(CUSTOMER_ID, customerId);
+		return namedParameterJdbcTemplate.queryForObject(COUNT_ORDERS_BY_CUSTOMER_ID, parameter, Integer.class);
 	}
 }

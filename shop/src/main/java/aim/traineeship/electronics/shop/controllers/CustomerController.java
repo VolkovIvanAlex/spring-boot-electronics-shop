@@ -1,13 +1,14 @@
 package aim.traineeship.electronics.shop.controllers;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import aim.traineeship.electronics.shop.dto.CartDTO;
 import aim.traineeship.electronics.shop.dto.CustomerDTO;
@@ -32,11 +33,13 @@ public class CustomerController
 		return "myAccount";
 	}
 
-	@GetMapping("/my-orders")
-	public String myOrders(final Model model)
+	@GetMapping("/my-orders/{pageNum}")
+	public String myOrders(@PathVariable("pageNum") final Integer pageNum, final Model model)
 	{
-		final List<CartDTO> orders = cartService.getOrdersCurrentCustomer();
-		model.addAttribute("orders", orders);
+		final CustomerDTO customer = customerService.getAuthenticatedCustomerDTO();
+		final Page<CartDTO> orderPage = cartService.getOrdersOfCurrentCustomer(pageNum, customer.getId());
+		model.addAttribute("orderPage", orderPage);
+		model.addAttribute("customer", customer);
 		return "myOrders";
 	}
 

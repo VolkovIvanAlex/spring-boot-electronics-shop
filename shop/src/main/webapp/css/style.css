@@ -167,6 +167,14 @@ footer {
     padding: 1%;
 }
 
+.alert-container {
+    display: inline-block;
+    border: 3px solid #9900e6;
+    border-radius: 3px;
+    margin-bottom: 3%;
+    padding: 1%;
+}
+
 .cart-btn {
     display: inline-block;
     background-color: #6699C5;

@@ -1,8 +1,8 @@
 package aim.traineeship.electronics.shop.service;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
+
+import org.springframework.data.domain.Page;
 
 import aim.traineeship.electronics.shop.dto.AddToCartDTO;
 import aim.traineeship.electronics.shop.dto.CartDTO;
@@ -25,6 +25,6 @@ public interface CartService
 	Cart getCartByCode(final String code);
 
 	CartDTO geFullCartDTO(final String code);
-	
-	List<CartDTO> getOrdersCurrentCustomer();
+
+	Page<CartDTO> getOrdersOfCurrentCustomer(final Integer pageNumber, final Integer customerId);
 }

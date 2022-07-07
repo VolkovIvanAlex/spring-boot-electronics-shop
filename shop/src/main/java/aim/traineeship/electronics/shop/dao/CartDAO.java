@@ -1,8 +1,10 @@
 package aim.traineeship.electronics.shop.dao;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import aim.traineeship.electronics.shop.entities.Cart;
 
@@ -15,7 +17,7 @@ public interface CartDAO
 
 	Optional<Cart> findFullByCode(final String code);
 
-	List<Cart> findOrdersByCustomerId(final Integer customerId);
+	PageImpl<Cart> findOrdersByCustomerId(final PageRequest page, final Integer customerId);
 
 	void updateCartTotalPrice(final String code, final Double price);
 

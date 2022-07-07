@@ -9,6 +9,8 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import aim.traineeship.electronics.shop.converter.impl.CartConverter;
@@ -33,6 +35,7 @@ import aim.traineeship.electronics.shop.service.ProductService;
 public class DefaultCartService implements CartService
 {
 	private static final Double DEFAULT_TOTAL_PRICE = 0.0;
+	private static final Integer ORDERS_TO_SHOW_ON_PAGE = 5;
 	private static final String CART = "cart";
 
 	private static final LocalDate date = LocalDate.now();
@@ -138,10 +141,10 @@ public class DefaultCartService implements CartService
 	}
 
 	@Override
-	public List<CartDTO> getOrdersCurrentCustomer()
+	public Page<CartDTO> getOrdersOfCurrentCustomer(final Integer pageNumber, final Integer customerId)
 	{
-		final Customer customer = customerService.getAuthenticatedCustomer().orElseThrow();
-		return cartConverter.convertList(cartDao.findOrdersByCustomerId(customer.getId()));
+		final PageRequest pageRequest = PageRequest.of(pageNumber, ORDERS_TO_SHOW_ON_PAGE);
+		return cartDao.findOrdersByCustomerId(pageRequest, customerId).map(cartConverter::convert);
 	}
 
 	@Override
