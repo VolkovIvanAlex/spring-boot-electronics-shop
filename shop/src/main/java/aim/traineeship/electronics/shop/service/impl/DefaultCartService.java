@@ -140,17 +140,11 @@ public class DefaultCartService implements CartService
 	}
 
 	@Override
-	public Page<CartDTO> getOrdersByCustomerId(final Integer pageNumber, final Integer ordersToShow,
+	public Page<CartDTO> getOrdersByCustomerId(final Integer page, final Integer pageSize,
 			final Integer customerId)
 	{
-		PageRequest pageRequest = PageRequest.of(pageNumber, ordersToShow);
-		Page<CartDTO> orders = cartDao.findOrdersByCustomerId(pageRequest, customerId).map(cartConverter::convert);
-		if (orders.isEmpty())
-		{
-			pageRequest = PageRequest.of(0, ordersToShow);
-			orders = cartDao.findOrdersByCustomerId(pageRequest, customerId).map(cartConverter::convert);
-		}
-		return orders;
+		final PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
+		return cartDao.findOrdersByCustomerId(pageRequest, customerId).map(cartConverter::convert);
 	}
 
 	@Override

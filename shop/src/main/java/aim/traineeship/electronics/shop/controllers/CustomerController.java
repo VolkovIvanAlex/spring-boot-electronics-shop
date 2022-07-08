@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import aim.traineeship.electronics.shop.dto.CartDTO;
 import aim.traineeship.electronics.shop.dto.CustomerDTO;
-import aim.traineeship.electronics.shop.dto.PaginationDTO;
 import aim.traineeship.electronics.shop.service.CartService;
 import aim.traineeship.electronics.shop.service.CustomerService;
 
@@ -35,14 +34,13 @@ public class CustomerController
 	}
 
 	@GetMapping("/my-orders")
-	public String myOrders(@RequestParam(name = "pageNum", defaultValue = "0") final Integer page,
-			@RequestParam(name = "ordersToShow", defaultValue = "10") final Integer ordersToShow, final Model model)
+	public String myOrders(@RequestParam(name = "page", defaultValue = "1") final Integer page,
+			@RequestParam(name = "size", defaultValue = "10") final Integer pageSize, final Model model)
 	{
 		final CustomerDTO customer = customerService.getAuthenticatedCustomerDTO();
-		final Page<CartDTO> orderPage = cartService.getOrdersByCustomerId(page, ordersToShow, customer.getId());
+		final Page<CartDTO> orderPage = cartService.getOrdersByCustomerId(page, pageSize, customer.getId());
 		model.addAttribute("orderPage", orderPage);
 		model.addAttribute("customer", customer);
-		model.addAttribute("paginationDTO", new PaginationDTO(page, ordersToShow));
 		return "myOrders";
 	}
 

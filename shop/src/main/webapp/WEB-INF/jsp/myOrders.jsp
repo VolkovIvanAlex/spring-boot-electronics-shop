@@ -11,6 +11,16 @@
             <h3 style="display: inline-block">Phone : ${customer.phone} | </h3>
             <h3 style="display: inline-block">Email : ${customer.login}</h3>
         </div>
+
+        <form:form name="sizeForm" modelAttribute="orderPage" action="/my-orders" method="get">
+            <label>Orders to show : </label>
+            <form:select path="size" name="size" id="pageSize">
+                <form:option value="5"/>
+                <form:option value="10"/>
+                <form:option value="15"/>
+            </form:select>
+        </form:form>
+
         <c:forEach items="${orderPage.content}" var="order">
             <div class="order-container">
                 <h2>Order # : ${order.code}</h2>
@@ -21,22 +31,11 @@
         </c:forEach>
         <c:if test="${orderPage.totalPages > 0}">
 
-            <form:form modelAttribute="paginationDTO" action="/my-orders" method="get">
-                <label>Page : </label>
-                <form:select path="pageNum" name="pageNum" class="input-registration">
-                    <c:forEach begin="0" varStatus="status" end="${orderPage.totalPages-1}">
-                        <form:option value="${status.index}">${status.count}</form:option>
-                    </c:forEach>
-                </form:select>
-                <label>Orders to show : </label>
-                <form:select path="ordersToShow" name="ordersToShow">
-                    <form:option value="5">5</form:option>
-                    <form:option value="10">10</form:option>
-                    <form:option value="15">15</form:option>
-                </form:select>
-                <input type="submit" value="Apply">
-            </form:form>
-
+            <label>Page : </label>
+            <c:forEach begin="1" varStatus="status" end="${orderPage.totalPages}">
+                <a class="pagination"
+                   href="/my-orders/?page=${status.index}&size=${orderPage.size}">${status.count}</a>
+            </c:forEach>
         </c:if>
         <c:if test="${orderPage.totalPages <= 0}">
             <div class="alert-container">
