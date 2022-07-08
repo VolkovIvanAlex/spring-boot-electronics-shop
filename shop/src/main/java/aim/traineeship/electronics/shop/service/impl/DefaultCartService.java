@@ -36,6 +36,7 @@ public class DefaultCartService implements CartService
 {
 	private static final Double DEFAULT_TOTAL_PRICE = 0.0;
 	private static final String CART = "cart";
+	public static final Integer DEFAULT_PAGE_SIZE = 10;
 
 	private static final LocalDate date = LocalDate.now();
 	private static final ZoneId defaultZoneId = ZoneId.systemDefault();
@@ -143,7 +144,15 @@ public class DefaultCartService implements CartService
 	public Page<CartDTO> getOrdersByCustomerId(final Integer page, final Integer pageSize,
 			final Integer customerId)
 	{
-		final PageRequest pageRequest = PageRequest.of(page - 1, pageSize);
+		final PageRequest pageRequest;
+		if (page < 0 || pageSize < 0)
+		{
+			pageRequest = PageRequest.of(0, DEFAULT_PAGE_SIZE);
+		}
+		else
+		{
+			pageRequest = PageRequest.of(page - 1, pageSize);
+		}
 		return cartDao.findOrdersByCustomerId(pageRequest, customerId).map(cartConverter::convert);
 	}
 

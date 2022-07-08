@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    $('#pageSize').on('change', function() {
-        this.form.submit();
-    });
+        $('#pageSize').on('change', function () {
+            this.form.submit();
+        });
     }
 )
