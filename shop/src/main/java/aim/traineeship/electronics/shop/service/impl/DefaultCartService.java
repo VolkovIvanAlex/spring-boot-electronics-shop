@@ -35,8 +35,6 @@ import aim.traineeship.electronics.shop.service.ProductService;
 public class DefaultCartService implements CartService
 {
 	private static final Double DEFAULT_TOTAL_PRICE = 0.0;
-	public static final Integer DEFAULT_ORDERS_TO_SHOW = 5;
-	public static final String ORDERS_TO_SHOW = "ordersToShow";
 	private static final String CART = "cart";
 
 	private static final LocalDate date = LocalDate.now();
@@ -142,16 +140,17 @@ public class DefaultCartService implements CartService
 	}
 
 	@Override
-	public Page<CartDTO> getOrdersByCustomerId(final Integer pageNumber, final Integer customerId,
-			final HttpSession session)
+	public Page<CartDTO> getOrdersByCustomerId(final Integer pageNumber, final Integer ordersToShow,
+			final Integer customerId)
 	{
-		Integer ordersToShow = (Integer) session.getAttribute(ORDERS_TO_SHOW);
-		if (ordersToShow == null)
+		PageRequest pageRequest = PageRequest.of(pageNumber, ordersToShow);
+		Page<CartDTO> orders = cartDao.findOrdersByCustomerId(pageRequest, customerId).map(cartConverter::convert);
+		if (orders.isEmpty())
 		{
-			ordersToShow = DEFAULT_ORDERS_TO_SHOW;
+			pageRequest = PageRequest.of(0, ordersToShow);
+			orders = cartDao.findOrdersByCustomerId(pageRequest, customerId).map(cartConverter::convert);
 		}
-		final PageRequest pageRequest = PageRequest.of(pageNumber, ordersToShow);
-		return cartDao.findOrdersByCustomerId(pageRequest, customerId).map(cartConverter::convert);
+		return orders;
 	}
 
 	@Override

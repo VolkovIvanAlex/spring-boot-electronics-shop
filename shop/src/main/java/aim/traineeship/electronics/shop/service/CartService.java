@@ -26,5 +26,5 @@ public interface CartService
 
 	CartDTO geFullCartDTO(final String code);
 
-	Page<CartDTO> getOrdersByCustomerId(final Integer pageNumber, final Integer customerId, HttpSession session);
+	Page<CartDTO> getOrdersByCustomerId(final Integer pageNumber, final Integer ordersToShow, final Integer customerId);
 }

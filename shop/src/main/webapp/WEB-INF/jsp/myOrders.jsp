@@ -21,17 +21,22 @@
         </c:forEach>
         <c:if test="${orderPage.totalPages > 0}">
 
-            <c:forEach begin="0" varStatus="status" end="${orderPage.totalPages-1}">
-                <a href="/my-orders/${status.index}">${status.count}</a>
-            </c:forEach>
-            <form action="/my-orders/${orderPage.number}" method="post">
-                <select name="ordersToShow">
-                    <option>5</option>
-                    <option>10</option>
-                    <option>15</option>
-                </select>
+            <form:form modelAttribute="paginationDTO" action="/my-orders" method="get">
+                <label>Page : </label>
+                <form:select path="pageNum" name="pageNum" class="input-registration">
+                    <c:forEach begin="0" varStatus="status" end="${orderPage.totalPages-1}">
+                        <form:option value="${status.index}">${status.count}</form:option>
+                    </c:forEach>
+                </form:select>
+                <label>Orders to show : </label>
+                <form:select path="ordersToShow" name="ordersToShow">
+                    <form:option value="5">5</form:option>
+                    <form:option value="10">10</form:option>
+                    <form:option value="15">15</form:option>
+                </form:select>
                 <input type="submit" value="Apply">
-            </form>
+            </form:form>
+
         </c:if>
         <c:if test="${orderPage.totalPages <= 0}">
             <div class="alert-container">
