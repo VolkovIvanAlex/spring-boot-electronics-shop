@@ -65,3 +65,26 @@ INSERT INTO Product (code, name, price, description, category_id)
 VALUES ("29", "Xiaomi feel", 50, "some description for Xiaomi feel", "6");
 INSERT INTO Product (code, name, price, description, category_id)
 VALUES ("30", "Huawei sky", 1000, "some description for Huawei sky", "6");
+
+INSERT INTO Product (code, name, price, description, category_id)
+VALUES ("31", "Notepad 300", 1200, "some description for Notepad 300", "1");
+INSERT INTO Product (code, name, price, description, category_id)
+VALUES ("32", "Acer Aspire 7 A715-42G-R0VS", 700, "some description for Acer Aspire 7 A715-42G-R0VS", "1");
+INSERT INTO Product (code, name, price, description, category_id)
+VALUES ("33", "ASUS ExpertBook B1", 1500, "some description for ASUS ExpertBook B1", "1");
+INSERT INTO Product (code, name, price, description, category_id)
+VALUES ("34", "Lenovo V14 G2 ALC", 900, "some description for Lenovo V14 G2 ALC", "1");
+INSERT INTO Product (code, name, price, description, category_id)
+VALUES ("35", "HP Pavilion Gaming 15-ec2024ua", 1000, "some description for HP Pavilion Gaming 15-ec2024ua", "1");
+
+INSERT INTO Product (code, name, price, description, category_id)
+VALUES ("36", "Acer Swift 1", 1100, "some description for Acer Swift 1", "1");
+INSERT INTO Product (code, name, price, description, category_id)
+VALUES ("37", "Apple MacBook Pro 16 M1 Pro 512GB 2021", 2500,
+        "some description for Apple MacBook Pro 16 M1 Pro 512GB 2021", "1");
+INSERT INTO Product (code, name, price, description, category_id)
+VALUES ("38", "HP 250 G8", 900, "some description for HP 250 G8", "1");
+INSERT INTO Product (code, name, price, description, category_id)
+VALUES ("39", "MSI Modern 14", 900, "some description for MSI Modern 14", "1");
+INSERT INTO Product (code, name, price, description, category_id)
+VALUES ("40", "Dell Vostro 15 3515", 1000, "some description for Dell Vostro 15 3515", "1");

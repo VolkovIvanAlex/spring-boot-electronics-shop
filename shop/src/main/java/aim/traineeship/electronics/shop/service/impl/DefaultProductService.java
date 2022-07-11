@@ -1,8 +1,8 @@
 package aim.traineeship.electronics.shop.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import aim.traineeship.electronics.shop.converter.impl.ProductConverter;
@@ -21,11 +21,23 @@ public class DefaultProductService implements ProductService
 	@Autowired
 	private ProductConverter productConverter;
 
+	private static final Integer DEFAULT_PAGE_SIZE = 10;
+
 	@Override
-	public List<ProductDTO> getProductsByCategoryCode(final String categoryCode)
+	public Page<ProductDTO> getProductsByCategoryCode(final Integer page, final Integer pageSize,
+			final String categoryCode)
 	{
-		final List<Product> products = productDAO.findByCategoryCode(categoryCode);
-		return productConverter.convertList(products);
+		final PageRequest pageRequest;
+		if (page < 0 || pageSize < 0)
+		{
+			pageRequest = PageRequest.of(0, DEFAULT_PAGE_SIZE);
+		}
+		else
+		{
+			pageRequest = PageRequest.of(page - 1, pageSize);
+		}
+		final Page<Product> products = productDAO.findByCategoryCode(pageRequest, categoryCode);
+		return products.map(productConverter::convert);
 	}
 
 	@Override

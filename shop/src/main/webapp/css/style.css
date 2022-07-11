@@ -9,6 +9,7 @@
 .product-container {
     text-align: center;
     background: aliceblue;
+    margin-bottom: 5%;
 }
 
 body {
@@ -336,7 +337,7 @@ footer {
 .item-plp {
     font-size: 20px;
     width: 20%;
-    height: 35%;
+    height: 30%;
     display: inline-block;
 }
 
@@ -361,5 +362,9 @@ footer {
 }
 
 .pagination {
+
+}
+
+.current-page {
 
 }

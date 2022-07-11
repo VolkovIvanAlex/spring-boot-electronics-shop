@@ -49,4 +49,10 @@ public class CustomerController
 	{
 		return "redirect:/no-auth";
 	}
+
+	@ExceptionHandler(NumberFormatException.class)
+	public String invalidFormat()
+	{
+		return "redirect:/404";
+	}
 }
