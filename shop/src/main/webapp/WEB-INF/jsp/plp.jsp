@@ -6,7 +6,6 @@
 
 <template:page pageTitle="Product Landing Page">
     <div class="links-style , container">
-        <template:pagination page="${productsPage}" pageLink="/products/${categoryCode}">
             <c:if test="${productsPage.totalPages > 0}">
 
                 <form:form name="sizeForm" modelAttribute="productsPage" action="/products/${categoryCode}"
@@ -40,6 +39,6 @@
             <a style="display: block; margin-bottom: 5%;" href="/categories">
                 <button class="go-back">Go back</button>
             </a>
-        </template:pagination>
+        <template:pagination page="${productsPage}" pageLink="/products/${categoryCode}"/>
     </div>
 </template:page>

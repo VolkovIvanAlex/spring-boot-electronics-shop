@@ -18,16 +18,13 @@ import aim.traineeship.electronics.shop.service.CustomerService;
 
 
 @Controller
-public class CustomerController
+public class CustomerController extends AbstractPageController
 {
 	@Autowired
 	private CustomerService customerService;
 
 	@Autowired
 	private CartService cartService;
-
-	@Autowired
-	private PaginationController paginationController;
 
 	@GetMapping("/my-account")
 	public String myAccount(final Model model)
@@ -41,7 +38,7 @@ public class CustomerController
 	public String myOrders(@RequestParam(name = "page", defaultValue = "1") final Integer page,
 			@RequestParam(name = "size", defaultValue = "10") final Integer pageSize, final Model model)
 	{
-		final PageRequest pageRequest = paginationController.getValidPageRequest(page, pageSize);
+		final PageRequest pageRequest = getValidPageRequest(page, pageSize);
 		final CustomerDTO customer = customerService.getAuthenticatedCustomerDTO();
 		final Page<CartDTO> orderPage = cartService.getOrdersByCustomerId(pageRequest, customer.getId());
 		model.addAttribute("orderPage", orderPage);

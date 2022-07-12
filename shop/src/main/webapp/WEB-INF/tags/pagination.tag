@@ -2,8 +2,6 @@
 <%@ attribute name="page" required="true" type="org.springframework.data.domain.Page" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<jsp:doBody/>
 <c:if test="${page.totalPages > 0}">
     <div>
         <label>Page : </label>

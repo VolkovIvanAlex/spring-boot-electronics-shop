@@ -1,15 +1,12 @@
 package aim.traineeship.electronics.shop.controllers;
 
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Component;
 
-
-@Component
-public class PaginationController
+public class AbstractPageController
 {
 	private static final Integer DEFAULT_PAGE_SIZE = 10;
 
-	public PageRequest getValidPageRequest(final Integer page , final Integer pageSize)
+	protected PageRequest getValidPageRequest(final Integer page, final Integer pageSize)
 	{
 		final PageRequest pageRequest;
 		if (page < 0 || pageSize < 0)

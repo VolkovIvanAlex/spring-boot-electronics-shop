@@ -18,20 +18,17 @@ import aim.traineeship.electronics.shop.service.ProductService;
 
 
 @Controller
-public class ProductController
+public class ProductController extends AbstractPageController
 {
 	@Autowired
 	private ProductService productService;
-
-	@Autowired
-	private PaginationController paginationController;
 
 	@RequestMapping(value = "/products/{categoryCode}", method = RequestMethod.GET)
 	public String products(@RequestParam(name = "page", defaultValue = "1") final Integer page,
 			@RequestParam(name = "size", defaultValue = "10") final Integer pageSize, final Model model,
 			@PathVariable("categoryCode") final String categoryCode)
 	{
-		final PageRequest pageRequest = paginationController.getValidPageRequest(page, pageSize);
+		final PageRequest pageRequest = getValidPageRequest(page, pageSize);
 		final Page<ProductDTO> productsPage = productService.getProductsByCategoryCode(pageRequest, categoryCode);
 		model.addAttribute("productsPage", productsPage);
 		return "plp";
