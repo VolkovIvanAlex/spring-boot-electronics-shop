@@ -2,6 +2,9 @@ package aim.traineeship.electronics.shop.service;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 import aim.traineeship.electronics.shop.dto.AddToCartDTO;
 import aim.traineeship.electronics.shop.dto.CartDTO;
 import aim.traineeship.electronics.shop.dto.CheckoutDTO;
@@ -23,4 +26,6 @@ public interface CartService
 	Cart getCartByCode(final String code);
 
 	CartDTO geFullCartDTO(final String code);
+
+	Page<CartDTO> getOrdersByCustomerId(PageRequest pageRequest, final Integer customerId);
 }

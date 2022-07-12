@@ -1,6 +1,7 @@
 package aim.traineeship.electronics.shop.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import aim.traineeship.electronics.shop.dto.ProductDTO;
 import aim.traineeship.electronics.shop.entities.Product;
@@ -8,7 +9,7 @@ import aim.traineeship.electronics.shop.entities.Product;
 
 public interface ProductService
 {
-	List<ProductDTO> getProductsByCategoryCode(String categoryCode);
+	Page<ProductDTO> getProductsByCategoryCode(PageRequest pageRequest, String categoryCode);
 
 	ProductDTO getProductDTOByCode(String productCode);
 

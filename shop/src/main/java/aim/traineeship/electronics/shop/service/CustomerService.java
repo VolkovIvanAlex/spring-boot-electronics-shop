@@ -18,6 +18,8 @@ public interface CustomerService
 	Customer findCustomerByLogin(final String login);
 
 	Optional<Customer> getAuthenticatedCustomer();
+	
+	CustomerDTO getAuthenticatedCustomerDTO();
 
 	Customer getDefaultAnonymous();
 }

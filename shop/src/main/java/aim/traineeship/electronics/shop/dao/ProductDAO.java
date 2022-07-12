@@ -1,14 +1,16 @@
 package aim.traineeship.electronics.shop.dao;
 
-import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import aim.traineeship.electronics.shop.entities.Product;
 
 
 public interface ProductDAO
 {
-	List<Product> findByCategoryCode(String code);
+	Page<Product> findByCategoryCode(PageRequest pageRequest, String code);
 
 	Optional<Product> findByProductCode(String code);
 }

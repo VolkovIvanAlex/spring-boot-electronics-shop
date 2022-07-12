@@ -10,4 +10,10 @@ public class ErrorHandlerController
 	{
 		return "error/404";
 	}
+
+	@GetMapping("/no-auth")
+	public String notAuth()
+	{
+		return "error/noAuth";
+	}
 }

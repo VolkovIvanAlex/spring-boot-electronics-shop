@@ -14,6 +14,8 @@
                 <a href="/logout" class="links-style">Log out </a>
                 <h1 class="user-name">User : <sec:authentication
                         property="principal.customer.firstName"/></h1>
+                <a class="links-style" href="/my-account">My Account</a>
+                <a class="links-style" href="/my-orders">My Orders</a>
             </sec:authorize>
         </div>
     </div>

@@ -14,6 +14,7 @@ public class CustomerConverter implements Converter<Customer, CustomerDTO>
 	public CustomerDTO convert(final Customer customer)
 	{
 		final CustomerDTO customerDTO = new CustomerDTO();
+		customerDTO.setId(customer.getId());
 		customerDTO.setLogin(customer.getLogin());
 		customerDTO.setPassword(customer.getPassword());
 		customerDTO.setFirstName(customer.getFirstName());
