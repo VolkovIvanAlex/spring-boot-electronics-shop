@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,12 +23,16 @@ public class ProductController
 	@Autowired
 	private ProductService productService;
 
+	@Autowired
+	private PaginationController paginationController;
+
 	@RequestMapping(value = "/products/{categoryCode}", method = RequestMethod.GET)
 	public String products(@RequestParam(name = "page", defaultValue = "1") final Integer page,
 			@RequestParam(name = "size", defaultValue = "10") final Integer pageSize, final Model model,
 			@PathVariable("categoryCode") final String categoryCode)
 	{
-		final Page<ProductDTO> productsPage = productService.getProductsByCategoryCode(page, pageSize, categoryCode);
+		final PageRequest pageRequest = paginationController.getValidPageRequest(page, pageSize);
+		final Page<ProductDTO> productsPage = productService.getProductsByCategoryCode(pageRequest, categoryCode);
 		model.addAttribute("productsPage", productsPage);
 		return "plp";
 	}

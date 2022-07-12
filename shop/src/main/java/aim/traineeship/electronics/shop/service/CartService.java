@@ -3,6 +3,7 @@ package aim.traineeship.electronics.shop.service;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import aim.traineeship.electronics.shop.dto.AddToCartDTO;
 import aim.traineeship.electronics.shop.dto.CartDTO;
@@ -26,5 +27,5 @@ public interface CartService
 
 	CartDTO geFullCartDTO(final String code);
 
-	Page<CartDTO> getOrdersByCustomerId(final Integer pageNumber, final Integer ordersToShow, final Integer customerId);
+	Page<CartDTO> getOrdersByCustomerId(PageRequest pageRequest, final Integer customerId);
 }

@@ -141,18 +141,8 @@ public class DefaultCartService implements CartService
 	}
 
 	@Override
-	public Page<CartDTO> getOrdersByCustomerId(final Integer page, final Integer pageSize,
-			final Integer customerId)
+	public Page<CartDTO> getOrdersByCustomerId(final PageRequest pageRequest, final Integer customerId)
 	{
-		final PageRequest pageRequest;
-		if (page < 0 || pageSize < 0)
-		{
-			pageRequest = PageRequest.of(0, DEFAULT_PAGE_SIZE);
-		}
-		else
-		{
-			pageRequest = PageRequest.of(page - 1, pageSize);
-		}
 		return cartDao.findOrdersByCustomerId(pageRequest, customerId).map(cartConverter::convert);
 	}
 

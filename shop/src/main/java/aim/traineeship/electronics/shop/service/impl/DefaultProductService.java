@@ -20,22 +20,9 @@ public class DefaultProductService implements ProductService
 
 	@Autowired
 	private ProductConverter productConverter;
-
-	private static final Integer DEFAULT_PAGE_SIZE = 10;
-
 	@Override
-	public Page<ProductDTO> getProductsByCategoryCode(final Integer page, final Integer pageSize,
-			final String categoryCode)
+	public Page<ProductDTO> getProductsByCategoryCode(final PageRequest pageRequest, final String categoryCode)
 	{
-		final PageRequest pageRequest;
-		if (page < 0 || pageSize < 0)
-		{
-			pageRequest = PageRequest.of(0, DEFAULT_PAGE_SIZE);
-		}
-		else
-		{
-			pageRequest = PageRequest.of(page - 1, pageSize);
-		}
 		final Page<Product> products = productDAO.findByCategoryCode(pageRequest, categoryCode);
 		return products.map(productConverter::convert);
 	}
