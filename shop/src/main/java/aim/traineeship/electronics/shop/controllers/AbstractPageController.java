@@ -8,15 +8,10 @@ public class AbstractPageController
 
 	protected PageRequest getValidPageRequest(final Integer page, final Integer pageSize)
 	{
-		final PageRequest pageRequest;
 		if (page < 0 || pageSize < 0)
 		{
-			pageRequest = PageRequest.of(0, DEFAULT_PAGE_SIZE);
+			return PageRequest.of(0, DEFAULT_PAGE_SIZE);
 		}
-		else
-		{
-			pageRequest = PageRequest.of(page - 1, pageSize);
-		}
-		return  pageRequest;
+		return PageRequest.of(page - 1, pageSize);
 	}
 }
